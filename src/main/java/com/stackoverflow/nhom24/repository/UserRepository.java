@@ -1,9 +1,12 @@
 package com.stackoverflow.nhom24.repository;
 
-import com.stackoverflow.nhom24.entity.User;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
-@Repository
-public interface UserRepository extends JpaRepository<User, Integer> {
+import com.stackoverflow.nhom24.entity.User;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.Query;
+
+public interface UserRepository extends MongoRepository<User, String> {
+
+    @Query("{username:'?0'}")
+    User findByUsername(String username);
 }
