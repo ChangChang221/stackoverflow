@@ -42,9 +42,9 @@ public class WebMVC implements WebMvcConfigurer {
     // classpath là src/main/resources
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-//        registry.addResourceHandler("/css/**").addResourceLocations("classpath:/css/");
-//        registry.addResourceHandler("/js/**").addResourceLocations("classpath:/js/");
-//        registry.addResourceHandler("/img/**").addResourceLocations("classpath:/img/");
+        registry.addResourceHandler("/styles/**").addResourceLocations("classpath:/styles/");
+        registry.addResourceHandler("/js/**").addResourceLocations("classpath:/js/");
+        registry.addResourceHandler("/asset/**").addResourceLocations("classpath:/asset/");
 //        registry.addResourceHandler("/video/**").addResourceLocations("classpath:/video/");
 //        registry.addResourceHandler("/glyphicons/**").addResourceLocations("classpath:/glyphycons/"); //glyphicons
 //        registry.addResourceHandler("/summernote/**").addResourceLocations("classpath:/summernote/");
