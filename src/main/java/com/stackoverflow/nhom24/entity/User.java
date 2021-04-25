@@ -19,5 +19,14 @@ public class User extends BaseEntity {
     private String photo;
     private Date createdOn;
     private String role;
+    private String location;
+    private String badges;
+    private Number views;
+    private String link;
+    private String social;
+    private List<String> tags;
+    private Number reputationScore;
+    private Number questions;
+    private Number answers;
 //    private String[] questions;
 }
