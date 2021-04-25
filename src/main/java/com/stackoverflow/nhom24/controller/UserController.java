@@ -5,13 +5,16 @@ import com.stackoverflow.nhom24.controller.base.BaseController;
 import com.stackoverflow.nhom24.entity.User;
 import com.stackoverflow.nhom24.model.request.LoginRequest;
 import com.stackoverflow.nhom24.model.request.SignUpRequest;
+import javassist.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpRequest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.http.HttpResponse;
+import java.util.List;
 
 @Controller
 @AllArgsConstructor
@@ -19,7 +22,7 @@ public class UserController extends BaseController {
 
     private final UserBusiness userBusiness;
 
-    @GetMapping( "/users")
+    @GetMapping( "/users/auth")
     public String auth(final ModelMap model) {
         model.addAttribute("user", new SignUpRequest());
         model.addAttribute("login", new LoginRequest());
@@ -27,8 +30,8 @@ public class UserController extends BaseController {
     }
 
     @PostMapping("/login")
-    public String login(@ModelAttribute("login") LoginRequest model){
-        System.out.println(model.getEmail()+ model.getPassword());
+    public String login(@ModelAttribute("login") LoginRequest model) throws NotFoundException {
+        User user = userBusiness.login(model);
         return "home";
     }
 
@@ -40,8 +43,8 @@ public class UserController extends BaseController {
         user.setPassword(model.getPasswordSignUp());
         user.setRole("USER");
         User newUser = userBusiness.createUser(user);
-        System.out.println(newUser);
-        return "home";
+
+        return "redirect:/users/auth";
     }
 }
 
