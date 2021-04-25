@@ -2,25 +2,25 @@ const navigate_form = (to) => {
   const ele = document.getElementsByClassName("form-auth-container")[0];
   switch (to) {
     case "sign_up": {
-      ele.innerHTML = `<form class="form-auth">
+      ele.innerHTML = `<form:form class="form-auth" modelAttribute="user" action="/signup">
       <label>Display name</label>
-      <input />
+      <form:input path="name" />
       <label>Email</label>
-      <input />
+      <form:input path="email" />
       <label>Password</label>
-      <input />
+      <form:input path="password"/>
       <p>
         Passwords must contain at least eight characters, including at least
         1 letter and 1 number.
       </p>
-      <button class="btn-primary">Sign up</button>
+      <button class="btn-primary" type="submit">Sign up</button>
       <span>
         By clicking “Sign up”, you agree to
         <a href="#">our terms of service</a>,
         <a href="#">privacy policy </a>and
         <a href="#"> cookie policy</a>
       </span>
-    </form>
+    </form:form>
     <span style="font-size: 14px; color: #868585" ;
       >Already have an account?
       <a
@@ -49,13 +49,13 @@ const navigate_form = (to) => {
       break;
     }
     case "forgot_password": {
-      ele.innerHTML = `<form class="form-auth">
+      ele.innerHTML = `<form:form class="form-auth">
       <p style="margin: 10px 0px"> Forgot your account’s password or having trouble logging into your Team? Enter your email address and we’ll send you a recovery code.
       </p>
         <label>Email</label>
-        <input />
+        <form:input path="email"/>
         <button class="btn-primary" style="margin:10px 0px" onclick="navigate_form('type_code_forgot_password')" >Send recovery email</button>
-      </form>
+      </form:form>
         `;
       break;
     }

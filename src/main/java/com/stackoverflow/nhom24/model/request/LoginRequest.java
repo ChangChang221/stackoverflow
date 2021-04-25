@@ -1,13 +1,13 @@
 package com.stackoverflow.nhom24.model.request;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
 @Setter
-public class UserRequest {
-    private String name;
-    private String username;
+@Getter
+@NoArgsConstructor
+public class LoginRequest {
+    private String email;
     private String password;
-//    private String photo;
 }

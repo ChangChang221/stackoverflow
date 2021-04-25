@@ -18,31 +18,7 @@
 <!-- header -->
 <%@include file="layout/header.jsp"%>
 <main class="main-container">
-    <aside id="sidebar">
-        <ul>
-            <li>Home</li>
-            <li>
-                PUBLIC
-                <ul style="padding-left: 0px">
-                    <li style="display: flex; align-items: center">
-                        <img
-                                src="${pageContext.request.contextPath}/asset/earth-icon.png"
-                                style="height: 15px; width: 15px; margin-right: 10px"
-                        />Questions
-                    </li>
-                    <li class="menu-item-sidebar">Tags</li>
-                    <li class="menu-item-sidebar">Users</li>
-                </ul>
-            </li>
-            <li>
-                FIND A JOB
-                <ul style="padding-left: 0px">
-                    <li class="menu-item-sidebar">Jobs</li>
-                    <li class="menu-item-sidebar">Company</li>
-                </ul>
-            </li>
-        </ul>
-    </aside>
+<%@include file="layout/sidebar.jsp"%>
     <div class="container content-container">
         <div id="questions-heading">
             <span style="font-size: 24px">Top Questions</span>
