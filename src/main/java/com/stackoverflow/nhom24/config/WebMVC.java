@@ -47,7 +47,7 @@ public class WebMVC implements WebMvcConfigurer {
         registry.addResourceHandler("/asset/**").addResourceLocations("classpath:/asset/");
 //        registry.addResourceHandler("/video/**").addResourceLocations("classpath:/video/");
 //        registry.addResourceHandler("/glyphicons/**").addResourceLocations("classpath:/glyphycons/"); //glyphicons
-//        registry.addResourceHandler("/summernote/**").addResourceLocations("classpath:/summernote/");
+        registry.addResourceHandler("/summernote/**").addResourceLocations("classpath:/summernote/");
 //        registry.addResourceHandler("/files/img/**").addResourceLocations("file:F:/Project/ProjectBack-End/java-web-001/upload/img/");
 //        registry.addResourceHandler("/files/video/**").addResourceLocations("file:F:/Project/ProjectBack-End/java-web-001/upload/video/");
 //		registry.addResourceHandler("/summernote/**").addResourceLocations("classpath:/META-INF/resources/summernote/");

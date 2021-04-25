@@ -132,12 +132,6 @@
   margin: 2px;
 }
 
-.dot {
-  display: inline-block;
-  width: 5px;
-  height: 5px;
-  border-radius: 100%;
-}
 
 #form-filter > div {
   display: flex;

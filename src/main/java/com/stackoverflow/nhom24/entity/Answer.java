@@ -11,7 +11,6 @@ import java.util.Date;
 
 @Setter
 @Getter
-@Entity
 @Document(collection = "answer")
 public class Answer extends BaseEntity {
     private Integer userId;
