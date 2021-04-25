@@ -14,6 +14,4 @@ import java.util.Date;
 @Document(collection = "tag")
 public class Tag extends BaseEntity {
     private String name;
-    private Date createdOn;
-    private Integer questionId;
 }

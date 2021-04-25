@@ -7,12 +7,14 @@ import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
+import java.util.List;
 
 @Setter
 @Getter
 @Document(collection = "user")
 @NoArgsConstructor
 public class User extends BaseEntity {
+    private String id;
     private String name;
     private String username;
     private String password;
@@ -28,5 +30,4 @@ public class User extends BaseEntity {
     private Number reputationScore;
     private Number questions;
     private Number answers;
-//    private String[] questions;
 }
