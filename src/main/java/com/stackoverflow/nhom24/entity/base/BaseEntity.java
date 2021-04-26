@@ -9,6 +9,5 @@ import javax.persistence.*;
 @Getter
 @MappedSuperclass
 public class BaseEntity {
-    @Id
     protected String id;
 }

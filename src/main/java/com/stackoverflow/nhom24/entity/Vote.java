@@ -11,7 +11,6 @@ import java.util.List;
 @Setter
 @Getter
 public class Vote extends BaseEntity{
-    private String id;
     private String userId;
     private String status;
 }

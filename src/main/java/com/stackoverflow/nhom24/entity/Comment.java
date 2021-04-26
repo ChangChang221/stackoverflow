@@ -11,10 +11,8 @@ import java.util.Date;
 
 @Setter
 @Getter
-@Entity
 @Document(collection = "comment")
 public class Comment extends BaseEntity {
-    private String id;
     private Integer userId;
     private String name;
     private String body;

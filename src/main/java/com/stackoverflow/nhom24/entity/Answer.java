@@ -14,7 +14,6 @@ import com.stackoverflow.nhom24.entity.Vote;
 @Getter
 @Document(collection = "answer")
 public class Answer extends BaseEntity {
-    private String id;
     private Integer userId;
     private String body;
     private Date createOn;
