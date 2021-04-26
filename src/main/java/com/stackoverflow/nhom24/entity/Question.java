@@ -6,16 +6,17 @@ import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
+import java.util.List;
 
 @Setter
 @Getter
 @Document(collection = "question")
 public class Question extends BaseEntity {
+    private String id;
     private String title;
     private Integer userId;
     private String body;
-    private Integer numberOfVote;
     private Date createdOn;
+    private List<Tag> tags;
     private Integer views;
-    private Boolean status;
 }
