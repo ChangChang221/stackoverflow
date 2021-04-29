@@ -13,7 +13,7 @@ import java.util.List;
 @Document(collection = "question")
 public class Question extends BaseEntity {
     private String title;
-    private Integer userId;
+    private String userId;
     private String body;
     private Date createdOn;
     private List<Tag> tags;

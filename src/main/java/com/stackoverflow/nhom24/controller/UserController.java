@@ -29,11 +29,11 @@ public class UserController extends BaseController {
         return "login";
     }
 
-    @PostMapping("/login")
-    public String login(@ModelAttribute("login") LoginRequest model) throws NotFoundException {
-        User user = userBusiness.login(model);
-        return "home";
-    }
+//    @PostMapping("/login_security")
+//    public String login(@ModelAttribute("login") LoginRequest model) throws NotFoundException {
+//        User user = userBusiness.login(model);
+//        return "home";
+//    }
 
     @PostMapping("/signup")
     public String signUp(@ModelAttribute("user") SignUpRequest model){

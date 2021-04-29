@@ -22,7 +22,7 @@ public class User extends BaseEntity {
     private String role;
     private String location;
     private String badges;
-    private Number views;
+    private Integer views;
     private String link;
     private String social;
     private List<String> tags;

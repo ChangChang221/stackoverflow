@@ -13,9 +13,9 @@ import java.util.Date;
 @Getter
 @Document(collection = "comment")
 public class Comment extends BaseEntity {
-    private Integer userId;
+    private String userId;
     private String name;
     private String body;
-    private Integer answerId;
+    private String answerId;
     private Date createdOn;
 }

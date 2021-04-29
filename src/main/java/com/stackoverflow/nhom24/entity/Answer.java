@@ -14,10 +14,10 @@ import com.stackoverflow.nhom24.entity.Vote;
 @Getter
 @Document(collection = "answer")
 public class Answer extends BaseEntity {
-    private Integer userId;
+    private String userId;
     private String body;
     private Date createOn;
-    private Integer questionId;
+    private String questionId;
     private List<Vote> votes;
     private Number score;
 }

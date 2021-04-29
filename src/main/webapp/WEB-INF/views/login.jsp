@@ -72,7 +72,7 @@
     <div class="form-auth-container" id="signin">
         <form:form class="form-auth" modelAttribute="login" action="/login">
             <label>Email</label>
-            <form:input path="email" class="input-type" />
+            <form:input path="username" class="input-type" />
             <label>Password</label>
             <form:input path="password" class="input-type" />
             <a

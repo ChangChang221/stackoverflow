@@ -16,7 +16,7 @@ public class UserBusiness extends BaseBusiness {
     private final UserRepository userRepository;
 
     public User login(LoginRequest model) throws NotFoundException {
-        User user = userRepository.findByUsername(model.getEmail());
+        User user = userRepository.findByUsername(model.getUsername());
         if(user == null){
             throw new NotFoundException("sign failed");
         }
