@@ -29,19 +29,13 @@ public class UserController extends BaseController {
         return "login";
     }
 
-//    @PostMapping("/login_security")
-//    public String login(@ModelAttribute("login") LoginRequest model) throws NotFoundException {
-//        User user = userBusiness.login(model);
-//        return "home";
-//    }
-
     @PostMapping("/signup")
     public String signUp(@ModelAttribute("user") SignUpRequest model){
         User user = new User();
         user.setUsername(model.getEmailSignUp());
         user.setName(model.getNameSignUp());
         user.setPassword(model.getPasswordSignUp());
-        user.setRole("USER");
+        user.setRole("ROLE_USER");
         User newUser = userBusiness.createUser(user);
 
         return "redirect:/users/auth";

@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -51,462 +52,49 @@
             </div>
         </div>
         <div class="home-questions-container">
+            <c:forEach var="question" items="${questions }">
             <div class="question">
+
                 <div class="info-question">
-                    <div>
-                        <p>0</p>
-                        <p>votes</p>
-                    </div>
                     <div>
                         <p>0</p>
                         <p>answers</p>
                     </div>
                     <div>
-                        <p>3</p>
+                        <p>${question.views}</p>
                         <p>views</p>
                     </div>
                 </div>
                 <div class="content-question">
-                    <a href="#">
-                        Mysql Index on Table that gets deleted every night
+                    <a href="${pageContext.request.contextPath}/questions/detail/${question.id}">
+                        ${question.title}
                     </a>
                     <div class="more-info-question">
                         <div class="tags-question">
-                            <a href="#" class="tag">mysql</a>
-                            <a href="#" class="tag">amazone-web-services</a>
-                            <a href="#" class="tag">indexing</a>
-                            <a href="#" class="tag">amazon-rds</a>
+                            <c:forEach var="tag" items="${question.tags}">
+                                <a href="#" class="tag">${tag.name}</a>
+                            </c:forEach>
                         </div>
                         <div class="questioner">
-                  <span
-                  >asked 53 secs ago <a href="#">Daniel Ross</a>
-                    <span
-                            style="font-size: 13px; font-weight: 700; color: #3c4146"
-                    >1</span
-                    ></span
-                  >
+                  <span>asked 53 secs ago <a href="#">${question.user.name}</a>
+                    <span style="font-size: 13px; font-weight: 700; color: #3c4146">1</span></span>
                         </div>
                     </div>
                 </div>
+
+
             </div>
-            <div class="question">
-                <div class="info-question">
-                    <div>
-                        <p>0</p>
-                        <p>votes</p>
-                    </div>
-                    <div>
-                        <p>0</p>
-                        <p>answers</p>
-                    </div>
-                    <div>
-                        <p>3</p>
-                        <p>views</p>
-                    </div>
-                </div>
-                <div class="content-question">
-                    <a href="#">
-                        Mysql Index on Table that gets deleted every night
-                    </a>
-                    <div class="more-info-question">
-                        <div class="tags-question">
-                            <a href="#" class="tag">mysql</a>
-                            <a href="#" class="tag">amazone-web-services</a>
-                            <a href="#" class="tag">indexing</a>
-                            <a href="#" class="tag">amazon-rds</a>
-                        </div>
-                        <div class="questioner">
-                  <span
-                  >asked 53 secs ago <a href="#">Daniel Ross</a>
-                    <span
-                            style="font-size: 13px; font-weight: 700; color: #3c4146"
-                    >1</span
-                    ></span
-                  >
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="question">
-                <div class="info-question">
-                    <div>
-                        <p>0</p>
-                        <p>votes</p>
-                    </div>
-                    <div>
-                        <p>0</p>
-                        <p>answers</p>
-                    </div>
-                    <div>
-                        <p>3</p>
-                        <p>views</p>
-                    </div>
-                </div>
-                <div class="content-question">
-                    <a href="#">
-                        Mysql Index on Table that gets deleted every night
-                    </a>
-                    <div class="more-info-question">
-                        <div class="tags-question">
-                            <a href="#" class="tag">mysql</a>
-                            <a href="#" class="tag">amazone-web-services</a>
-                            <a href="#" class="tag">indexing</a>
-                            <a href="#" class="tag">amazon-rds</a>
-                        </div>
-                        <div class="questioner">
-                  <span
-                  >asked 53 secs ago <a href="#">Daniel Ross</a>
-                    <span
-                            style="font-size: 13px; font-weight: 700; color: #3c4146"
-                    >1</span
-                    ></span
-                  >
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="question">
-                <div class="info-question">
-                    <div>
-                        <p>0</p>
-                        <p>votes</p>
-                    </div>
-                    <div>
-                        <p>0</p>
-                        <p>answers</p>
-                    </div>
-                    <div>
-                        <p>3</p>
-                        <p>views</p>
-                    </div>
-                </div>
-                <div class="content-question">
-                    <a href="#">
-                        Mysql Index on Table that gets deleted every night
-                    </a>
-                    <div class="more-info-question">
-                        <div class="tags-question">
-                            <a href="#" class="tag">mysql</a>
-                            <a href="#" class="tag">amazone-web-services</a>
-                            <a href="#" class="tag">indexing</a>
-                            <a href="#" class="tag">amazon-rds</a>
-                        </div>
-                        <div class="questioner">
-                  <span
-                  >asked 53 secs ago <a href="#">Daniel Ross</a>
-                    <span
-                            style="font-size: 13px; font-weight: 700; color: #3c4146"
-                    >1</span
-                    ></span
-                  >
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="question">
-                <div class="info-question">
-                    <div>
-                        <p>0</p>
-                        <p>votes</p>
-                    </div>
-                    <div>
-                        <p>0</p>
-                        <p>answers</p>
-                    </div>
-                    <div>
-                        <p>3</p>
-                        <p>views</p>
-                    </div>
-                </div>
-                <div class="content-question">
-                    <a href="#">
-                        Mysql Index on Table that gets deleted every night
-                    </a>
-                    <div class="more-info-question">
-                        <div class="tags-question">
-                            <a href="#" class="tag">mysql</a>
-                            <a href="#" class="tag">amazone-web-services</a>
-                            <a href="#" class="tag">indexing</a>
-                            <a href="#" class="tag">amazon-rds</a>
-                        </div>
-                        <div class="questioner">
-                  <span
-                  >asked 53 secs ago <a href="#">Daniel Ross</a>
-                    <span
-                            style="font-size: 13px; font-weight: 700; color: #3c4146"
-                    >1</span
-                    ></span
-                  >
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="question">
-                <div class="info-question">
-                    <div>
-                        <p>0</p>
-                        <p>votes</p>
-                    </div>
-                    <div>
-                        <p>0</p>
-                        <p>answers</p>
-                    </div>
-                    <div>
-                        <p>3</p>
-                        <p>views</p>
-                    </div>
-                </div>
-                <div class="content-question">
-                    <a href="#">
-                        Mysql Index on Table that gets deleted every night
-                    </a>
-                    <div class="more-info-question">
-                        <div class="tags-question">
-                            <a href="#" class="tag">mysql</a>
-                            <a href="#" class="tag">amazone-web-services</a>
-                            <a href="#" class="tag">indexing</a>
-                            <a href="#" class="tag">amazon-rds</a>
-                        </div>
-                        <div class="questioner">
-                  <span
-                  >asked 53 secs ago <a href="#">Daniel Ross</a>
-                    <span
-                            style="font-size: 13px; font-weight: 700; color: #3c4146"
-                    >1</span
-                    ></span
-                  >
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="question">
-                <div class="info-question">
-                    <div>
-                        <p>0</p>
-                        <p>votes</p>
-                    </div>
-                    <div>
-                        <p>0</p>
-                        <p>answers</p>
-                    </div>
-                    <div>
-                        <p>3</p>
-                        <p>views</p>
-                    </div>
-                </div>
-                <div class="content-question">
-                    <a href="#">
-                        Mysql Index on Table that gets deleted every night
-                    </a>
-                    <div class="more-info-question">
-                        <div class="tags-question">
-                            <a href="#" class="tag">mysql</a>
-                            <a href="#" class="tag">amazone-web-services</a>
-                            <a href="#" class="tag">indexing</a>
-                            <a href="#" class="tag">amazon-rds</a>
-                        </div>
-                        <div class="questioner">
-                  <span
-                  >asked 53 secs ago <a href="#">Daniel Ross</a>
-                    <span
-                            style="font-size: 13px; font-weight: 700; color: #3c4146"
-                    >1</span
-                    ></span
-                  >
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="question">
-                <div class="info-question">
-                    <div>
-                        <p>0</p>
-                        <p>votes</p>
-                    </div>
-                    <div>
-                        <p>0</p>
-                        <p>answers</p>
-                    </div>
-                    <div>
-                        <p>3</p>
-                        <p>views</p>
-                    </div>
-                </div>
-                <div class="content-question">
-                    <a href="#">
-                        Mysql Index on Table that gets deleted every night
-                    </a>
-                    <div class="more-info-question">
-                        <div class="tags-question">
-                            <a href="#" class="tag">mysql</a>
-                            <a href="#" class="tag">amazone-web-services</a>
-                            <a href="#" class="tag">indexing</a>
-                            <a href="#" class="tag">amazon-rds</a>
-                        </div>
-                        <div class="questioner">
-                  <span
-                  >asked 53 secs ago <a href="#">Daniel Ross</a>
-                    <span
-                            style="font-size: 13px; font-weight: 700; color: #3c4146"
-                    >1</span
-                    ></span
-                  >
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="question">
-                <div class="info-question">
-                    <div>
-                        <p>0</p>
-                        <p>votes</p>
-                    </div>
-                    <div>
-                        <p>0</p>
-                        <p>answers</p>
-                    </div>
-                    <div>
-                        <p>3</p>
-                        <p>views</p>
-                    </div>
-                </div>
-                <div class="content-question">
-                    <a href="#">
-                        Mysql Index on Table that gets deleted every night
-                    </a>
-                    <div class="more-info-question">
-                        <div class="tags-question">
-                            <a href="#" class="tag">mysql</a>
-                            <a href="#" class="tag">amazone-web-services</a>
-                            <a href="#" class="tag">indexing</a>
-                            <a href="#" class="tag">amazon-rds</a>
-                        </div>
-                        <div class="questioner">
-                  <span
-                  >asked 53 secs ago <a href="#">Daniel Ross</a>
-                    <span
-                            style="font-size: 13px; font-weight: 700; color: #3c4146"
-                    >1</span
-                    ></span
-                  >
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="question">
-                <div class="info-question">
-                    <div>
-                        <p>0</p>
-                        <p>votes</p>
-                    </div>
-                    <div>
-                        <p>0</p>
-                        <p>answers</p>
-                    </div>
-                    <div>
-                        <p>3</p>
-                        <p>views</p>
-                    </div>
-                </div>
-                <div class="content-question">
-                    <a href="#">
-                        Mysql Index on Table that gets deleted every night
-                    </a>
-                    <div class="more-info-question">
-                        <div class="tags-question">
-                            <a href="#" class="tag">mysql</a>
-                            <a href="#" class="tag">amazone-web-services</a>
-                            <a href="#" class="tag">indexing</a>
-                            <a href="#" class="tag">amazon-rds</a>
-                        </div>
-                        <div class="questioner">
-                  <span
-                  >asked 53 secs ago <a href="#">Daniel Ross</a>
-                    <span
-                            style="font-size: 13px; font-weight: 700; color: #3c4146"
-                    >1</span
-                    ></span
-                  >
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="question">
-                <div class="info-question">
-                    <div>
-                        <p>0</p>
-                        <p>votes</p>
-                    </div>
-                    <div>
-                        <p>0</p>
-                        <p>answers</p>
-                    </div>
-                    <div>
-                        <p>3</p>
-                        <p>views</p>
-                    </div>
-                </div>
-                <div class="content-question">
-                    <a href="#">
-                        Mysql Index on Table that gets deleted every night
-                    </a>
-                    <div class="more-info-question">
-                        <div class="tags-question">
-                            <a href="#" class="tag">mysql</a>
-                            <a href="#" class="tag">amazone-web-services</a>
-                            <a href="#" class="tag">indexing</a>
-                            <a href="#" class="tag">amazon-rds</a>
-                        </div>
-                        <div class="questioner">
-                  <span
-                  >asked 53 secs ago <a href="#">Daniel Ross</a>
-                    <span
-                            style="font-size: 13px; font-weight: 700; color: #3c4146"
-                    >1</span
-                    ></span
-                  >
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="question">
-                <div class="info-question">
-                    <div>
-                        <p>0</p>
-                        <p>votes</p>
-                    </div>
-                    <div>
-                        <p>0</p>
-                        <p>answers</p>
-                    </div>
-                    <div>
-                        <p>3</p>
-                        <p>views</p>
-                    </div>
-                </div>
-                <div class="content-question">
-                    <a href="#">
-                        Mysql Index on Table that gets deleted every night
-                    </a>
-                    <div class="more-info-question">
-                        <div class="tags-question">
-                            <a href="#" class="tag">mysql</a>
-                            <a href="#" class="tag">amazone-web-services</a>
-                            <a href="#" class="tag">indexing</a>
-                            <a href="#" class="tag">amazon-rds</a>
-                        </div>
-                        <div class="questioner">
-                  <span
-                  >asked 53 secs ago <a href="#">Daniel Ross</a>
-                    <span
-                            style="font-size: 13px; font-weight: 700; color: #3c4146"
-                    >1</span
-                    ></span
-                  >
-                        </div>
-                    </div>
-                </div>
-            </div>
+            </c:forEach>
+        </div>
+        <div class="pagination">
+            <a href="#">Prev</a>
+            <a href="#">1</a>
+            <a href="#" class="active">2</a>
+            <a href="#">3</a>
+            <a href="#">4</a>
+            <a href="#">5</a>
+            <a href="#">6</a>
+            <a href="#">Next</a>
         </div>
     </div>
 </main>

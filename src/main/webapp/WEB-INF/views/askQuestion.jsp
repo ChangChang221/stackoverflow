@@ -26,7 +26,7 @@
 
     <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.888.0.min.js"></script>
-    <script src="${pageContext.request.contextPath}/js/api.js" type="text/javascript"></script>
+
     <!-- Bootstrap CSS -->
 </head>
 <body>
@@ -69,7 +69,45 @@
                 >
                     <div class="ask-question-form-title">Tags</div>
                     <div>
-                        <input placeholder="e.g. (spring vba python)" />
+<%--                        <input placeholder="e.g. (spring vba python)" />--%>
+
+        <div class="ps-relative">
+            <input
+                    id="tagnames"
+                    class="s-input box-border js-post-tags-field"
+                    name="tagnames"
+                    type="text"
+                    size="60"
+                    value="testing"
+                    tabindex="103"
+                    placeholder="e.g. (wpf angular arrays)"
+                    style="display: none"
+            />
+            <div
+                    class="js-tag-editor tag-editor multi-line s-input"
+                    style="
+            padding: 0px 9.1px;
+            box-sizing: border-box;
+            margin-top: 0px;
+            margin-bottom: 0px;
+            width: 100%;
+          "
+            >
+          <span class="list-tags">
+
+          </span>
+                <input
+                        type="text"
+                        autocomplete="on"
+                        tabindex="103"
+                        placeholder=""
+                        id="tageditor-replacing-tagnames--input"
+                        class="s-input js-tageditor-replacing"
+                        style="width: 19px"
+                />
+            </div>
+        </div>
+
                     </div>
                 </div>
                 <button class="btn btn-primary" style="margin-top: 40px" onclick="postAskQuestion()">
@@ -82,6 +120,7 @@
         </div>
     </div>
 </main>
+<script src="${pageContext.request.contextPath}/js/api.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/js/quill.js" type="text/javascript"></script>
 </body>
 </html>

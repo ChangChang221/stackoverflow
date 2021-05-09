@@ -3,6 +3,7 @@ package com.stackoverflow.nhom24.entity;
 import com.stackoverflow.nhom24.entity.base.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
+import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.Entity;
@@ -13,9 +14,9 @@ import java.util.Date;
 @Getter
 @Document(collection = "comment")
 public class Comment extends BaseEntity {
-    private String userId;
+    private ObjectId userId;
     private String name;
     private String body;
-    private String answerId;
+    private ObjectId answerId;
     private Date createdOn;
 }

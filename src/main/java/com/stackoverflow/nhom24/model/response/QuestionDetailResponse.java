@@ -1,5 +1,6 @@
 package com.stackoverflow.nhom24.model.response;
 
+import com.stackoverflow.nhom24.entity.Answer;
 import com.stackoverflow.nhom24.entity.Tag;
 import com.stackoverflow.nhom24.entity.User;
 import lombok.Getter;
@@ -9,17 +10,17 @@ import lombok.Setter;
 import java.util.Date;
 import java.util.List;
 
-@NoArgsConstructor
 @Setter
 @Getter
-public class QuestionResponse {
+@NoArgsConstructor
+public class QuestionDetailResponse {
     private String id;
     private String title;
     private String userId;
     private String body;
     private Date createdOn;
-    private List<TagResponse> tags;
+    private List<Tag> tags;
     private Integer views;
-    private Integer answer;
+    private List<Answer> answers;
     private User user;
 }
