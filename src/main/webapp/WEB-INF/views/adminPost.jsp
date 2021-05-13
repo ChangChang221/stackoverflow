@@ -55,11 +55,11 @@
     </aside>
     <div class="row" >
         <form class="rectangle">
-            <img style="margin-top: 50px;margin-left: 15px" src="${pageContext.request.contextPath}/asset/expansion-arrows.png" height="50" width="50"/>
+            <img style="margin-top: 50px;margin-left: 15px" src="${pageContext.request.contextPath}/asset/analytics.png" height="50" width="50"/>
 
 
             <div class="rectangle1">
-                <h1 style=" text-align: left; font-family: inherit">ALL USER</h1>
+                <h1 style=" text-align: left; font-family: inherit">ALL POST</h1>
                 <div style=" text-align: left; font-size: 24px; font-family: inherit">21,123,340</div>
             </div>
 
@@ -98,32 +98,28 @@
             <div class="search-container">
                 <img src="${pageContext.request.contextPath}/asset/search-icon.png" height="15" width="15"/>
 
-                <input id="userFilter"type="text" placeholder="Filter by user" >
+                <input id="userFilter"type="text" placeholder="Filter by post" >
             </div>
             <div class="button-container">
                 <button class="ok">
-                    <img src="${pageContext.request.contextPath}/asset/add.png" height="10" width="10"/> Add User
+                    <img src="${pageContext.request.contextPath}/asset/add.png" height="10" width="10"/> Add Post
                 </button>
             </div>
         </div>
         <table class="table">
             <tr>
                 <th>ID</th>
-                <th>Username</th>
-                <th>Password</th>
-                <th>Role</th>
-                <th>Name</th>
-                <th>Registration Date</th>
+                <th>UserId</th>
+                <th>CreatedOn</th>
+                <th>Title</th>
                 <th>Action</th>
             </tr>
-            <c:forEach var="users" items="${users}">
+            <c:forEach var="question" items="${questions}">
             <tr>
-                <td>${user.ID}</td>
-                <td>${user.username}</td>
-                <td>${user.password}</td>
-                <td>${user.name}</td>
-                <td>${user.role}</td>
-                <td  style=" text-align: center;">${user.createOn}</td>
+                <td>${question.id}</td>
+                <td>${question.userId}</td>
+                <td  style=" text-align: center;">${question.createdOn}</td>
+                <td>${question.title}</td>
                 <td style=" text-align: center;">
                     <a href="#">
                         <img src="${pageContext.request.contextPath}/asset/edit.png" style="height: 18px; width: 18px"/>
@@ -132,7 +128,6 @@
                         <img src="${pageContext.request.contextPath}/asset/clear.png" style="height: 15px; width: 15px"/>
                     </a>
                 </td>
-
             </tr>
             </c:forEach>
         </table>
