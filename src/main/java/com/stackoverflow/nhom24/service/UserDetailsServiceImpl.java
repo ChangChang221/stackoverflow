@@ -2,6 +2,7 @@ package com.stackoverflow.nhom24.service;
 
 import com.stackoverflow.nhom24.entity.User;
 import com.stackoverflow.nhom24.repository.UserRepository;
+import com.stackoverflow.nhom24.utils.EncrytedPasswordUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -38,8 +39,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             GrantedAuthority authority = new SimpleGrantedAuthority(roleNames);
             grantList.add(authority);
         }
-
-        UserDetails userDetails = new AccountSession(appUser.getId(),appUser.getUsername(),
+        System.out.println(EncrytedPasswordUtils.encrytedPassword("1"));
+        UserDetails userDetails = new AccountSession(appUser.getId(),appUser.getId(),
                 appUser.getPassword(), grantList);
 
         return userDetails;

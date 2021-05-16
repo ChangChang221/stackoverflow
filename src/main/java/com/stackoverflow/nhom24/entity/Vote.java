@@ -13,5 +13,5 @@ import java.util.List;
 @Getter
 public class Vote extends BaseEntity{
     private ObjectId userId;
-    private String status;
+    private Boolean status;
 }

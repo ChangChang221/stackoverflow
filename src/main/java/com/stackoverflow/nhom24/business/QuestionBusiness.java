@@ -24,19 +24,20 @@ public class QuestionBusiness extends BaseBusiness {
 
     private final QuestionService questionService;
 
-    public List<QuestionResponse> getAll(){
-//        List<Question> questionsDto = questionRepository.findAll();
-//        List<QuestionResponse> response = mapper.mapAsList(questionsDto, QuestionResponse.class);
-        List<QuestionResponse> response = questionService.findAllQuestionAndItem();
+    public List<QuestionResponse> getAll(Integer page, String tab){
+        List<QuestionResponse> response = questionService.findAllQuestionAndItem(page, tab);
         return response;
     }
 
-    public Question postQuestion(Question question) {
+    public int getTotal(String tab) {
+        return questionService.findCountOfQuestionAndItem(tab);
+    }
+
+    public Question postQuestion(Question question, List<Tag> tagsPost) {
         List<Tag> tagsDto = tagRepository.findAll();
-        List<Tag> tagsPost = question.getTags();
         for(Tag tag : tagsDto) {
              for(Tag tagPost : tagsPost) {
-              if(tag.getName().equals(tagPost)) {
+              if(tag.getName().equals(tagPost.getName())) {
                   tagPost.setId(tag.getId());
               }
             };
@@ -47,12 +48,21 @@ public class QuestionBusiness extends BaseBusiness {
             }
             return tag;
         }).collect(Collectors.toList());
-        question.setTags(tags);
+        question.setTags(tags.stream().map(el -> el.getName()).collect(Collectors.toList()));
         return questionRepository.save(question);
     }
 
     public QuestionDetailResponse getById(String id) {
         QuestionDetailResponse question = questionService.findQuestionAndItemById(id);
+        Question updateQuestion = questionRepository.findById(id).get();
+        updateQuestion.setViews(updateQuestion.getViews() + 1);
+        questionRepository.save(updateQuestion);
         return question;
+    }
+
+    public void updateNumberAnswer(String questionId){
+        Question question = questionRepository.findById(questionId).get();
+        question.setAnswers(question.getAnswers() + 1);
+        questionRepository.save(question);
     }
 }

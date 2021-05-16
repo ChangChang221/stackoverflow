@@ -17,6 +17,7 @@ public class Question extends BaseEntity {
     private ObjectId userId;
     private String body;
     private Date createdOn;
-    private List<Tag> tags;
+    private List<String> tags;
     private Integer views;
+    private int answers;
 }

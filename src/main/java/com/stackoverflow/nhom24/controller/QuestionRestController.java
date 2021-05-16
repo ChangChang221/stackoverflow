@@ -39,13 +39,14 @@ public class QuestionRestController extends BaseController {
         question.setTitle(title);
         question.setCreatedOn(new Date());
         question.setViews(0);
-        question.setUserId(new ObjectId(getUserId(principal, req)));
-        question.setTags(tags.stream().map(post -> {
+//        question.setUserId(new ObjectId(getUserId(principal, req)));
+        question.setUserId(new ObjectId("6097d369da6e2471a8048b0a"));
+        question.setAnswers(0);
+        Question newQuestion = questionBusiness.postQuestion(question, tags.stream().map(post -> {
             Tag tag = new Tag();
             tag.setName(post);
             return tag;
         }).collect(Collectors.toList()));
-        Question newQuestion = questionBusiness.postQuestion(question);
         DataResponse response = new DataResponse();
         response.setResult(newQuestion);
         response.setStatus(1);

@@ -19,7 +19,7 @@ public class QuestionDetailResponse {
     private String userId;
     private String body;
     private Date createdOn;
-    private List<Tag> tags;
+    private List<String> tags;
     private Integer views;
     private List<Answer> answers;
     private User user;
