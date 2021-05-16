@@ -107,7 +107,8 @@
                     </svg>
                 </div>
                 <div class="answer-question-detail">
-                    <div class="editor" style="padding-top: 10px;margin-bottom: 10px;">
+                    <div class="editor" style="padding-top: 10px;margin-bottom: 10px;width: 3%;
+    overflow: scroll;">
                         ${question.body}
                     </div>
                     <div class="answer-question-tags">
@@ -213,7 +214,8 @@
                         </svg>
                     </div>
                     <div class="answer-question-detail">
-                            <div class="editor" style="padding-top: 10px;">
+                            <div class="editor" style="padding-top: 10px;width: 3%;
+    overflow: scroll;">
                                     ${answer.body}
                             </div>
                             <div class="answer-question-footer">
