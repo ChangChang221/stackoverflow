@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewpost" content="width=device-width, initial-scale=1">
-    <title>Personal Porfolio Template</title>
+    <title>StackOverFlow</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/orange.css" type="text/css" >
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/style.css" type="text/css">
     <!-- StyleSwitcher -->
@@ -20,7 +20,7 @@
     <div class="aside">
         <!-- logo -->
         <div class="logo">
-            <a href="#">Trang</a>
+            <a href="#">Admin</a>
         </div>
         <!-- Nav Toggler Btn -->
         <div class="nav-toggler">
@@ -382,7 +382,7 @@
 
 <!-- Live Style Switcher - Demo Only End-->
 <!-- Main container  -->
-<script src="${pageContext.request.contextPath}/styles/styleSwitcher.js"></script>
+<script src="${pageContext.request.contextPath}/js/styleSwitcher.js"></script>
 
 </body>
 </html>

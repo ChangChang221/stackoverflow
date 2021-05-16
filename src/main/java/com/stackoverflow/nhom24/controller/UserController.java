@@ -41,6 +41,18 @@ public class UserController extends BaseController {
 
         return "redirect:/users/auth";
     }
+    @GetMapping("/deleteUser/{id}")
+    public String deleteUser(final ModelMap model, @PathVariable String id){
+        userBusiness.deleteUser(id);
+        model.addAttribute("users",userBusiness.getAll());
+        return "test/adminPost";
+    }
+
+    @RequestMapping("/updateUser{id}")
+    public String UpdateUser(@ModelAttribute("user") User user,final ModelMap model){
+        userBusiness.saveUser(user);
+        return "test/user";
+    }
 
     @GetMapping("/users/{id}")
     public String getUserById(final ModelMap model, @PathVariable String id) {

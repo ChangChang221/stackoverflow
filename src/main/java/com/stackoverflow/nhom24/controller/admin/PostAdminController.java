@@ -18,9 +18,11 @@ public class PostAdminController {
     @GetMapping("/test/adminPost")
     public String getAllPost(final ModelMap model){
 
-     //   List<QuestionResponse> questions =questionBusiness.getAll();
-     //   model.addAttribute("questions", questions);
+      //  List<QuestionResponse> questions =questionBusiness.getAll();
+      //  model.addAttribute("questions", questions);
         return "adminPosts";
     }
+
+
 }
 

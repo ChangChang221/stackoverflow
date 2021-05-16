@@ -47,4 +47,14 @@ public class UserBusiness extends BaseBusiness {
         List<User> user = userRepository.findAll();
         return user;
     }
+
+    public void deleteUser(String id){
+
+        userRepository.deleteById(id);
+    }
+    public void saveUser (User user){
+        userRepository.save(user);
+
+    }
+
 }

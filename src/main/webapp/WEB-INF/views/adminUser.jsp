@@ -125,10 +125,11 @@
                     <td>${user.role}</td>
                     <td  style=" text-align: center;">${user.createdOn}</td>
                     <td style=" text-align: center;">
-                        <a href="#">
+                        <a href="#" >
                             <img src="${pageContext.request.contextPath}/asset/edit.png" style="height: 18px; width: 18px"/>
                         </a>
-                        <a href="#">
+                        <!-- -->
+                        <a href="@{/deleteUser/}+${user.id}">
                             <img src="${pageContext.request.contextPath}/asset/clear.png" style="height: 15px; width: 15px"/>
                         </a>
                     </td>

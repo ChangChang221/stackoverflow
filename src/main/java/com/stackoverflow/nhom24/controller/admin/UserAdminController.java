@@ -21,4 +21,5 @@ public class UserAdminController {
         model.addAttribute("users", users);
         return "adminUser";
     }
+
 }
