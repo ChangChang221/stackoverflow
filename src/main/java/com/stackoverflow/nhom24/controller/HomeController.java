@@ -22,6 +22,4 @@ public class HomeController {
         model.addAttribute("questions", questions);
         return "home";
     }
-
-
 }
