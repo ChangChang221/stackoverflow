@@ -72,7 +72,7 @@
                     <div class="more-info-question">
                         <div class="tags-question">
                             <c:forEach var="tag" items="${question.tags}">
-                                <a href="#" class="tag">${tag.name}</a>
+                                <a href="#" class="tag">${tag}</a>
                             </c:forEach>
                         </div>
                         <div class="questioner">
@@ -81,23 +81,29 @@
                         </div>
                     </div>
                 </div>
-
-
             </div>
             </c:forEach>
         </div>
         <div class="pagination">
-            <a href="#">Prev</a>
-            <a href="#">1</a>
-            <a href="#" class="active">2</a>
-            <a href="#">3</a>
-            <a href="#">4</a>
-            <a href="#">5</a>
-            <a href="#">6</a>
-            <a href="#">Next</a>
+  
+  <c:forEach begin="0" end="${pagination}" var="i">
+      <c:if test="${page != 1 && i == 0}">
+          <a href="${pageContext.request.contextPath}?page=${page - 1}">Prev</a>
+      </c:if>
+      <c:if test="${page == (i+1) && i != pagination}">
+          <a href="${pageContext.request.contextPath}?page=${i+1}" class="active">${i+1}</a>
+      </c:if>
+      <c:if test="${page != (i+1) && i != pagination}">
+          <a href="${pageContext.request.contextPath}?page=${i+1}">${i+1}</a>
+      </c:if>
+      <c:if test="${page != pagination && i == pagination}">
+          <a href="${pageContext.request.contextPath}?page=${page + 1}">Next</a>
+      </c:if>
+  </c:forEach>
+
         </div>
     </div>
-</main>
+</main>c
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->

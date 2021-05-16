@@ -38,6 +38,10 @@ public class UserBusiness extends BaseBusiness {
         User newUser = userRepository.save(user);
         return newUser;
     }
+    public User getUserById(String id){
+        User user = userRepository.findById(id).get();
+        return user;
+    }
 
     public List<User> getAll() {
         List<User> user = userRepository.findAll();

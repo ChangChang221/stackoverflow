@@ -36,11 +36,11 @@ function chipClickHandler(event) {
 }
 const postAskQuestion = () => {
     let title = document.getElementById("title").value;
-    let body = document.getElementById("editor");
+    // let body = document.getElementById("editor");
+    let body = document.getElementsByClassName("ql-editor")[0];
     let question = {};
     question["title"] = title;
     question["body"] = body.outerHTML || new XMLSerializer().serializeToString(body);
-    console.log(question["body"], "body");
     question["tags"] = tags;
     let http = new XMLHttpRequest();
     http.open("POST", "/question/postAskQuestion", true);
@@ -49,7 +49,39 @@ const postAskQuestion = () => {
     http.setRequestHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     http.onload = function () {
         // do something to response
-        console.log(this.responseText.result.body);
+        window.location.href = `http://localhost:8000/questions/detail/${JSON.parse(this.responseText)['result']['id']}`;
     };
     http.send(JSON.stringify(question));
+}
+
+// const postAnswer = (questionId) => {
+//     console.log("call api");
+//     let body = document.getElementsByClassName("ql-editor")[0];
+//     let answer = {};
+//     answer["body"] = body.outerHTML || new XMLSerializer().serializeToString(body);
+//     answer["questionId"] = questionId;
+//     let http = new XMLHttpRequest();
+//     http.open("POST", "/answers/postAnswer", true);
+//     http.setRequestHeader('Content-type', 'application/json');
+//     http.setRequestHeader("Access-Control-Allow-Origin", '*');
+//     http.setRequestHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//     http.onload = function () {
+//         // do something to response
+//         console.log(this.responseText);
+//     };
+//     http.send(JSON.stringify(answer));
+// }
+
+
+
+const clickPostAnswerNoLogin = () => {
+    let alert = document.getElementById("alertSignin");
+    alert.innerHTML = `<div style="
+                background-color: #ea1f1f;
+                color: white;
+                padding: 10px;
+                width: 55%;
+           ">
+                    <p>To answer a question, you must either sign up for an account or post as a guest.</p>
+                </div>`
 }

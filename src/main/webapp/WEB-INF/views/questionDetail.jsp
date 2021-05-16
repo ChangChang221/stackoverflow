@@ -1,4 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec"
+           uri="http://www.springframework.org/security/tags"%>
+<sec:authorize access="hasRole('ROLE_USER')" var="isUser" />
+<sec:authorize access="hasRole('ROLE_ADMIN')" var="isAdmin" />
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,6 +24,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/highlight.min.js"></script>
     <!-- and it's easy to individually load additional languages -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/languages/go.min.js"></script>
+    <!-- moment js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <link
             href="https://cdn.quilljs.com/1.3.6/quill.snow.css"
             rel="stylesheet"
@@ -57,6 +63,7 @@
             <div class="first-answer-detail content-question-detail">
                 <div class="action-option-question-detail">
                     <svg
+                            onclick=""
                             aria-hidden="true"
                             class="m0 svg-icon iconArrowUpLg"
                             width="36"
@@ -67,6 +74,7 @@
                     </svg>
                     <p>0</p>
                     <svg
+                            onclick=""
                             aria-hidden="true"
                             class="m0 svg-icon iconArrowDownLg"
                             width="36"
@@ -99,13 +107,13 @@
                     </svg>
                 </div>
                 <div class="answer-question-detail">
-                    <div class="editor">
+                    <div class="editor" style="padding-top: 10px;margin-bottom: 10px;width: 3%;
+    overflow: scroll;">
                         ${question.body}
-                        <p>RNHmsMessageService</p>
                     </div>
                     <div class="answer-question-tags">
                         <c:forEach var="tag" items="${question.tags}">
-                           <a href="#" class="tag">${tag.name}</a>
+                           <a href="#" class="tag">${tag}</a>
                         </c:forEach>
                     </div>
                     <div class="answer-question-footer">
@@ -114,7 +122,13 @@
                             <a href="#">Follow</a>
                         </div>
                         <div class="answer-question-author">
-                            <p>asked 14 mins ago</p>
+                            <p id="createdOn" >${question.createdOn}</p>
+                            <script>
+                                let createdOn = document.getElementById("createdOn");
+                                let date = moment();
+                                createdOn.innerHTML = date(createdOn.outerHTML).fromNow();
+
+                            </script>
                             <div>
                                 <img
                                         src="https://lh6.googleusercontent.com/-xeD2LdRJUJc/AAAAAAAAAAI/AAAAAAAAABw/YuIWglg5h0w/photo.jpg?sz=32"
@@ -123,7 +137,7 @@
                                         style="border-radius: 8px"
                                 />
                                 <div>
-                                    <a href="#">dekaottoman</a>
+                                    <a href="#">${question.user.name}</a>
                                     <div>
                                         <span>1</span>
                                         <span
@@ -139,7 +153,7 @@
                 </div>
             </div>
             <div class="answer-info">
-                <h3>3 Answers</h3>
+                <h3>${answers.size()} Answers</h3>
                 <ul class="filter-questions-list" style="margin-right: 0px">
                     <li><a>Active</a></li>
                     <li><a>Older</a></li>
@@ -153,130 +167,117 @@
                     </li>
                 </ul>
             </div>
-            <div class="content-question-detail">
-                <div class="action-option-question-detail">
-                    <svg
-                            aria-hidden="true"
-                            class="m0 svg-icon iconArrowUpLg"
-                            width="36"
-                            height="36"
-                            viewBox="0 0 36 36"
-                    >
-                        <path d="M2 26h32L18 10 2 26z"></path>
-                    </svg>
-                    <p>0</p>
-                    <svg
-                            aria-hidden="true"
-                            class="m0 svg-icon iconArrowDownLg"
-                            width="36"
-                            height="36"
-                            viewBox="0 0 36 36"
-                    >
-                        <path d="M2 10h32L18 26 2 10z"></path>
-                    </svg>
-                    <svg
-                            aria-hidden="true"
-                            class="svg-icon iconBookmark"
-                            width="18"
-                            height="18"
-                            viewBox="0 0 18 18"
-                    >
-                        <path
-                                d="M6 1a2 2 0 00-2 2v14l5-4 5 4V3a2 2 0 00-2-2H6zm3.9 3.83h2.9l-2.35 1.7.9 2.77L9 7.59l-2.35 1.7.9-2.76-2.35-1.7h2.9L9 2.06l.9 2.77z"
-                        ></path>
-                    </svg>
-                    <svg
-                            aria-hidden="true"
-                            class="mln2 mr0 svg-icon iconHistory"
-                            width="19"
-                            height="18"
-                            viewBox="0 0 19 18"
-                    >
-                        <path
-                                d="M3 9a8 8 0 113.73 6.77L8.2 14.3A6 6 0 105 9l3.01-.01-4 4-4-4h3L3 9zm7-4h1.01L11 9.36l3.22 2.1-.6.93L10 10V5z"
-                        ></path>
-                    </svg>
-                </div>
-                <div class="answer-question-detail">
-                    <div class="editor">
-                        <p>
-                            I'm trying to read the payload of my notifications, but the
-                            event won't trigger. It works fine for Data messages, but
-                            doesn't seem to notice notifications.
-                        </p>
-                        <p>AndroidManifest</p>
-                        <pre class="default s-code-block hljs xml">
-                  <code>
-                    <span class="hljs-tag">&lt;<span class="hljs-name">service</span>
-                    <span class="hljs-attr">android:name</span>=<span class="hljs-string">"com.huawei.hms.push.react.RNHmsMessageService"</span>
-                    <span class="hljs-attr">android:exported</span>=<span class="hljs-string">"true"</span>&gt;</span>
-                    <span class="hljs-tag">&lt;<span class="hljs-name">intent-filter</span>&gt;</span>
-                    <span class="hljs-tag">&lt;<span class="hljs-name">action</span> <span class="hljs-attr">android:name</span>=<span class="hljs-string">"com.huawei.push.action.MESSAGING_EVENT"</span> /&gt;</span>
-                    <span class="hljs-tag">&lt;/<span class="hljs-name">intent-filter</span>&gt;</span>
-                    <span class="hljs-tag">&lt;/<span class="hljs-name">service</span>&gt;</span>
-                    <span class="hljs-tag">&lt;<span class="hljs-name">receiver</span> <span class="hljs-attr">android:name</span>=<span class="hljs-string">"com.huawei.hms.push.react.RNReceiver"</span>/&gt;</span>
-                    <span class="hljs-tag">&lt;<span class="hljs-name">meta-data</span>
-                    <span class="hljs-attr">android:name</span>=<span class="hljs-string">"push_kit_auto_init_enabled"</span>
-                    <span class="hljs-attr">android:value</span>=<span class="hljs-string">"true"</span> /&gt;</span>
-                  </code>
-                </pre>
-                        <p>RNHmsMessageService</p>
+            <c:forEach var="answer" items="${answers}">
+                <div class="content-question-detail">
+                    <div class="action-option-question-detail">
+                        <svg
+                                onclick="upVote(`${answer.id}`)"
+                                aria-hidden="true"
+                                class="m0 svg-icon iconArrowUpLg"
+                                width="36"
+                                height="36"
+                                viewBox="0 0 36 36"
+                        >
+                            <path d="M2 26h32L18 10 2 26z"></path>
+                        </svg>
+                        <p id="${answer.id}">${answer.votes.size()}</p>
+                        <svg
+                                aria-hidden="true"
+                                class="m0 svg-icon iconArrowDownLg"
+                                width="36"
+                                height="36"
+                                viewBox="0 0 36 36"
+                        >
+                            <path d="M2 10h32L18 26 2 10z"></path>
+                        </svg>
+                        <svg
+                                aria-hidden="true"
+                                class="svg-icon iconBookmark"
+                                width="18"
+                                height="18"
+                                viewBox="0 0 18 18"
+                        >
+                            <path
+                                    d="M6 1a2 2 0 00-2 2v14l5-4 5 4V3a2 2 0 00-2-2H6zm3.9 3.83h2.9l-2.35 1.7.9 2.77L9 7.59l-2.35 1.7.9-2.76-2.35-1.7h2.9L9 2.06l.9 2.77z"
+                            ></path>
+                        </svg>
+                        <svg
+                                aria-hidden="true"
+                                class="mln2 mr0 svg-icon iconHistory"
+                                width="19"
+                                height="18"
+                                viewBox="0 0 19 18"
+                        >
+                            <path
+                                    d="M3 9a8 8 0 113.73 6.77L8.2 14.3A6 6 0 105 9l3.01-.01-4 4-4-4h3L3 9zm7-4h1.01L11 9.36l3.22 2.1-.6.93L10 10V5z"
+                            ></path>
+                        </svg>
                     </div>
-                    <div class="answer-question-tags">
-                        <a href="#" class="tag">android</a>
-                        <a href="#" class="tag">react-native</a>
-                        <a href="#" class="tag">huawei-mobile-services</a>
-                        <a href="#" class="tag">huawei-push-notification</a>
-                    </div>
-                    <div class="answer-question-footer">
-                        <div class="answer-question-footer-action">
-                            <a href="#">Share</a>
-                            <a href="#">Follow</a>
-                        </div>
-                        <div class="answer-question-author">
-                            <p>asked 14 mins ago</p>
-                            <div>
-                                <img
-                                        src="https://lh6.googleusercontent.com/-xeD2LdRJUJc/AAAAAAAAAAI/AAAAAAAAABw/YuIWglg5h0w/photo.jpg?sz=32"
-                                        height="32px"
-                                        width="32px"
-                                        style="border-radius: 8px"
-                                />
-                                <div>
-                                    <a href="#">dekaottoman</a>
+                    <div class="answer-question-detail">
+                            <div class="editor" style="padding-top: 10px;width: 3%;
+    overflow: scroll;">
+                                    ${answer.body}
+                            </div>
+                            <div class="answer-question-footer">
+                                <div class="answer-question-footer-action">
+                                    <a href="#">Share</a>
+                                    <a href="#">Follow</a>
+                                </div>
+                                <div class="answer-question-author">
+                                    <p>asked 14 mins ago</p>
                                     <div>
-                                        <span>1</span>
-                                        <span
-                                                class="dot"
-                                                style="background-color: #6a737c"
-                                        ></span>
-                                        <span>1</span>
+                                        <img
+                                                src="https://lh6.googleusercontent.com/-xeD2LdRJUJc/AAAAAAAAAAI/AAAAAAAAABw/YuIWglg5h0w/photo.jpg?sz=32"
+                                                height="32px"
+                                                width="32px"
+                                                style="border-radius: 8px"
+                                        />
+                                        <div>
+                                            <a href="#">${answer.user.name}</a>
+                                            <div>
+                                                <span>1</span>
+                                                <span
+                                                        class="dot"
+                                                        style="background-color: #6a737c"
+                                                ></span>
+                                                <span>1</span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="comment-answer-container">
-                        <div class="comment-answer">
+                            <div class="comment-answer-container">
+                                <div class="comment-answer">
                   <span
                   >I have fixed your syntax error and now it seems to be
                     working fine. Check it out.
                   </span>
-                            <span>-</span>
-                            <a href="#"> Yadab</a>
-                            <span>9 mins ago</span>
-                        </div>
+                                    <span>-</span>
+                                    <a href="#"> Yadab</a>
+                                    <span>9 mins ago</span>
+                                </div>
+                            </div>
+                            <div class="add-a-comment">Add a comment</div>
                     </div>
-                    <div class="add-a-comment">Add a comment</div>
                 </div>
-            </div>
+            </c:forEach>
+
         </div>
         <div class="type-answer">
             <h2 style="font-weight: 500">Your Answer</h2>
             <div id="editor"></div>
-            <button class="btn btn-primary" style="margin-top: 40px">
-                Post your answer
-            </button>
+            <c:choose>
+                <c:when test="${isUser || isAdmin}">
+                    <button class="btn btn-primary" style="margin-top: 40px" onclick="postAnswer(`${question.id}`)" >
+                        Post your answer
+                    </button>
+                </c:when>
+                <c:otherwise>
+                    <button class="btn btn-primary" style="margin-top: 40px" onclick="clickPostAnswerNoLogin()">
+                        Post your answer
+                    </button>
+                </c:otherwise>
+            </c:choose>
             <div class="note-post-your-answers">
             <span>
               By clicking “Post Your Answer”, you agree to our
@@ -285,11 +286,76 @@
               <a>cookie policy</a>
             </span>
             </div>
+            <div id="alertSignin">
+
+            </div>
+
         </div>
     </div>
 </main>
+
+<script>
+    const upVote = (answerId) => {
+        let numberOfVote = document.getElementById(answerId);
+        console.log("call api upVote");
+        let answer = {};
+        answer["answerId"] = answerId;
+        let http = new XMLHttpRequest();
+        http.open("PUT", "/answers/upVote", true);
+        http.setRequestHeader('Content-type', 'application/json');
+        http.setRequestHeader("Access-Control-Allow-Origin", '*');
+        http.setRequestHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        http.onload = function () {
+            // do something to response
+            console.log(this.responseText);
+            data = JSON.parse(this.responseText);
+            if(data.status){
+                numberOfVote.innerHTML = data.result.votes.length;
+            }
+        };
+        http.send(JSON.stringify(answer));
+    };
+    const postAnswer = (questionId) => {
+        console.log(questionId, "call api");
+        let editor = document.getElementsByClassName("ql-editor");
+        let body = editor[editor.length - 1];
+        let rediret = "http://localhost:8000/questions/detail/" + questionId;
+        console.log(rediret, "rediret");
+        let answer = {};
+        answer["body"] = body.outerHTML || new XMLSerializer().serializeToString(body);
+        answer["questionId"] = questionId;
+        let http = new XMLHttpRequest();
+        http.open("POST", "/answers/postAnswer", true);
+        http.setRequestHeader('Content-type', 'application/json');
+        http.setRequestHeader("Access-Control-Allow-Origin", '*');
+        http.setRequestHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        http.onload = function () {
+            // do something to response
+            console.log(this.responseText);
+            if(JSON.parse(this.responseText).status){
+                window.location.href = rediret;
+                console.log(rediret, "response")
+            }
+        };
+        http.send(JSON.stringify(answer));
+    };
+</script>
+<script>
+    const clickPostAnswerNoLogin = () => {
+        let alert = document.getElementById("alertSignin");
+        alert.innerHTML = `<div style="
+                background-color: #ea1f1f;
+                color: white;
+                padding: 10px;
+                width: 55%;
+           ">
+                    <p>To answer a question, you must either sign up for an account or post as a guest.</p>
+                </div>`
+    };
+</script>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<%--<script src="${pageContext.request.contextPath}/js/api.js" type="text/javascript"></script>--%>
 <script src="${pageContext.request.contextPath}/js/quill.js" type="text/javascript"></script>
 </body>
 </html>
