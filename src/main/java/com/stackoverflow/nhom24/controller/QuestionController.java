@@ -1,8 +1,12 @@
 package com.stackoverflow.nhom24.controller;
 
+import com.stackoverflow.nhom24.business.AnswerBusiness;
 import com.stackoverflow.nhom24.business.QuestionBusiness;
+import com.stackoverflow.nhom24.entity.Answer;
 import com.stackoverflow.nhom24.entity.Question;
+import com.stackoverflow.nhom24.model.response.AnswerResponse;
 import com.stackoverflow.nhom24.model.response.QuestionDetailResponse;
+import com.stackoverflow.nhom24.model.response.QuestionResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -19,6 +23,7 @@ import java.util.List;
 public class QuestionController {
 
     private final QuestionBusiness questionBusiness;
+    private final AnswerBusiness answerBusiness;
 
     @GetMapping("/questions/askQuestion")
     public String askQuestionForm(final ModelMap model){
@@ -33,17 +38,38 @@ public class QuestionController {
         return "home";
     }
 
+    @GetMapping("/questions")
+    public String getAllQuestion(final ModelMap model, String page, String tab) {
+        boolean statusPage = true;
+        boolean statustab = true;
+        if(page == null) {
+            statusPage = false;
+            page ="1";
+        }
+        if(tab == null) {
+            statustab = false;
+            tab = "newest";
+        }
+        int total = questionBusiness.getTotal(tab);
+        List<QuestionResponse> questions = questionBusiness.getAll(Integer.parseInt(page), tab);
+        model.addAttribute("pagination", (int) ( total/ 10) + 1);
+        model.addAttribute("total", total);
+        model.addAttribute("questions", questions);
+        model.addAttribute("page", page);
+        model.addAttribute("statusPage", statusPage);
+        model.addAttribute("statustab", statustab);
+        return "questions";
+    }
+
     @GetMapping("/questions/detail/{id}")
     public String questionDetail(final ModelMap model, @PathVariable String id){
         QuestionDetailResponse response = questionBusiness.getById(id);
-        model.addAttribute("question",response);
+        List<AnswerResponse> answers = answerBusiness.getByQuestionId(id);
+        model.addAttribute("question", response);
+        model.addAttribute("answers", answers);
         return "questionDetail";
     }
 
-//    @GetMapping("/tags/questions")
-//    public String cntQuestionTag(final ModelMap model) {
-//        List<Integer> cntQuestionTag = questionBusiness.countQuestionTag();
-//        model.addAttribute("question", cntQuestionTag);
-//        return "countQuestionTag";
-//    }
+
+
 }

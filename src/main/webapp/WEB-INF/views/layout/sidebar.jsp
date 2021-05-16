@@ -4,7 +4,7 @@
         <li>
             PUBLIC
             <ul style="padding-left: 0px">
-                <li style="display: flex; align-items: center">
+                <li style="display: flex; align-items: center" href="${pageContext.request.contextPath}/questions">
                     <img
                             src="${pageContext.request.contextPath}/asset/earth-icon.png"
                             style="height: 15px; width: 15px; margin-right: 10px"

@@ -20,5 +20,9 @@ public class Answer extends BaseEntity {
     private Date createOn;
     private ObjectId questionId;
     private List<Vote> votes;
-    private Number score;
+    private Integer score;
+
+    public void addVote(Vote vote){
+        this.votes.add(vote);
+    }
 }

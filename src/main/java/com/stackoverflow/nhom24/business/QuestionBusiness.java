@@ -6,14 +6,12 @@ import com.stackoverflow.nhom24.entity.Tag;
 import com.stackoverflow.nhom24.model.response.QuestionDetailResponse;
 import com.stackoverflow.nhom24.model.response.QuestionResponse;
 import com.stackoverflow.nhom24.model.response.QuestionsResponse;
-import com.stackoverflow.nhom24.model.response.TagResponse;
 import com.stackoverflow.nhom24.repository.QuestionRepository;
 import com.stackoverflow.nhom24.repository.TagRepository;
 import com.stackoverflow.nhom24.service.QuestionService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,60 +21,23 @@ import java.util.stream.Collectors;
 public class QuestionBusiness extends BaseBusiness {
     private final QuestionRepository questionRepository;
     private final TagRepository tagRepository;
-    private final TagBusiness tagBusiness;
 
     private final QuestionService questionService;
 
-    public List<QuestionResponse> getAll(){
-//        List<Question> questionsDto = questionRepository.findAll();
-//        List<QuestionResponse> response = mapper.mapAsList(questionsDto, QuestionResponse.class);
-        List<QuestionResponse> response = questionService.findAllQuestionAndItem();
+    public List<QuestionResponse> getAll(Integer page, String tab){
+        List<QuestionResponse> response = questionService.findAllQuestionAndItem(page, tab);
         return response;
     }
 
-    public List<TagResponse> countQuestionTag(List<Tag> tags) {
-
-        List<TagResponse> tagsResponse = mapper.mapAsList(tags, TagResponse.class);
-        for (TagResponse tag : tagsResponse){
-            int numberQuestion = 1;
-            tag.setNumberQuestion(numberQuestion);
-        }
-
-//        List<QuestionResponse> response = getAll();
-//        int sizeResponse = response.size();
-//
-//        List<TagResponse> tagResponseList;
-//        List<String> nameTag = tagBusiness.getNameTag();
-//        int sizeNameTag = nameTag.size();
-//
-//        List<Integer> integerList = new ArrayList<>();
-//        for (int i = 0; i < sizeNameTag; i++) {
-//            integerList.add(0);
-//        }
-//        for (int i = 0; i < sizeResponse; i++) {
-//
-//            List<TagResponse> tagList = response.get(i).getTags();
-//            int sizeTagList = tagList.size();
-//
-//            for (int j = 0; j < sizeNameTag; j++) {
-//                for (int k = 0; k < sizeTagList; k++) {
-//                    if (tagList.get(k).getName() == nameTag.get(j)) {
-//                        integerList.set(j, integerList.get(j) + 1);
-//                    }
-//                }
-//            }
-//        }
-
-//        return integerList;
-        return tagsResponse;
+    public int getTotal(String tab) {
+        return questionService.findCountOfQuestionAndItem(tab);
     }
 
-    public Question postQuestion(Question question) {
+    public Question postQuestion(Question question, List<Tag> tagsPost) {
         List<Tag> tagsDto = tagRepository.findAll();
-        List<Tag> tagsPost = question.getTags();
         for(Tag tag : tagsDto) {
              for(Tag tagPost : tagsPost) {
-              if(tag.getName().equals(tagPost)) {
+              if(tag.getName().equals(tagPost.getName())) {
                   tagPost.setId(tag.getId());
               }
             };
@@ -87,12 +48,21 @@ public class QuestionBusiness extends BaseBusiness {
             }
             return tag;
         }).collect(Collectors.toList());
-        question.setTags(tags);
+        question.setTags(tags.stream().map(el -> el.getName()).collect(Collectors.toList()));
         return questionRepository.save(question);
     }
 
     public QuestionDetailResponse getById(String id) {
         QuestionDetailResponse question = questionService.findQuestionAndItemById(id);
+        Question updateQuestion = questionRepository.findById(id).get();
+        updateQuestion.setViews(updateQuestion.getViews() + 1);
+        questionRepository.save(updateQuestion);
         return question;
+    }
+
+    public void updateNumberAnswer(String questionId){
+        Question question = questionRepository.findById(questionId).get();
+        question.setAnswers(question.getAnswers() + 1);
+        questionRepository.save(question);
     }
 }

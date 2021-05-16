@@ -33,7 +33,7 @@
                 <ul style="padding-left: 0px">
                     <li style="display: flex; align-items: center">
                         <img
-                                src="./asset/earth-icon.png"
+                                src="${pageContext.request.contextPath}/asset/earth-icon.png"
                                 style="height: 15px; width: 15px; margin-right: 10px"
                         />Questions
                     </li>
@@ -55,15 +55,15 @@
             <h2>Join the Stack Overflow community</h2>
             <ul>
                 <li>
-                    <img src="./asset/question-removebg-preview.png" />
+                    <img src="${pageContext.request.contextPath}/asset/question-removebg-preview.png" />
                     <span>Get unstuck — ask a question</span>
                 </li>
                 <li>
-                    <img src="./asset/vote-removebg-preview.png" />
+                    <img src="${pageContext.request.contextPath}/asset/vote-removebg-preview.png" />
                     <span>Unlock new privileges like voting and commenting</span>
                 </li>
                 <li>
-                    <img src="./asset/tag.webp" />
+                    <img src="${pageContext.request.contextPath}/asset/tag.webp" />
                     <span>Save your favorite tags, filters, and jobs</span>
                 </li>
             </ul>
@@ -150,18 +150,18 @@
 
 </main>
 <script>
-    const signup = document.getElementById("signup");
+    const signup1 = document.getElementById("signup");
     const signin = document.getElementById("signin");
     const type_code_forgot_password = document.getElementById("type-code-forgot-password");
     const forgot_password = document.getElementById("forgot-password");
-    signup.style.display = 'none';
+    signup1.style.display = 'none';
     signin.style.display = 'block';
     type_code_forgot_password.style.display = 'none';
     forgot_password.style.display = 'none';
-    const navigate_form = (to) =>{
+    const navigate_form = (to) => {
         switch (to) {
             case "sign_up": {
-                signup.style.display = 'block';
+                signup1.style.display = 'block';
                 signin.style.display = 'none';
                 type_code_forgot_password.style.display = 'none';
                 forgot_password.style.display = 'none';
@@ -169,14 +169,14 @@
             }
 
             case "sign_in": {
-                signup.style.display = 'none';
+                signup1.style.display = 'none';
                 signin.style.display = 'block';
                 type_code_forgot_password.style.display = 'none';
                 forgot_password.style.display = 'none';
                 break;
             }
             case "forgot_password": {
-                signup.style.display = 'none';
+                signup1.style.display = 'none';
                 signin.style.display = 'none';
                 type_code_forgot_password.style.display = 'none';
                 forgot_password.style.display = 'block';
@@ -184,7 +184,7 @@
             }
 
             case "type_code_forgot_password": {
-                signup.style.display = 'none';
+                signup1.style.display = 'none';
                 signin.style.display = 'none';
                 type_code_forgot_password.style.display = 'block';
                 forgot_password.style.display = 'none';
