@@ -32,7 +32,7 @@ public class QuestionService {
                 .as("answer");
         GroupOperation groupOperation = group("_id").sum("answer").as("answer");
 
-        Aggregation aggregation = Aggregation.newAggregation(lookupOperationUser, lookupOperationAnswer);
+        Aggregation aggregation = Aggregation.newAggregation(lookupOperationUser);
         List<QuestionResponse> results = mongoTemplate.aggregate(aggregation, "question", QuestionResponse.class).getMappedResults();
         return results;
     }

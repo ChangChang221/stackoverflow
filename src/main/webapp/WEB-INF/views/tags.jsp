@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,6 +27,7 @@
             find and answer your question.
         </p>
         <a href="#">Show all tag synonyms</a>
+        <br />
         <div class="options-container-user-filter">
             <div class="search-input">
                 <svg aria-hidden="true" width="18" height="18" viewBox="0 0 18 18">
@@ -39,332 +41,52 @@
                         style="padding-left: 40px"
                 />
             </div>
-            <ul class="filter-questions-list">
-                <li>
-                    <a style="color: #3c4146">Popular</a>
-                </li>
-                <li><a>Name</a></li>
-                <li><a>New</a></li>
-            </ul>
+<%--            <ul class="filter-questions-list">--%>
+<%--                <li>--%>
+<%--                    <a style="color: #3c4146">Popular</a>--%>
+<%--                </li>--%>
+<%--                <li><a>Name</a></li>--%>
+<%--                <li><a>New</a></li>--%>
+<%--            </ul>--%>
         </div>
         <div class="content-tags-container">
-            <div class="content-tag-container">
-                <div class="content-tag">
-                    <div><a class="tag" href="#">javascript</a></div>
-                    <div class="tag-description">
-                        <p>
-                            For questions regarding programming in ECMAScript
-                            (JavaScript/JS) and its various dialects/implementations
-                            (excluding ActionScript). Please include all relevant tags on
-                            your question; e.g., [node.js],…
-                        </p>
-                    </div>
-                    <div class="tag-detail">
-                        <div class="questions-about-tag-total">
-                            <p>2202164 questions</p>
+            <c:forEach var="tag" items="${tags}">
+                <div class="content-tag-container">
+                    <div class="content-tag">
+                        <div><a class="tag" href="#">${tag.name}</a></div>
+                        <div class="tag-description">
+                            <p>${tag.name}</p>
                         </div>
-                        <div class="question-about-tag">
-                            <p>561 asked today, 5323 this week</p>
+                        <div class="tag-detail">
+                            <div class="questions-about-tag-total">
+                                <p>${tag.numberQuestion}</p>
+                            </div>
+                            <div class="question-about-tag">
+                                <p>561 asked today, 5323 this week</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="content-tag-container">
-                <div class="content-tag">
-                    <div><a class="tag" href="#">javascript</a></div>
-                    <div class="tag-description">
-                        <p>
-                            For questions regarding programming in ECMAScript
-                            (JavaScript/JS) and its various dialects/implementations
-                            (excluding ActionScript). Please include all relevant tags on
-                            your question; e.g., [node.js],…
-                        </p>
-                    </div>
-                    <div class="tag-detail">
-                        <div class="questions-about-tag-total">
-                            <p>2202164 questions</p>
-                        </div>
-                        <div class="question-about-tag">
-                            <p>561 asked today, 5323 this week</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="content-tag-container">
-                <div class="content-tag">
-                    <div><a class="tag" href="#">javascript</a></div>
-                    <div class="tag-description">
-                        <p>
-                            For questions regarding programming in ECMAScript
-                            (JavaScript/JS) and its various dialects/implementations
-                            (excluding ActionScript). Please include all relevant tags on
-                            your question; e.g., [node.js],…
-                        </p>
-                    </div>
-                    <div class="tag-detail">
-                        <div class="questions-about-tag-total">
-                            <p>2202164 questions</p>
-                        </div>
-                        <div class="question-about-tag">
-                            <p>561 asked today, 5323 this week</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="content-tag-container">
-                <div class="content-tag">
-                    <div><a class="tag" href="#">javascript</a></div>
-                    <div class="tag-description">
-                        <p>
-                            For questions regarding programming in ECMAScript
-                            (JavaScript/JS) and its various dialects/implementations
-                            (excluding ActionScript). Please include all relevant tags on
-                            your question; e.g., [node.js],…
-                        </p>
-                    </div>
-                    <div class="tag-detail">
-                        <div class="questions-about-tag-total">
-                            <p>2202164 questions</p>
-                        </div>
-                        <div class="question-about-tag">
-                            <p>561 asked today, 5323 this week</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="content-tag-container">
-                <div class="content-tag">
-                    <div><a class="tag" href="#">javascript</a></div>
-                    <div class="tag-description">
-                        <p>
-                            For questions regarding programming in ECMAScript
-                            (JavaScript/JS) and its various dialects/implementations
-                            (excluding ActionScript). Please include all relevant tags on
-                            your question; e.g., [node.js],…
-                        </p>
-                    </div>
-                    <div class="tag-detail">
-                        <div class="questions-about-tag-total">
-                            <p>2202164 questions</p>
-                        </div>
-                        <div class="question-about-tag">
-                            <p>561 asked today, 5323 this week</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="content-tag-container">
-                <div class="content-tag">
-                    <div><a class="tag" href="#">javascript</a></div>
-                    <div class="tag-description">
-                        <p>
-                            For questions regarding programming in ECMAScript
-                            (JavaScript/JS) and its various dialects/implementations
-                            (excluding ActionScript). Please include all relevant tags on
-                            your question; e.g., [node.js],…
-                        </p>
-                    </div>
-                    <div class="tag-detail">
-                        <div class="questions-about-tag-total">
-                            <p>2202164 questions</p>
-                        </div>
-                        <div class="question-about-tag">
-                            <p>561 asked today, 5323 this week</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="content-tag-container">
-                <div class="content-tag">
-                    <div><a class="tag" href="#">javascript</a></div>
-                    <div class="tag-description">
-                        <p>
-                            For questions regarding programming in ECMAScript
-                            (JavaScript/JS) and its various dialects/implementations
-                            (excluding ActionScript). Please include all relevant tags on
-                            your question; e.g., [node.js],…
-                        </p>
-                    </div>
-                    <div class="tag-detail">
-                        <div class="questions-about-tag-total">
-                            <p>2202164 questions</p>
-                        </div>
-                        <div class="question-about-tag">
-                            <p>561 asked today, 5323 this week</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="content-tag-container">
-                <div class="content-tag">
-                    <div><a class="tag" href="#">javascript</a></div>
-                    <div class="tag-description">
-                        <p>
-                            For questions regarding programming in ECMAScript
-                            (JavaScript/JS) and its various dialects/implementations
-                            (excluding ActionScript). Please include all relevant tags on
-                            your question; e.g., [node.js],…
-                        </p>
-                    </div>
-                    <div class="tag-detail">
-                        <div class="questions-about-tag-total">
-                            <p>2202164 questions</p>
-                        </div>
-                        <div class="question-about-tag">
-                            <p>561 asked today, 5323 this week</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="content-tag-container">
-                <div class="content-tag">
-                    <div><a class="tag" href="#">javascript</a></div>
-                    <div class="tag-description">
-                        <p>
-                            For questions regarding programming in ECMAScript
-                            (JavaScript/JS) and its various dialects/implementations
-                            (excluding ActionScript). Please include all relevant tags on
-                            your question; e.g., [node.js],…
-                        </p>
-                    </div>
-                    <div class="tag-detail">
-                        <div class="questions-about-tag-total">
-                            <p>2202164 questions</p>
-                        </div>
-                        <div class="question-about-tag">
-                            <p>561 asked today, 5323 this week</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="content-tag-container">
-                <div class="content-tag">
-                    <div><a class="tag" href="#">javascript</a></div>
-                    <div class="tag-description">
-                        <p>
-                            For questions regarding programming in ECMAScript
-                            (JavaScript/JS) and its various dialects/implementations
-                            (excluding ActionScript). Please include all relevant tags on
-                            your question; e.g., [node.js],…
-                        </p>
-                    </div>
-                    <div class="tag-detail">
-                        <div class="questions-about-tag-total">
-                            <p>2202164 questions</p>
-                        </div>
-                        <div class="question-about-tag">
-                            <p>561 asked today, 5323 this week</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="content-tag-container">
-                <div class="content-tag">
-                    <div><a class="tag" href="#">javascript</a></div>
-                    <div class="tag-description">
-                        <p>
-                            For questions regarding programming in ECMAScript
-                            (JavaScript/JS) and its various dialects/implementations
-                            (excluding ActionScript). Please include all relevant tags on
-                            your question; e.g., [node.js],…
-                        </p>
-                    </div>
-                    <div class="tag-detail">
-                        <div class="questions-about-tag-total">
-                            <p>2202164 questions</p>
-                        </div>
-                        <div class="question-about-tag">
-                            <p>561 asked today, 5323 this week</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="content-tag-container">
-                <div class="content-tag">
-                    <div><a class="tag" href="#">javascript</a></div>
-                    <div class="tag-description">
-                        <p>
-                            For questions regarding programming in ECMAScript
-                            (JavaScript/JS) and its various dialects/implementations
-                            (excluding ActionScript). Please include all relevant tags on
-                            your question; e.g., [node.js],…
-                        </p>
-                    </div>
-                    <div class="tag-detail">
-                        <div class="questions-about-tag-total">
-                            <p>2202164 questions</p>
-                        </div>
-                        <div class="question-about-tag">
-                            <p>561 asked today, 5323 this week</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="content-tag-container">
-                <div class="content-tag">
-                    <div><a class="tag" href="#">javascript</a></div>
-                    <div class="tag-description">
-                        <p>
-                            For questions regarding programming in ECMAScript
-                            (JavaScript/JS) and its various dialects/implementations
-                            (excluding ActionScript). Please include all relevant tags on
-                            your question; e.g., [node.js],…
-                        </p>
-                    </div>
-                    <div class="tag-detail">
-                        <div class="questions-about-tag-total">
-                            <p>2202164 questions</p>
-                        </div>
-                        <div class="question-about-tag">
-                            <p>561 asked today, 5323 this week</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="content-tag-container">
-                <div class="content-tag">
-                    <div><a class="tag" href="#">javascript</a></div>
-                    <div class="tag-description">
-                        <p>
-                            For questions regarding programming in ECMAScript
-                            (JavaScript/JS) and its various dialects/implementations
-                            (excluding ActionScript). Please include all relevant tags on
-                            your question; e.g., [node.js],…
-                        </p>
-                    </div>
-                    <div class="tag-detail">
-                        <div class="questions-about-tag-total">
-                            <p>2202164 questions</p>
-                        </div>
-                        <div class="question-about-tag">
-                            <p>561 asked today, 5323 this week</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="content-tag-container">
-                <div class="content-tag">
-                    <div><a class="tag" href="#">javascript</a></div>
-                    <div class="tag-description">
-                        <p>
-                            For questions regarding programming in ECMAScript
-                            (JavaScript/JS) and its various dialects/implementations
-                            (excluding ActionScript). Please include all relevant tags on
-                            your question; e.g., [node.js],…
-                        </p>
-                    </div>
-                    <div class="tag-detail">
-                        <div class="questions-about-tag-total">
-                            <p>2202164 questions</p>
-                        </div>
-                        <div class="question-about-tag">
-                            <p>561 asked today, 5323 this week</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            </c:forEach>
+        </div>
+        <div class="pagination">
+            <c:forEach begin="0" end="${pagination}" var="i">
+                <c:if test="${page != 1 && i == 0}">
+                    <a href="${pageContext.request.contextPath}?page=${page - 1}">Prev</a>
+                </c:if>
+                <c:if test="${page == (i+1) && i != pagination}">
+                    <a href="${pageContext.request.contextPath}?page=${i+1}" class="active">${i+1}</a>
+                </c:if>
+                <c:if test="${page != (i+1) && i != pagination}">
+                    <a href="${pageContext.request.contextPath}?page=${i+1}">${i+1}</a>
+                </c:if>
+                <c:if test="${page != pagination && i == pagination}">
+                    <a href="${pageContext.request.contextPath}?page=${page + 1}">Next</a>
+                </c:if>
+            </c:forEach>
         </div>
     </div>
+
 </main>
 
 <!-- Optional JavaScript -->

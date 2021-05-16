@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.List;
+
 
 @Controller
 @AllArgsConstructor
@@ -37,4 +39,11 @@ public class QuestionController {
         model.addAttribute("question",response);
         return "questionDetail";
     }
+
+//    @GetMapping("/tags/questions")
+//    public String cntQuestionTag(final ModelMap model) {
+//        List<Integer> cntQuestionTag = questionBusiness.countQuestionTag();
+//        model.addAttribute("question", cntQuestionTag);
+//        return "countQuestionTag";
+//    }
 }

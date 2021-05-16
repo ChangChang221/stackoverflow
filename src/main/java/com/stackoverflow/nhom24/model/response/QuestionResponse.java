@@ -18,7 +18,7 @@ public class QuestionResponse {
     private String userId;
     private String body;
     private Date createdOn;
-    private List<TagResponse> tags;
+    private List<String> tags;
     private Integer views;
     private Integer answer;
     private User user;
