@@ -5,7 +5,10 @@ import com.stackoverflow.nhom24.entity.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.util.Date;
 import java.util.List;
 
@@ -17,6 +20,8 @@ public class QuestionResponse {
     private String title;
     private String userId;
     private String body;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    
     private Date createdOn;
     private List<String> tags;
     private Integer views;

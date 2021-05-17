@@ -6,7 +6,6 @@ import com.stackoverflow.nhom24.entity.Question;
 import com.stackoverflow.nhom24.entity.Tag;
 import com.stackoverflow.nhom24.model.response.DataResponse;
 import lombok.AllArgsConstructor;
-import org.bson.types.ObjectId;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,8 +38,8 @@ public class QuestionRestController extends BaseController {
         question.setTitle(title);
         question.setCreatedOn(new Date());
         question.setViews(0);
-//        question.setUserId(new ObjectId(getUserId(principal, req)));
-        question.setUserId(new ObjectId("6097d369da6e2471a8048b0a"));
+//        question.setUserId(new String(getUserId(principal, req)));
+        question.setUserId(new String("6097d369da6e2471a8048b0a"));
         question.setAnswers(0);
         Question newQuestion = questionBusiness.postQuestion(question, tags.stream().map(post -> {
             Tag tag = new Tag();

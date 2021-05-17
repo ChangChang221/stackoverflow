@@ -49,10 +49,10 @@ public class AnswerBusiness extends BaseBusiness {
         Answer answer = answerRepository.findById(id).get();
         Vote vote = new Vote();
         vote.setStatus(true);
-        vote.setUserId(new ObjectId(userId));
+        vote.setUserId(new String(userId));
 //        voteRepository.save(vote);
         answer.setVotes(new ArrayList<>());
-        answer.addVote(vote);
+        answer.addVote(id);
         answer.setScore(answer.getScore() + 2);
         answer = answerRepository.save(answer);
         return answer;

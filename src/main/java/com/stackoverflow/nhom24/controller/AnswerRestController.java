@@ -6,7 +6,6 @@ import com.stackoverflow.nhom24.controller.base.BaseController;
 import com.stackoverflow.nhom24.entity.Answer;
 import com.stackoverflow.nhom24.model.response.DataResponse;
 import lombok.AllArgsConstructor;
-import org.bson.types.ObjectId;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,10 +29,10 @@ public class AnswerRestController extends BaseController {
         String questionId = (String) data.get("questionId");
         Answer answer = new Answer();
         answer.setBody(body);
-        answer.setUserId(new ObjectId(getUserId(principal, req)));
-        answer.setCreateOn(new Date());
+        answer.setUserId(new String(getUserId(principal, req)));
+        answer.setCreatedOn(new Date());
         answer.setScore(0);
-        answer.setQuestionId(new ObjectId(questionId));
+        answer.setQuestionId(new String(questionId));
         answerBusiness.saveAnswer(answer);
         questionBusiness.updateNumberAnswer(questionId);
         DataResponse response = new DataResponse();
