@@ -38,6 +38,7 @@ public class UserBusiness extends BaseBusiness {
     }
 
     public User getUserById(String id){
+        System.out.println(id);
         User user = userRepository.findById(id).get();
         return user;
     }

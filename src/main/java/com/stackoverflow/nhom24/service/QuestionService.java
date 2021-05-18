@@ -38,14 +38,14 @@ public class QuestionService {
                     .foreignField("questionId")
                     .as("answer");
             GroupOperation groupOperation = group("_id").sum("answer").as("answer");
-            Aggregation aggregation = null;
-            if (tab.equals("newest")) {
-                aggregation = Aggregation.newAggregation(Aggregation.sort(Sort.Direction.ASC, "createdOn"), lookupOperationUser, lookupOperationAnswer, Aggregation.skip((page - 1) * 10), Aggregation.limit(10));
-            } else if (tab.equals("active")) {
-                aggregation = Aggregation.newAggregation(Aggregation.sort(Sort.Direction.ASC, "createdOn"), lookupOperationUser, lookupOperationAnswer, Aggregation.skip((page - 1) * 10), Aggregation.limit(10));
-            } else if (tab.equals("unanswers")) {
-                aggregation = Aggregation.newAggregation(Aggregation.match(Criteria.where("answers").is(0)), lookupOperationUser, lookupOperationAnswer, Aggregation.skip((page - 1) * 10), Aggregation.limit(10));
-            }
+            Aggregation aggregation = aggregation = Aggregation.newAggregation(Aggregation.skip(0L));
+//            if (tab.equals("newest")) {
+//                aggregation = Aggregation.newAggregation(Aggregation.sort(Sort.Direction.ASC, "createdOn"), lookupOperationUser, lookupOperationAnswer, Aggregation.skip((page - 1) * 10), Aggregation.limit(10));
+//            } else if (tab.equals("active")) {
+//                aggregation = Aggregation.newAggregation(Aggregation.sort(Sort.Direction.ASC, "createdOn"), lookupOperationUser, lookupOperationAnswer, Aggregation.skip((page - 1) * 10), Aggregation.limit(10));
+//            } else if (tab.equals("unanswers")) {
+//                aggregation = Aggregation.newAggregation(Aggregation.match(Criteria.where("answers").is(0)), lookupOperationUser, lookupOperationAnswer, Aggregation.skip((page - 1) * 10), Aggregation.limit(10));
+//            }
 
             List<QuestionResponse> results = mongoTemplate.aggregate(aggregation, "question", QuestionResponse.class).getMappedResults();
             return results;

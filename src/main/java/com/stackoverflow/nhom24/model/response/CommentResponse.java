@@ -4,17 +4,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Setter
 @Getter
 @NoArgsConstructor
-public class AnswerResponse {
+public class CommentResponse {
     private String id;
     private String userId;
+    private String name;
     private String body;
+    private String answerId;
     private String createdOn;
-    private String questionId;
-    private List<String> votes;
-    private Integer score;
 }

@@ -2,6 +2,7 @@ package com.stackoverflow.nhom24.entity;
 
 import com.stackoverflow.nhom24.entity.base.BaseEntity;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -16,13 +17,11 @@ import java.util.List;
 @Setter
 @Getter
 @Document(collection = "question")
+@NoArgsConstructor
 public class Question extends BaseEntity {
-    private String id;
     private String title;
     private String userId;
     private String body;
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    
     private Date createdOn;
     private List<String> tags;
     private Integer views;

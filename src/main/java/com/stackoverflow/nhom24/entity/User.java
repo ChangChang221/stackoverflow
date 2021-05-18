@@ -18,13 +18,10 @@ import java.util.List;
 @Document(collection = "user")
 @NoArgsConstructor
 public class User extends BaseEntity {
-    private String id;
     private String name;
     private String username;
     private String password;
     private String photo;
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    
     private Date createdOn;
     private String role;
     private String location;
@@ -33,7 +30,7 @@ public class User extends BaseEntity {
     private String link;
     private String social;
     private List<String> tags;
-    private Number reputationScore;
-    private Number questions;
-    private Number answers;
+    private Integer reputationScore;
+    private Integer questions;
+    private Integer answers;
 }

@@ -2,6 +2,7 @@ package com.stackoverflow.nhom24.entity;
 
 import com.stackoverflow.nhom24.entity.base.BaseEntity;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -20,12 +21,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Setter
 @Getter
 @Document(collection = "answer")
+@NoArgsConstructor
 public class Answer extends BaseEntity {
     private String id;
     private String userId;
     private String body;
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    
     private Date createdOn;
     private String questionId;
     private List<String> votes;

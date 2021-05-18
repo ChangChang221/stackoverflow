@@ -22,7 +22,6 @@ public class QuestionDetailResponse {
     private String userId;
     private String body;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    
     private Date createdOn;
     private List<String> tags;
     private Integer views;

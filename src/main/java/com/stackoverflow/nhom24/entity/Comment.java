@@ -2,6 +2,7 @@ package com.stackoverflow.nhom24.entity;
 
 import com.stackoverflow.nhom24.entity.base.BaseEntity;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -17,13 +18,12 @@ import java.util.Date;
 @Setter
 @Getter
 @Document(collection = "comment")
+@NoArgsConstructor
 public class Comment extends BaseEntity {
     private String id;
     private String userId;
     private String name;
     private String body;
     private String answerId;
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    
     private Date createdOn;
 }

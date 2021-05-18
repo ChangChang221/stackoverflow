@@ -20,9 +20,10 @@ public class QuestionResponse {
     private String title;
     private String userId;
     private String body;
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    
-    private Date createdOn;
+//    2020-04-03T00:34:02.000Z
+//    @DateTimeFormat(pattern = "yyyy-MM-ddTHH:mm:ss.sssZ")
+//    private Date createdOn;
+    private String createdOn;
     private List<String> tags;
     private Integer views;
     private Integer answers;

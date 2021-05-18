@@ -34,4 +34,10 @@ public class AnswerService {
         List<AnswerResponse> results = mongoTemplate.aggregate(aggregation, "answer", AnswerResponse.class).getMappedResults();
         return results;
     }
+
+    public List<AnswerResponse> getALl(){
+        Aggregation aggregation = Aggregation.newAggregation(Aggregation.skip(0L));
+        List<AnswerResponse> results = mongoTemplate.aggregate(aggregation, "answer", AnswerResponse.class).getMappedResults();
+        return results;
+    }
 }
