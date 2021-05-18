@@ -18,7 +18,7 @@ public class HomeController {
     private final QuestionBusiness questionBusiness;
 
     @GetMapping(value = "/")
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    @DateTimeFormat(pattern = "yyyy-mm-ddThh:mm:ss.000Z")
     public String home(final ModelMap model, Integer page) {
 
         if (page == null) {

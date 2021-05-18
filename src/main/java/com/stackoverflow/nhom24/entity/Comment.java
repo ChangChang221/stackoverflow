@@ -23,7 +23,7 @@ public class Comment extends BaseEntity {
     private String name;
     private String body;
     private String answerId;
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    @DateTimeFormat(pattern = "yyyy-mm-ddThh:mm:ss.000Z")
     
     private Date createdOn;
 }

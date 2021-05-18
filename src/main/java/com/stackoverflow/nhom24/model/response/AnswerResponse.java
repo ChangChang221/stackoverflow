@@ -19,7 +19,7 @@ public class AnswerResponse {
     private String id;
     private ObjectId userId;
     private String body;
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    @DateTimeFormat(pattern = "yyyy-mm-ddThh:mm:ss.000Z")
     private Date createdOn;
     private ObjectId questionId;
     private List<Vote> votes;

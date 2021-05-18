@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @Component
 @AllArgsConstructor
 public class QuestionBusiness extends BaseBusiness {
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    @DateTimeFormat(pattern = "yyyy-mm-ddThh:mm:ss.000Z")
     private final QuestionRepository questionRepository;
     private final TagRepository tagRepository;
 

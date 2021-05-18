@@ -27,7 +27,7 @@ public class QuestionService {
 
     @Autowired
     private MongoTemplate mongoTemplate;
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    @DateTimeFormat(pattern = "yyyy-mm-ddThh:mm:ss.SSSZ")
     public List<QuestionResponse> findAllQuestionAndItem(long page, String tab) {
         try {
 

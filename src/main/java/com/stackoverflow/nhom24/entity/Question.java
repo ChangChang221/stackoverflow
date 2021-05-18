@@ -21,7 +21,7 @@ public class Question extends BaseEntity {
     private String title;
     private String userId;
     private String body;
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    @DateTimeFormat(pattern = "yyyy-mm-ddThh:mm:ss.000Z")
     
     private Date createdOn;
     private List<String> tags;
