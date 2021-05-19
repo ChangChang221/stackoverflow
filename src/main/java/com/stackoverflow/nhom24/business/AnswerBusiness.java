@@ -46,7 +46,7 @@ public class AnswerBusiness extends BaseBusiness {
     }
 
     public Answer upVote(ObjectId id, ObjectId userId){
-        Answer answer = answerRepository.findById(id.toString()).get();
+        Answer answer = answerRepository.findById(id).get();
         Vote vote = new Vote();
         vote.setStatus(true);
         vote.setUserId(userId);
@@ -56,5 +56,9 @@ public class AnswerBusiness extends BaseBusiness {
         answer.setScore(answer.getScore() + 2);
         answer = answerRepository.save(answer);
         return answer;
+    }
+
+    public List<AnswerResponse> getByUserId(String userId){
+        return answerService.getByUserId(new ObjectId(userId));
     }
 }

@@ -45,12 +45,13 @@ public class WebMVC implements WebMvcConfigurer {
         registry.addResourceHandler("/styles/**").addResourceLocations("classpath:/styles/");
         registry.addResourceHandler("/js/**").addResourceLocations("classpath:/js/");
         registry.addResourceHandler("/asset/**").addResourceLocations("classpath:/asset/");
+//        registry.addResourceHandler("/summernote/**").addResourceLocations("classpath:/summernote/");
 //        registry.addResourceHandler("/video/**").addResourceLocations("classpath:/video/");
 //        registry.addResourceHandler("/glyphicons/**").addResourceLocations("classpath:/glyphycons/"); //glyphicons
-        registry.addResourceHandler("/summernote/**").addResourceLocations("classpath:/summernote/");
-//        registry.addResourceHandler("/files/img/**").addResourceLocations("file:F:/Project/ProjectBack-End/java-web-001/upload/img/");
+
+        registry.addResourceHandler("/files/**").addResourceLocations("file:E:/Project handle/stackoverflow/upload/img/");
 //        registry.addResourceHandler("/files/video/**").addResourceLocations("file:F:/Project/ProjectBack-End/java-web-001/upload/video/");
-//		registry.addResourceHandler("/summernote/**").addResourceLocations("classpath:/META-INF/resources/summernote/");
+		registry.addResourceHandler("/summernote/**").addResourceLocations("classpath:/META-INF/resources/summernote/");
 //		registry.addResourceHandler("/files/**").addResourceLocations("file:E:/eclipse-workspace/Javaweb1903BE/upload/");
     }
 }

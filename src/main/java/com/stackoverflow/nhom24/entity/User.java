@@ -30,4 +30,7 @@ public class User extends BaseEntity {
     private Number reputationScore;
     private Number questions;
     private Number answers;
+    private String title;
+    private String description;
+    private String website;
 }

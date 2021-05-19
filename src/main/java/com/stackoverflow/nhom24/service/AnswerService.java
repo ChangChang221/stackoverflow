@@ -40,4 +40,20 @@ public class AnswerService {
             return List.of();
         }
     }
+
+    public List<AnswerResponse> getByUserId(ObjectId userId){
+        try {
+            Aggregation aggregation = Aggregation.newAggregation(Aggregation.match(Criteria.where("userId").is(userId)));
+            List<AnswerResponse> results = mongoTemplate.aggregate(aggregation, "answer", AnswerResponse.class).getMappedResults();
+//                    .stream().map(answerResponse -> {
+//                        Aggregation _aggregation = Aggregation.newAggregation(Aggregation.match(Criteria.where("_id").is(answerResponse.getUserId())));
+//                        User user = mongoTemplate.aggregate(_aggregation, "user", User.class).getUniqueMappedResult();
+//                        answerResponse.setUser(user);
+//                        return answerResponse;
+//                    }).collect(Collectors.toList());
+            return results;
+        } catch (Exception e) {
+            return List.of();
+        }
+    }
 }

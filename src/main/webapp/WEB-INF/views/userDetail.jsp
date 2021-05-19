@@ -56,7 +56,7 @@
                         >
                   <span
                           style="color: #0c0d0e; font-size: 18px; font-weight: 500"
-                  >273,545</span
+                  >${user.reputationScore}</span
                   >
                             <span
                                     style="font-size: 12px; color: #6a737c; margin-left: 5px"
@@ -97,11 +97,11 @@
             <div class="user-more-profiles">
                 <div class="user-more-challenge">
                     <div>
-                        <h3>12,876</h3>
+                        <h3>${user.answers}</h3>
                         <p>answers</p>
                     </div>
                     <div>
-                        <h3>34</h3>
+                        <h3>${user.questions}</h3>
                         <p>questions</p>
                     </div>
                     <div>
@@ -128,8 +128,7 @@
                             </td>
                             <td>
                       <span>
-                        Kuala Lumpur, Federal Territory of Kuala Lumpur,
-                        Malaysia
+                        ${user.location}
                       </span>
                             </td>
                         </tr>
@@ -148,7 +147,7 @@
                                     ></path>
                                 </svg>
                             </td>
-                            <td><a href="#">shahronak47</a></td>
+                            <td><a href="#">${user.social}</a></td>
                         </tr>
                         <tr>
                             <td>
@@ -166,7 +165,7 @@
                                 </svg>
                             </td>
                             <td>
-                                <a href="#">shahronak47</a>
+                                <a href="#">${user.link}</a>
                             </td>
                         </tr>
                         <tr>
@@ -185,7 +184,7 @@
                                     </svg>
                                 </div>
                             </td>
-                            <td><a href="#">shahronak.shinyapps.io/…</a></td>
+                            <td><a href="#">${user.website}</a></td>
                         </tr>
                         <tr>
                             <td>
@@ -202,7 +201,7 @@
                                 </svg>
                             </td>
                             <td>
-                                <span> Member for <span>6 years, 8 months</span> </span>
+                                <span> Member for <span>${user.createdOn}</span> </span>
                             </td>
                         </tr>
                         <tr>
@@ -219,7 +218,7 @@
                                     ></path>
                                 </svg>
                             </td>
-                            <td><span>49,962 profile views</span></td>
+                            <td><span>${user.views} profile views</span></td>
                         </tr>
                         <tr>
                             <td>
@@ -249,7 +248,7 @@
                     class="d-flex justify-content-between align-items-center"
                     style="margin-top: 30px"
             >
-                <h4>Top posts <span>( 12,910 )</span></h4>
+                <h4>Top posts <span>( ${question.size()} )</span></h4>
                 <div class="d-flex justify-content-between">
                     <ul class="filter-questions-list">
                         <li>
@@ -267,6 +266,8 @@
                 </div>
             </div>
             <div>
+                <c:forEach var="question" items="${questions}">
+
                 <div
                         class="d-flex justify-content-between user-my-question-container"
                 >
@@ -283,182 +284,14 @@
                                     d="M14 14H3c-1.09 0-2-.91-2-2V3c0-1.1.9-2 2-2h12c1.09 0 2 .91 2 2v14l-3-3zm-1.02-3L9.82 3H8.14l-3.06 8h1.68l.65-1.79h3.15l.69 1.79h1.73zm-2.93-3.12H7.9l1.06-2.92 1.09 2.92z"
                             ></path>
                         </svg>
-                        <span class="votes">295</span>
+<%--                        <span class="votes">295</span>--%>
                         <a href="#">
-                            Create empty data frame with column names by assigning a
-                            string vector?
+                            ${question.title}
                         </a>
                     </div>
-                    <div class="user-my-question-timestamp">Sep 22 '15</div>
+                    <div class="user-my-question-timestamp">${question.createdOn}</div>
                 </div>
-                <div
-                        class="d-flex justify-content-between user-my-question-container"
-                >
-                    <div class="user-my-question">
-                        <svg
-                                aria-hidden="true"
-                                class="svg-icon iconAnswer"
-                                width="18"
-                                height="18"
-                                viewBox="0 0 18 18"
-                                style="fill: #5eba7d"
-                        >
-                            <path
-                                    d="M14 14H3c-1.09 0-2-.91-2-2V3c0-1.1.9-2 2-2h12c1.09 0 2 .91 2 2v14l-3-3zm-1.02-3L9.82 3H8.14l-3.06 8h1.68l.65-1.79h3.15l.69 1.79h1.73zm-2.93-3.12H7.9l1.06-2.92 1.09 2.92z"
-                            ></path>
-                        </svg>
-                        <span class="votes">295</span>
-                        <a href="#">
-                            Create empty data frame with column names by assigning a
-                            string vector?
-                        </a>
-                    </div>
-                    <div class="user-my-question-timestamp">Sep 22 '15</div>
-                </div>
-                <div
-                        class="d-flex justify-content-between user-my-question-container"
-                >
-                    <div class="user-my-question">
-                        <svg
-                                aria-hidden="true"
-                                class="svg-icon iconAnswer"
-                                width="18"
-                                height="18"
-                                viewBox="0 0 18 18"
-                                style="fill: #5eba7d"
-                        >
-                            <path
-                                    d="M14 14H3c-1.09 0-2-.91-2-2V3c0-1.1.9-2 2-2h12c1.09 0 2 .91 2 2v14l-3-3zm-1.02-3L9.82 3H8.14l-3.06 8h1.68l.65-1.79h3.15l.69 1.79h1.73zm-2.93-3.12H7.9l1.06-2.92 1.09 2.92z"
-                            ></path>
-                        </svg>
-                        <span class="votes">295</span>
-                        <a href="#">
-                            Create empty data frame with column names by assigning a
-                            string vector?
-                        </a>
-                    </div>
-                    <div class="user-my-question-timestamp">Sep 22 '15</div>
-                </div>
-                <div
-                        class="d-flex justify-content-between user-my-question-container"
-                >
-                    <div class="user-my-question">
-                        <svg
-                                aria-hidden="true"
-                                class="svg-icon iconAnswer"
-                                width="18"
-                                height="18"
-                                viewBox="0 0 18 18"
-                                style="fill: #5eba7d"
-                        >
-                            <path
-                                    d="M14 14H3c-1.09 0-2-.91-2-2V3c0-1.1.9-2 2-2h12c1.09 0 2 .91 2 2v14l-3-3zm-1.02-3L9.82 3H8.14l-3.06 8h1.68l.65-1.79h3.15l.69 1.79h1.73zm-2.93-3.12H7.9l1.06-2.92 1.09 2.92z"
-                            ></path>
-                        </svg>
-                        <span class="votes">295</span>
-                        <a href="#">
-                            Create empty data frame with column names by assigning a
-                            string vector?
-                        </a>
-                    </div>
-                    <div class="user-my-question-timestamp">Sep 22 '15</div>
-                </div>
-                <div
-                        class="d-flex justify-content-between user-my-question-container"
-                >
-                    <div class="user-my-question">
-                        <svg
-                                aria-hidden="true"
-                                class="svg-icon iconAnswer"
-                                width="18"
-                                height="18"
-                                viewBox="0 0 18 18"
-                                style="fill: #5eba7d"
-                        >
-                            <path
-                                    d="M14 14H3c-1.09 0-2-.91-2-2V3c0-1.1.9-2 2-2h12c1.09 0 2 .91 2 2v14l-3-3zm-1.02-3L9.82 3H8.14l-3.06 8h1.68l.65-1.79h3.15l.69 1.79h1.73zm-2.93-3.12H7.9l1.06-2.92 1.09 2.92z"
-                            ></path>
-                        </svg>
-                        <span class="votes">295</span>
-                        <a href="#">
-                            Create empty data frame with column names by assigning a
-                            string vector?
-                        </a>
-                    </div>
-                    <div class="user-my-question-timestamp">Sep 22 '15</div>
-                </div>
-                <div
-                        class="d-flex justify-content-between user-my-question-container"
-                >
-                    <div class="user-my-question">
-                        <svg
-                                aria-hidden="true"
-                                class="svg-icon iconAnswer"
-                                width="18"
-                                height="18"
-                                viewBox="0 0 18 18"
-                                style="fill: #5eba7d"
-                        >
-                            <path
-                                    d="M14 14H3c-1.09 0-2-.91-2-2V3c0-1.1.9-2 2-2h12c1.09 0 2 .91 2 2v14l-3-3zm-1.02-3L9.82 3H8.14l-3.06 8h1.68l.65-1.79h3.15l.69 1.79h1.73zm-2.93-3.12H7.9l1.06-2.92 1.09 2.92z"
-                            ></path>
-                        </svg>
-                        <span class="votes">295</span>
-                        <a href="#">
-                            Create empty data frame with column names by assigning a
-                            string vector?
-                        </a>
-                    </div>
-                    <div class="user-my-question-timestamp">Sep 22 '15</div>
-                </div>
-                <div
-                        class="d-flex justify-content-between user-my-question-container"
-                >
-                    <div class="user-my-question">
-                        <svg
-                                aria-hidden="true"
-                                class="svg-icon iconAnswer"
-                                width="18"
-                                height="18"
-                                viewBox="0 0 18 18"
-                                style="fill: #5eba7d"
-                        >
-                            <path
-                                    d="M14 14H3c-1.09 0-2-.91-2-2V3c0-1.1.9-2 2-2h12c1.09 0 2 .91 2 2v14l-3-3zm-1.02-3L9.82 3H8.14l-3.06 8h1.68l.65-1.79h3.15l.69 1.79h1.73zm-2.93-3.12H7.9l1.06-2.92 1.09 2.92z"
-                            ></path>
-                        </svg>
-                        <span class="votes">295</span>
-                        <a href="#">
-                            Create empty data frame with column names by assigning a
-                            string vector?
-                        </a>
-                    </div>
-                    <div class="user-my-question-timestamp">Sep 22 '15</div>
-                </div>
-                <div
-                        class="d-flex justify-content-between user-my-question-container"
-                >
-                    <div class="user-my-question">
-                        <svg
-                                aria-hidden="true"
-                                class="svg-icon iconAnswer"
-                                width="18"
-                                height="18"
-                                viewBox="0 0 18 18"
-                                style="fill: #5eba7d"
-                        >
-                            <path
-                                    d="M14 14H3c-1.09 0-2-.91-2-2V3c0-1.1.9-2 2-2h12c1.09 0 2 .91 2 2v14l-3-3zm-1.02-3L9.82 3H8.14l-3.06 8h1.68l.65-1.79h3.15l.69 1.79h1.73zm-2.93-3.12H7.9l1.06-2.92 1.09 2.92z"
-                            ></path>
-                        </svg>
-                        <span class="votes">295</span>
-                        <a href="#">
-                            Create empty data frame with column names by assigning a
-                            string vector?
-                        </a>
-                    </div>
-                    <div class="user-my-question-timestamp">Sep 22 '15</div>
-                </div>
+                </c:forEach>
             </div>
         </div>
     </div>
