@@ -17,7 +17,7 @@ import java.util.List;
 @Getter
 @Document(collection = "question")
 public class Question extends BaseEntity {
-    private ObjectId id;
+
     private String title;
     private ObjectId userId;
     private String body;

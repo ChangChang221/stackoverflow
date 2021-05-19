@@ -21,7 +21,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Getter
 @Document(collection = "answer")
 public class Answer extends BaseEntity {
-    private ObjectId id;
     private ObjectId userId;
     private String body;
     

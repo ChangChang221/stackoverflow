@@ -15,5 +15,4 @@ import java.util.List;
 public class Vote extends BaseEntity{
     private ObjectId userId;
     private Boolean status;
-    private ObjectId id;
 }
