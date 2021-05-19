@@ -16,13 +16,13 @@ import java.util.List;
 @Setter
 @Getter
 public class AnswerResponse {
-    private String id;
+    private ObjectId id;
     private ObjectId userId;
     private String body;
     @DateTimeFormat(pattern = "yyyy-mm-ddThh:mm:ss.000Z")
     private Date createdOn;
     private ObjectId questionId;
-    private List<Vote> votes;
+    private List<ObjectId> votes;
     private Integer score;
     private User user;
 }

@@ -4,6 +4,7 @@ import com.stackoverflow.nhom24.entity.Question;
 import com.stackoverflow.nhom24.model.response.QuestionDetailResponse;
 import com.stackoverflow.nhom24.model.response.QuestionResponse;
 import com.stackoverflow.nhom24.model.response.QuestionsResponse;
+import org.bson.types.ObjectId;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -27,6 +28,7 @@ public class QuestionService {
 
     @Autowired
     private MongoTemplate mongoTemplate;
+
     @DateTimeFormat(pattern = "yyyy-mm-ddThh:mm:ss.SSSZ")
     public List<QuestionResponse> findAllQuestionAndItem(long page, String tab) {
         try {
@@ -83,7 +85,10 @@ public class QuestionService {
 
 
     public QuestionDetailResponse findQuestionAndItemById(String id) {
-        LookupOperation lookupOperationUser = LookupOperation.newLookup().from("user").localField("id").foreignField("userId").as("user");
+        try {
+            System.out.println("id:" + id);
+            ObjectId objId = new ObjectId(id);
+            LookupOperation lookupOperationUser = LookupOperation.newLookup().from("user").localField("id").foreignField("userId").as("user");
 //        LookupOperation lookupOperationAnswer = LookupOperation.newLookup()
 //                .from("answer")
 //                .localField("_id")
@@ -91,11 +96,15 @@ public class QuestionService {
 //                .as("answer");
 //        GroupOperation groupOperation = group("_id").sum("answer").as("answer");
 
-        Aggregation aggregation = Aggregation.newAggregation(Aggregation.match(Criteria.where("_id").is(id)), lookupOperationUser);
-        QuestionDetailResponse results = mongoTemplate.aggregate(aggregation, "question", QuestionDetailResponse.class).getUniqueMappedResult();
-        Query query = new Query();
+            Aggregation aggregation = Aggregation.newAggregation(Aggregation.match(Criteria.where("_id").is(objId)), lookupOperationUser);
+            QuestionDetailResponse results = mongoTemplate.aggregate(aggregation, "question", QuestionDetailResponse.class).getUniqueMappedResult();
+            Query query = new Query();
 //        query.
-        return results;
+            return results;
+        } catch (Exception e) {
+            System.out.println("exception: " + e.getMessage());
+            return new QuestionDetailResponse();
+        }
     }
 
 //    public Question filterCount(){

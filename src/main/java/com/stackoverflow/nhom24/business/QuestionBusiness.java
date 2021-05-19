@@ -10,6 +10,7 @@ import com.stackoverflow.nhom24.repository.QuestionRepository;
 import com.stackoverflow.nhom24.repository.TagRepository;
 import com.stackoverflow.nhom24.service.QuestionService;
 import lombok.AllArgsConstructor;
+import org.bson.types.ObjectId;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
@@ -57,16 +58,23 @@ public class QuestionBusiness extends BaseBusiness {
     }
 
     public QuestionDetailResponse getById(String id) {
-        QuestionDetailResponse question = questionService.findQuestionAndItemById(id);
-        Question updateQuestion = questionRepository.findById(id).get();
-        System.out.print("aaaaaaa" + question.getBody());
-        updateQuestion.setViews(updateQuestion.getViews() + 1);
-        questionRepository.save(updateQuestion);
-        return question;
+        try{
+            QuestionDetailResponse question = questionService.findQuestionAndItemById(id);
+            System.out.println("question: " + question);
+            Question updateQuestion = questionRepository.findById(new  ObjectId(id)).get();
+            System.out.print("aaaaaaa" + question.getBody());
+            updateQuestion.setViews(updateQuestion.getViews() + 1);
+            questionRepository.save(updateQuestion);
+            return question;
+        }catch (Exception e){
+            System.out.println("QuestionDetailResponse: "+ e.getMessage());
+            return new QuestionDetailResponse();
+        }
+
     }
 
     public void updateNumberAnswer(String questionId) {
-        Question question = questionRepository.findById(questionId).get();
+        Question question = questionRepository.findById(new ObjectId(questionId)).get();
         question.setAnswers(question.getAnswers() + 1);
         questionRepository.save(question);
     }
