@@ -3,12 +3,15 @@ package com.stackoverflow.nhom24.business;
 import com.stackoverflow.nhom24.business.base.BaseBusiness;
 import com.stackoverflow.nhom24.entity.Question;
 import com.stackoverflow.nhom24.entity.Tag;
+import com.stackoverflow.nhom24.entity.User;
 import com.stackoverflow.nhom24.model.response.QuestionDetailResponse;
 import com.stackoverflow.nhom24.model.response.QuestionResponse;
 import com.stackoverflow.nhom24.model.response.QuestionsResponse;
 import com.stackoverflow.nhom24.repository.QuestionRepository;
 import com.stackoverflow.nhom24.repository.TagRepository;
+import com.stackoverflow.nhom24.repository.UserRepository;
 import com.stackoverflow.nhom24.service.QuestionService;
+import com.stackoverflow.nhom24.utils.EncrytedPasswordUtils;
 import lombok.AllArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -24,6 +27,7 @@ public class QuestionBusiness extends BaseBusiness {
     
     private final QuestionRepository questionRepository;
     private final TagRepository tagRepository;
+    private final UserRepository userRepository;
 
     private final QuestionService questionService;
 
@@ -76,4 +80,5 @@ public class QuestionBusiness extends BaseBusiness {
         question.setAnswers(question.getAnswers() + 1);
         questionRepository.save(question);
     }
+
 }

@@ -20,7 +20,6 @@ public class QuestionResponse {
     private String title;
     private String userId;
     private String body;
-    @DateTimeFormat(pattern = "yyyy-mm-dd'T'hh:mm:ss.000'Z'")
     private Date createdOn;
     private List<String> tags;
     private Integer views;

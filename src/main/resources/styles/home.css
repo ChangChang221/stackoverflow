@@ -133,9 +133,9 @@
 }
 
 .pagination a.active {
-  background-color: #4CAF50;
+  background-color: #f48024;
   color: white;
-  border: 1px solid #4CAF50;
+  border: 1px solid #f48024;
 }
 
 .pagination a:hover:not(.active) {background-color: #ddd;}

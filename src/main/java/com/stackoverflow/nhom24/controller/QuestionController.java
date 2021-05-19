@@ -53,7 +53,7 @@ public class QuestionController {
         }
         int total = questionBusiness.getTotal(tab);
         List<QuestionResponse> questions = questionBusiness.getAll(Integer.parseInt(page), tab);
-        model.addAttribute("pagination", (int) ( total/ 10) + 1);
+        model.addAttribute("pagination", (int) ( total/ 15) + 1);
         model.addAttribute("total", total);
         model.addAttribute("questions", questions);
         model.addAttribute("page", page);

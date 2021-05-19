@@ -3,7 +3,9 @@ package com.stackoverflow.nhom24.business;
 import com.stackoverflow.nhom24.business.base.BaseBusiness;
 import com.stackoverflow.nhom24.entity.User;
 import com.stackoverflow.nhom24.model.request.LoginRequest;
+import com.stackoverflow.nhom24.model.response.UserResponse;
 import com.stackoverflow.nhom24.repository.UserRepository;
+import com.stackoverflow.nhom24.service.UserService;
 import javassist.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class UserBusiness extends BaseBusiness {
     private final UserRepository userRepository;
+    private final UserService userService;
 
     public User login(LoginRequest model) throws NotFoundException {
         User user = userRepository.findByUsername(model.getUsername());
@@ -37,8 +40,8 @@ public class UserBusiness extends BaseBusiness {
         return newUser;
     }
 
-    public User getUserById(String id){
-        User user = userRepository.findById(id).get();
+    public UserResponse getUserById(String id){
+        UserResponse user = userService.getById(id);
         return user;
     }
 }
