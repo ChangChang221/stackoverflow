@@ -4,12 +4,9 @@ import com.stackoverflow.nhom24.entity.base.BaseEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.format.annotation.DateTimeFormat;
-
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import java.util.Date;
 import java.util.List;
 
@@ -18,13 +15,11 @@ import java.util.List;
 @Document(collection = "user")
 @NoArgsConstructor
 public class User extends BaseEntity {
-    private String id;
+    private ObjectId id;
     private String name;
     private String username;
     private String password;
     private String photo;
-    @DateTimeFormat(pattern = "yyyy-mm-ddThh:mm:ss.000Z")
-    
     private Date createdOn;
     private String role;
     private String location;

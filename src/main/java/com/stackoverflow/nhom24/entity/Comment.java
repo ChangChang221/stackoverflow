@@ -18,12 +18,12 @@ import java.util.Date;
 @Getter
 @Document(collection = "comment")
 public class Comment extends BaseEntity {
-    private String id;
-    private String userId;
+    private ObjectId id;
+    private ObjectId userId;
     private String name;
     private String body;
-    private String answerId;
-    @DateTimeFormat(pattern = "yyyy-mm-ddThh:mm:ss.000Z")
+    private ObjectId answerId;
+    
     
     private Date createdOn;
 }

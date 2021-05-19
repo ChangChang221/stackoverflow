@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @Component
 @AllArgsConstructor
 public class QuestionBusiness extends BaseBusiness {
-    @DateTimeFormat(pattern = "yyyy-mm-ddThh:mm:ss.000Z")
+    
     private final QuestionRepository questionRepository;
     private final TagRepository tagRepository;
 
@@ -60,11 +60,9 @@ public class QuestionBusiness extends BaseBusiness {
     public QuestionDetailResponse getById(String id) {
         try{
             QuestionDetailResponse question = questionService.findQuestionAndItemById(id);
-            System.out.println("question: " + question);
-            Question updateQuestion = questionRepository.findById(new  ObjectId(id)).get();
-            System.out.print("aaaaaaa" + question.getBody());
-            updateQuestion.setViews(updateQuestion.getViews() + 1);
-            questionRepository.save(updateQuestion);
+//            Question updateQuestion = questionRepository.findById(new  ObjectId(id)).get();
+//            updateQuestion.setViews(updateQuestion.getViews() + 1);
+//            questionRepository.save(updateQuestion);
             return question;
         }catch (Exception e){
             System.out.println("QuestionDetailResponse: "+ e.getMessage());
@@ -73,8 +71,8 @@ public class QuestionBusiness extends BaseBusiness {
 
     }
 
-    public void updateNumberAnswer(String questionId) {
-        Question question = questionRepository.findById(new ObjectId(questionId)).get();
+    public void updateNumberAnswer(ObjectId questionId) {
+        Question question = questionRepository.findById(questionId).get();
         question.setAnswers(question.getAnswers() + 1);
         questionRepository.save(question);
     }

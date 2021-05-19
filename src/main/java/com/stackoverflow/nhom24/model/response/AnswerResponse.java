@@ -19,7 +19,6 @@ public class AnswerResponse {
     private ObjectId id;
     private ObjectId userId;
     private String body;
-    @DateTimeFormat(pattern = "yyyy-mm-ddThh:mm:ss.000Z")
     private Date createdOn;
     private ObjectId questionId;
     private List<ObjectId> votes;

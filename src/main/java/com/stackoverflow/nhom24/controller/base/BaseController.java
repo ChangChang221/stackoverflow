@@ -4,6 +4,7 @@ import com.stackoverflow.nhom24.service.AccountSession;
 import lombok.val;
 import ma.glasnost.orika.MapperFacade;
 import ma.glasnost.orika.impl.ConfigurableMapper;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.User;
@@ -16,7 +17,7 @@ public class BaseController {
     @Autowired(required = false)
     protected MapperFacade mapper = new ConfigurableMapper();
 
-    protected String getUserId(Principal principal, HttpServletRequest request) {
+    protected ObjectId getUserId(Principal principal, HttpServletRequest request) {
         if (principal instanceof UsernamePasswordAuthenticationToken) {
             val authentication = (UsernamePasswordAuthenticationToken) principal;
             if (authentication.getPrincipal() instanceof AccountSession) {

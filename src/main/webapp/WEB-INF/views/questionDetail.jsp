@@ -1,8 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec"
            uri="http://www.springframework.org/security/tags" %>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <sec:authorize access="hasRole('ROLE_USER')" var="isUser"/>
 <sec:authorize access="hasRole('ROLE_ADMIN')" var="isAdmin"/>
@@ -110,11 +110,10 @@
                     </svg>
                 </div>
                 <div class="answer-question-detail">
-                    <c:out value="${fn:replace(question.body, 'id=\"editor\"', 'class=\"editor\"')}" escapeXml="false"/>
-<%--                    <div class="editor" style="padding-top: 10px;margin-bottom: 10px;">--%>
-<%--                        &lt;%&ndash;                        ${question.body}&ndash;%&gt;--%>
-<%--                        <c:out value="${question.body}" escapeXml="false"/>--%>
-<%--                    </div>--%>
+                    <div class="editor" style="margin: 0px -15px">
+                        <c:out value="${question.body.replace('contenteditable=\"true\"','contenteditable=\"false\"')}"
+                               escapeXml="false"/>
+                    </div>
                     <div class="answer-question-tags">
                         <c:forEach var="tag" items="${question.tags}">
                             <a href="#" class="tag">${tag}</a>
@@ -184,7 +183,7 @@
                         >
                             <path d="M2 26h32L18 10 2 26z"></path>
                         </svg>
-                        <p id="${answer.id}">${answer.votes.size()}</p>
+                        <p id="${answer.id}" style="color: #6a737c; font-size: 20px;">${answer.votes.size()}</p>
                         <svg
                                 aria-hidden="true"
                                 class="m0 svg-icon iconArrowDownLg"
@@ -218,8 +217,8 @@
                         </svg>
                     </div>
                     <div class="answer-question-detail">
-                        <div class="editor" style="padding-top: 10px;">
-                                ${answer.body}
+                        <div class="editor" style="padding-top: 10px;margin: 0px -15px">
+                                ${answer.body.replace('contenteditable="true"', 'contenteditable="false"')}
                         </div>
                         <div class="answer-question-footer">
                             <div class="answer-question-footer-action">
@@ -230,8 +229,8 @@
                                 <p>asked 14 mins ago</p>
                                 <div>
                                     <img
-                                            src="https://lh6.googleusercontent.com/-xeD2LdRJUJc/AAAAAAAAAAI/AAAAAAAAABw/YuIWglg5h0w/photo.jpg?sz=32"
-                                            height="32px"
+                                            src=${answer.user.photo}
+                                                    height="32px"
                                             width="32px"
                                             style="border-radius: 8px"
                                     />

@@ -21,7 +21,7 @@ public class QuestionDetailResponse {
     private String title;
     private String userId;
     private String body;
-    @DateTimeFormat(pattern = "yyyy-mm-ddThh:mm:ss.000Z")
+    
     
     private Date createdOn;
     private List<String> tags;

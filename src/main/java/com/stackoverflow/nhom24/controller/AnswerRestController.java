@@ -6,6 +6,7 @@ import com.stackoverflow.nhom24.controller.base.BaseController;
 import com.stackoverflow.nhom24.entity.Answer;
 import com.stackoverflow.nhom24.model.response.DataResponse;
 import lombok.AllArgsConstructor;
+import org.bson.types.ObjectId;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,13 +27,13 @@ public class AnswerRestController extends BaseController {
                                                    HttpServletRequest req,
                                                    Principal principal) {
         String body = (String) data.get("body");
-        String questionId = (String) data.get("questionId");
+        ObjectId questionId = (ObjectId) data.get("questionId");
         Answer answer = new Answer();
         answer.setBody(body);
-        answer.setUserId(new String(getUserId(principal, req)));
+        answer.setUserId((getUserId(principal, req)));
         answer.setCreatedOn(new Date());
         answer.setScore(0);
-        answer.setQuestionId(new String(questionId));
+        answer.setQuestionId(questionId);
         answerBusiness.saveAnswer(answer);
         questionBusiness.updateNumberAnswer(questionId);
         DataResponse response = new DataResponse();
@@ -44,8 +45,8 @@ public class AnswerRestController extends BaseController {
     public ResponseEntity<DataResponse> voteAnswer(@RequestBody Map<String, Object> data,
                                                    HttpServletRequest req,
                                                    Principal principal){
-          String answerId = (String) data.get("answerId");
-          String userId = getUserId(principal, req);
+          ObjectId answerId = (ObjectId) data.get("answerId");
+          ObjectId userId = getUserId(principal, req);
           Answer answer = answerBusiness.upVote(answerId, userId);
         DataResponse response = new DataResponse();
         response.setResult(answer);

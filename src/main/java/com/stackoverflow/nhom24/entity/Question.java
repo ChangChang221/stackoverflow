@@ -17,11 +17,11 @@ import java.util.List;
 @Getter
 @Document(collection = "question")
 public class Question extends BaseEntity {
-    private String id;
+    private ObjectId id;
     private String title;
-    private String userId;
+    private ObjectId userId;
     private String body;
-    @DateTimeFormat(pattern = "yyyy-mm-ddThh:mm:ss.000Z")
+    
     
     private Date createdOn;
     private List<String> tags;

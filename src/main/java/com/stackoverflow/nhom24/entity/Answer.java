@@ -21,17 +21,17 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Getter
 @Document(collection = "answer")
 public class Answer extends BaseEntity {
-    private String id;
-    private String userId;
+    private ObjectId id;
+    private ObjectId userId;
     private String body;
-    @DateTimeFormat(pattern = "yyyy-mm-ddThh:mm:ss.000Z")
+    
     
     private Date createdOn;
-    private String questionId;
-    private List<String> votes;
+    private ObjectId questionId;
+    private List<ObjectId> votes;
     private Integer score;
 
-    public void addVote(String vote) {
+    public void addVote(ObjectId vote) {
         this.votes.add(vote);
     }
 }
