@@ -16,51 +16,9 @@
     <!-- Bootstrap CSS -->
 </head>
 <body>
-<header class="header-container">
-    <div class="container-header">
-        <div class="icon-container-header">
-            <img id="logo" src="${pageContext.request.contextPath}/asset/logo.png" />
-        </div>
-        <nav class="nav-menu">
-            <a>About</a>
-            <a>Products</a>
-        </nav>
-        <div class="search-container">
-            <img id="search-icon" src="${pageContext.request.contextPath}/asset/search-icon.png" />
-            <input placeholder="Search..." id="input-search" />
-        </div>
-        <div class="button-container">
-            <button id="log-in">Log in</button>
-            <button id="sign-up">Sign up</button>
-        </div>
-    </div>
-</header>
+<%@include file="layout/header.jsp"%>
 <main>
-    <aside id="sidebar">
-        <ul>
-            <li>Home</li>
-            <li>
-                PUBLIC
-                <ul style="padding-left: 0px">
-                    <li style="display: flex; align-items: center">
-                        <img
-                                src="${pageContext.request.contextPath}/asset/earth-icon.png"
-                                style="height: 15px; width: 15px; margin-right: 10px"
-                        />Questions
-                    </li>
-                    <li class="menu-item-sidebar">Tags</li>
-                    <li class="menu-item-sidebar">Users</li>
-                </ul>
-            </li>
-            <li>
-                FIND A JOB
-                <ul style="padding-left: 0px">
-                    <li class="menu-item-sidebar">Jobs</li>
-                    <li class="menu-item-sidebar">Company</li>
-                </ul>
-            </li>
-        </ul>
-    </aside>
+    <%@include file="layout/sidebar.jsp"%>
     <div class="content-container">
         <div class="user-heading-container">
             <div>

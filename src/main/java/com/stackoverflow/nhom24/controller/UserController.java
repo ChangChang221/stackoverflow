@@ -14,7 +14,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.net.http.HttpResponse;
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -47,6 +49,13 @@ public class UserController extends BaseController {
 
         model.addAttribute("user", userBusiness.getUserById(id));
         return "userDetail";
+    }
+
+    @GetMapping("/users/edit/{id}")
+    public String getProfile(final ModelMap model, Principal principal, HttpServletRequest request) {
+//        String userId = getUserId(principal, request);
+//        model.addAttribute("user", userBusiness.getUserById(userId));
+        return "userEditProfile";
     }
 }
 

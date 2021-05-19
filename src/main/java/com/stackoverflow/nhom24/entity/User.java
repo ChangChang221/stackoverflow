@@ -18,13 +18,12 @@ import java.util.List;
 @Document(collection = "user")
 @NoArgsConstructor
 public class User extends BaseEntity {
-    private String id;
     private String name;
     private String username;
     private String password;
     private String photo;
     @DateTimeFormat(pattern = "yyyy-mm-ddThh:mm:ss.000Z")
-    
+
     private Date createdOn;
     private String role;
     private String location;

@@ -26,7 +26,6 @@ public class HomeController {
         }
         int total = questionBusiness.getTotal("newest");
         List<QuestionResponse> questions = questionBusiness.getAll(page, "newest");
-        System.out.print("aaaaaaaaaa" + questions);
         model.addAttribute("pagination", (int) (total / 10) + 1);
         model.addAttribute("total", total);
         model.addAttribute("questions", questions);
