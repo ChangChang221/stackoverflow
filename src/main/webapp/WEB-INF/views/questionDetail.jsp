@@ -1,22 +1,25 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec"
-           uri="http://www.springframework.org/security/tags"%>
-<sec:authorize access="hasRole('ROLE_USER')" var="isUser" />
-<sec:authorize access="hasRole('ROLE_ADMIN')" var="isAdmin" />
+           uri="http://www.springframework.org/security/tags" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
+<sec:authorize access="hasRole('ROLE_USER')" var="isUser"/>
+<sec:authorize access="hasRole('ROLE_ADMIN')" var="isAdmin"/>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <title>Title</title>
     <!-- Required meta tags -->
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
     <meta
             name="viewport"
             content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/header.css" />
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/sidebar.css" />
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/question-detail.css" />
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/common.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/header.css"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/sidebar.css"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/question-detail.css"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/common.css"/>
     <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/styles/default.min.css"
@@ -35,9 +38,9 @@
     <!-- Bootstrap CSS -->
 </head>
 <body>
-<%@include file="layout/header.jsp"%>
+<%@include file="layout/header.jsp" %>
 <main class="main-container">
-    <%@include file="layout/sidebar.jsp"%>
+    <%@include file="layout/sidebar.jsp" %>
     <div class="content-container">
         <div class="question-detail-heading">
             <div class="topic-question-detail-container">
@@ -107,13 +110,13 @@
                     </svg>
                 </div>
                 <div class="answer-question-detail">
-                    <div class="editor" style="padding-top: 10px;margin-bottom: 10px;width: 3%;
-    overflow: scroll;">
-                        ${question.body}
+                    <div class="editor" style="margin: 0px -15px">
+                        <c:out value="${question.body.replace('contenteditable=\"true\"','contenteditable=\"false\"')}"
+                               escapeXml="false"/>
                     </div>
                     <div class="answer-question-tags">
                         <c:forEach var="tag" items="${question.tags}">
-                           <a href="#" class="tag">${tag}</a>
+                            <a href="#" class="tag">${tag}</a>
                         </c:forEach>
                     </div>
                     <div class="answer-question-footer">
@@ -122,7 +125,7 @@
                             <a href="#">Follow</a>
                         </div>
                         <div class="answer-question-author">
-                            <p id="createdOn" >${question.createdOn}</p>
+                            <p id="createdOn">${question.createdOn}</p>
                             <script>
                                 let createdOn = document.getElementById("createdOn");
                                 let date = moment();
@@ -180,7 +183,7 @@
                         >
                             <path d="M2 26h32L18 10 2 26z"></path>
                         </svg>
-                        <p id="${answer.id}">${answer.votes.size()}</p>
+                        <p id="${answer.id}" style="color: #6a737c; font-size: 20px;">${answer.votes.size()}</p>
                         <svg
                                 aria-hidden="true"
                                 class="m0 svg-icon iconArrowDownLg"
@@ -214,50 +217,49 @@
                         </svg>
                     </div>
                     <div class="answer-question-detail">
-                            <div class="editor" style="padding-top: 10px;width: 3%;
-    overflow: scroll;">
-                                    ${answer.body}
+                        <div class="editor" style="padding-top: 10px;margin: 0px -15px">
+                                ${answer.body.replace('contenteditable="true"', 'contenteditable="false"')}
+                        </div>
+                        <div class="answer-question-footer">
+                            <div class="answer-question-footer-action">
+                                <a href="#">Share</a>
+                                <a href="#">Follow</a>
                             </div>
-                            <div class="answer-question-footer">
-                                <div class="answer-question-footer-action">
-                                    <a href="#">Share</a>
-                                    <a href="#">Follow</a>
-                                </div>
-                                <div class="answer-question-author">
-                                    <p>asked 14 mins ago</p>
+                            <div class="answer-question-author">
+                                <p>asked 14 mins ago</p>
+                                <div>
+                                    <img
+                                            src=${answer.user.photo}
+                                                    height="32px"
+                                            width="32px"
+                                            style="border-radius: 8px"
+                                    />
                                     <div>
-                                        <img
-                                                src="https://lh6.googleusercontent.com/-xeD2LdRJUJc/AAAAAAAAAAI/AAAAAAAAABw/YuIWglg5h0w/photo.jpg?sz=32"
-                                                height="32px"
-                                                width="32px"
-                                                style="border-radius: 8px"
-                                        />
+                                        <a href="#">${answer.user.name}</a>
                                         <div>
-                                            <a href="#">${answer.user.name}</a>
-                                            <div>
-                                                <span>1</span>
-                                                <span
-                                                        class="dot"
-                                                        style="background-color: #6a737c"
-                                                ></span>
-                                                <span>1</span>
-                                            </div>
+                                            <span>1</span>
+                                            <span
+                                                    class="dot"
+                                                    style="background-color: #6a737c"
+                                            ></span>
+                                            <span>1</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="comment-answer-container">
-                                <div class="comment-answer">
+                        </div>
+                        <div class="comment-answer-container">
+                            <div class="comment-answer">
                   <span
                   >I have fixed your syntax error and now it seems to be
                     working fine. Check it out.
                   </span>
-                                    <span>-</span>
-                                    <a href="#"> Yadab</a>
-                                    <span>9 mins ago</span>
-                                </div>
+                                <span>-</span>
+                                <a href="#"> Yadab</a>
+                                <span>9 mins ago</span>
                             </div>
-                            <div class="add-a-comment">Add a comment</div>
+                        </div>
+                        <div class="add-a-comment">Add a comment</div>
                     </div>
                 </div>
             </c:forEach>
@@ -268,7 +270,7 @@
             <div id="editor"></div>
             <c:choose>
                 <c:when test="${isUser || isAdmin}">
-                    <button class="btn btn-primary" style="margin-top: 40px" onclick="postAnswer(`${question.id}`)" >
+                    <button class="btn btn-primary" style="margin-top: 40px" onclick="postAnswer(`${question.id}`)">
                         Post your answer
                     </button>
                 </c:when>
@@ -309,7 +311,7 @@
             // do something to response
             console.log(this.responseText);
             data = JSON.parse(this.responseText);
-            if(data.status){
+            if (data.status) {
                 numberOfVote.innerHTML = data.result.votes.length;
             }
         };
@@ -332,7 +334,7 @@
         http.onload = function () {
             // do something to response
             console.log(this.responseText);
-            if(JSON.parse(this.responseText).status){
+            if (JSON.parse(this.responseText).status) {
                 window.location.href = rediret;
                 console.log(rediret, "response")
             }

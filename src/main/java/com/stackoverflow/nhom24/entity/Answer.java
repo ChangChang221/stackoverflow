@@ -8,21 +8,30 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.util.Date;
 import java.util.List;
+
 import com.stackoverflow.nhom24.entity.Vote;
+import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Setter
 @Getter
 @Document(collection = "answer")
 public class Answer extends BaseEntity {
+    private ObjectId id;
     private ObjectId userId;
     private String body;
-    private Date createOn;
+    
+    
+    private Date createdOn;
     private ObjectId questionId;
-    private List<Vote> votes;
+    private List<ObjectId> votes;
     private Integer score;
 
-    public void addVote(Vote vote){
+    public void addVote(ObjectId vote) {
         this.votes.add(vote);
     }
 }

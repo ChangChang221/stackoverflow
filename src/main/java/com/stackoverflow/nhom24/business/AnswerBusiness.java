@@ -34,7 +34,7 @@ public class AnswerBusiness extends BaseBusiness {
         answerRepository.save(answer);
     }
 
-    public List<AnswerResponse> getByQuestionId(String questionId){
+    public List<AnswerResponse> getByQuestionId(ObjectId questionId){
         List<AnswerResponse> responses = answerService.getByQuestionId(questionId);
 //        for (Answer el: answers){
 //            AnswerResponse answer = mapper.map(el, AnswerResponse.class);
@@ -45,14 +45,14 @@ public class AnswerBusiness extends BaseBusiness {
         return responses;
     }
 
-    public Answer upVote(String id, String userId){
-        Answer answer = answerRepository.findById(id).get();
+    public Answer upVote(ObjectId id, ObjectId userId){
+        Answer answer = answerRepository.findById(id.toString()).get();
         Vote vote = new Vote();
         vote.setStatus(true);
-        vote.setUserId(new ObjectId(userId));
+        vote.setUserId(userId);
 //        voteRepository.save(vote);
         answer.setVotes(new ArrayList<>());
-        answer.addVote(vote);
+        answer.addVote(id);
         answer.setScore(answer.getScore() + 2);
         answer = answerRepository.save(answer);
         return answer;

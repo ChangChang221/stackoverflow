@@ -10,6 +10,8 @@ import com.stackoverflow.nhom24.repository.QuestionRepository;
 import com.stackoverflow.nhom24.repository.TagRepository;
 import com.stackoverflow.nhom24.service.QuestionService;
 import lombok.AllArgsConstructor;
+import org.bson.types.ObjectId;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -19,12 +21,13 @@ import java.util.stream.Collectors;
 @Component
 @AllArgsConstructor
 public class QuestionBusiness extends BaseBusiness {
+    
     private final QuestionRepository questionRepository;
     private final TagRepository tagRepository;
 
     private final QuestionService questionService;
 
-    public List<QuestionResponse> getAll(Integer page, String tab){
+    public List<QuestionResponse> getAll(Integer page, String tab) {
         List<QuestionResponse> response = questionService.findAllQuestionAndItem(page, tab);
         return response;
     }
@@ -35,13 +38,15 @@ public class QuestionBusiness extends BaseBusiness {
 
     public Question postQuestion(Question question, List<Tag> tagsPost) {
         List<Tag> tagsDto = tagRepository.findAll();
-        for(Tag tag : tagsDto) {
-             for(Tag tagPost : tagsPost) {
-              if(tag.getName().equals(tagPost.getName())) {
-                  tagPost.setId(tag.getId());
-              }
-            };
-        };
+        for (Tag tag : tagsDto) {
+            for (Tag tagPost : tagsPost) {
+                if (tag.getName().equals(tagPost.getName())) {
+                    tagPost.setId(tag.getId());
+                }
+            }
+            ;
+        }
+        ;
         List<Tag> tags = tagsPost.stream().map(tag -> {
             if (tag.getId() == null) {
                 tag = tagRepository.save(tag);
@@ -53,14 +58,20 @@ public class QuestionBusiness extends BaseBusiness {
     }
 
     public QuestionDetailResponse getById(String id) {
-        QuestionDetailResponse question = questionService.findQuestionAndItemById(id);
-        Question updateQuestion = questionRepository.findById(id).get();
-        updateQuestion.setViews(updateQuestion.getViews() + 1);
-        questionRepository.save(updateQuestion);
-        return question;
+        try{
+            QuestionDetailResponse question = questionService.findQuestionAndItemById(id);
+//            Question updateQuestion = questionRepository.findById(new  ObjectId(id)).get();
+//            updateQuestion.setViews(updateQuestion.getViews() + 1);
+//            questionRepository.save(updateQuestion);
+            return question;
+        }catch (Exception e){
+            System.out.println("QuestionDetailResponse: "+ e.getMessage());
+            return new QuestionDetailResponse();
+        }
+
     }
 
-    public void updateNumberAnswer(String questionId){
+    public void updateNumberAnswer(ObjectId questionId) {
         Question question = questionRepository.findById(questionId).get();
         question.setAnswers(question.getAnswers() + 1);
         questionRepository.save(question);

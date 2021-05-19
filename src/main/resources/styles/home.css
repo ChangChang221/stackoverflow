@@ -10,7 +10,6 @@
 }
 
 .info-question {
-  margin-right: 20px;
   margin-left: 20px;
   display: flex;
   flex: 1;
@@ -79,7 +78,7 @@
 }
 
 .content-question {
-  flex: 4;
+  flex: 6;
 }
 
 .more-info-question {

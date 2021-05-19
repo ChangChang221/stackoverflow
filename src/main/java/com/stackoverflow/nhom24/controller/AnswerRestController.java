@@ -27,13 +27,13 @@ public class AnswerRestController extends BaseController {
                                                    HttpServletRequest req,
                                                    Principal principal) {
         String body = (String) data.get("body");
-        String questionId = (String) data.get("questionId");
+        ObjectId questionId = (ObjectId) data.get("questionId");
         Answer answer = new Answer();
         answer.setBody(body);
-        answer.setUserId(new ObjectId(getUserId(principal, req)));
-        answer.setCreateOn(new Date());
+        answer.setUserId((getUserId(principal, req)));
+        answer.setCreatedOn(new Date());
         answer.setScore(0);
-        answer.setQuestionId(new ObjectId(questionId));
+        answer.setQuestionId(questionId);
         answerBusiness.saveAnswer(answer);
         questionBusiness.updateNumberAnswer(questionId);
         DataResponse response = new DataResponse();
@@ -45,8 +45,8 @@ public class AnswerRestController extends BaseController {
     public ResponseEntity<DataResponse> voteAnswer(@RequestBody Map<String, Object> data,
                                                    HttpServletRequest req,
                                                    Principal principal){
-          String answerId = (String) data.get("answerId");
-          String userId = getUserId(principal, req);
+          ObjectId answerId = (ObjectId) data.get("answerId");
+          ObjectId userId = getUserId(principal, req);
           Answer answer = answerBusiness.upVote(answerId, userId);
         DataResponse response = new DataResponse();
         response.setResult(answer);
