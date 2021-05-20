@@ -30,7 +30,7 @@
         </nav>
         <div class="search-container">
             <img id="search-icon" src="./asset/search-icon.png"/>
-            <input placeholder="Search..." id="input-search"/>
+            <input placeholder="Search..." id="input-search" onkeyup="search()"/>
             <ul class="search-results">
                 <!-- <p style="margin-left: 15px">Gợi ý tìm kiếm:</p> -->
                 <li>
@@ -100,6 +100,17 @@
     }
     const signup = () => {
         window.location.href = "http://localhost:8000/users/auth"
+    }
+    const search = () => {
+        var xmlhttp=new XMLHttpRequest();
+        xmlhttp.onreadystatechange=function() {
+            if (this.readyState==4 && this.status==200) {
+                document.getElementById("livesearch").innerHTML=this.responseText;
+                document.getElementById("livesearch").style.border="1px solid #A5ACB2";
+            }
+        }
+        xmlhttp.open("GET","/search);
+        xmlhttp.send();
     }
 </script>
 <!-- Optional JavaScript -->
