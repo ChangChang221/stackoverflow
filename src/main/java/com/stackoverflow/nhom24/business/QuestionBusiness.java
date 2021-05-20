@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @Component
@@ -34,6 +35,36 @@ public class QuestionBusiness extends BaseBusiness {
     public List<QuestionResponse> getAll(Integer page, String tab) {
         List<QuestionResponse> response = questionService.findAllQuestionAndItem(page, tab);
         return response;
+    }
+
+    public List<QuestionResponse> getByUserId(String userId){
+        return questionService.getByUserId(new ObjectId(userId));
+    }
+
+    public void setRole(){
+        List<User> users = userRepository.findAll();
+        for (User el : users){
+            userRepository.save(el);
+        }
+
+    }
+
+    public void updatePhoto(){
+        List<String> photo = new ArrayList<>();
+        photo.add("avatarBase.png");
+        photo.add("avatar4.jpg");
+        photo.add("avatar3.jpeg");
+        photo.add("avatarBase.png");
+        photo.add("avatar2.jpg");
+        photo.add("avatar1.png");
+        photo.add("60a489a4a67d0d48bf2f2e001621440330174-1290789959-1998056832876314185img.jpeg");
+        List<User> users = userRepository.findAll();
+        for (User el : users){
+            Random rand = new Random();
+            int ranNum = rand.nextInt(6);
+            el.setPhoto(photo.get(ranNum));
+            userRepository.save(el);
+        }
     }
 
     public int getTotal(String tab) {

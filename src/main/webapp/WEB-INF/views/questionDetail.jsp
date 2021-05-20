@@ -134,13 +134,13 @@
                             </script>
                             <div>
                                 <img
-                                        src="https://lh6.googleusercontent.com/-xeD2LdRJUJc/AAAAAAAAAAI/AAAAAAAAABw/YuIWglg5h0w/photo.jpg?sz=32"
+                                        src="${pageContext.request.contextPath}/asset/${question.user.photo}"
                                         height="32px"
                                         width="32px"
                                         style="border-radius: 8px"
                                 />
                                 <div>
-                                    <a href="#">${question.user.name}</a>
+                                    <a href="${pageContext.request.contextPath}/users/${question.user.id}">${question.user.name}</a>
                                     <div>
                                         <span>1</span>
                                         <span
@@ -229,13 +229,13 @@
                                 <p>asked 14 mins ago</p>
                                 <div>
                                     <img
-                                            src=${answer.user.photo}
+                                            src="${pageContext.request.contextPath}/asset/${answer.user.photo}"
                                                     height="32px"
                                             width="32px"
                                             style="border-radius: 8px"
                                     />
                                     <div>
-                                        <a href="#">${answer.user.name}</a>
+                                        <a href="${pageContext.request.contextPath}/users/${answer.user.id}">${answer.user.name}</a>
                                         <div>
                                             <span>1</span>
                                             <span

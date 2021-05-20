@@ -8,6 +8,7 @@ import com.stackoverflow.nhom24.repository.UserRepository;
 import com.stackoverflow.nhom24.service.UserService;
 import javassist.NotFoundException;
 import lombok.AllArgsConstructor;
+import org.bson.types.ObjectId;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Component;
 public class UserBusiness extends BaseBusiness {
     private final UserRepository userRepository;
     private final UserService userService;
+
 
     public User login(LoginRequest model) throws NotFoundException {
         User user = userRepository.findByUsername(model.getUsername());
@@ -43,5 +45,29 @@ public class UserBusiness extends BaseBusiness {
     public UserResponse getUserById(String id){
         UserResponse user = userService.getById(id);
         return user;
+    }
+
+    public User getById(String id){
+        User user = userRepository.findById(new ObjectId(id)).get();
+        return user;
+    }
+
+    public void updateView(User user){
+        user.setViews(user.getViews() + 1);
+        userRepository.save(user);
+    }
+
+    public void updateUser(String id, User newUser){
+        User currentUser = userRepository.findById(new ObjectId(id)).get();
+        if(newUser.getPhoto() != null){
+            currentUser.setPhoto(newUser.getPhoto());
+        }
+        currentUser.setName(newUser.getName());
+        currentUser.setSocial(newUser.getSocial());
+        currentUser.setLink(newUser.getLink());
+        currentUser.setLocation(newUser.getLocation());
+        currentUser.setWebsite(newUser.getWebsite());
+        currentUser.setTitle(newUser.getTitle());
+        userRepository.save(currentUser);
     }
 }
