@@ -8,9 +8,11 @@ import com.stackoverflow.nhom24.model.request.SignUpRequest;
 import com.stackoverflow.nhom24.utils.EncrytedPasswordUtils;
 import javassist.NotFoundException;
 import lombok.AllArgsConstructor;
+import org.bson.types.ObjectId;
 import org.springframework.http.HttpRequest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,21 +43,21 @@ public class UserController extends BaseController {
 
         return "redirect:/users/auth";
     }
-    @GetMapping("/deleteUser/{id}")
-    public String deleteUser(final ModelMap model, @PathVariable String id){
+    @RequestMapping("/deleteUser/{id}")
+    public String deleteUser(@PathVariable ObjectId id, ModelMap model){
         userBusiness.deleteUser(id);
         model.addAttribute("users",userBusiness.getAll());
-        return "test/adminPost";
+        return "test/user";
     }
 
     @RequestMapping("/updateUser{id}")
     public String UpdateUser(@ModelAttribute("user") User user,final ModelMap model){
-        userBusiness.saveUser(user);
+        userBusiness.saveUser(user.getId());
         return "test/user";
     }
 
     @GetMapping("/users/{id}")
-    public String getUserById(final ModelMap model, @PathVariable String id) {
+    public String getUserById(final ModelMap model, @PathVariable ObjectId id) {
 
         model.addAttribute("user", userBusiness.getUserById(id));
         return "userDetail";

@@ -10,6 +10,7 @@
 
 </head>
 <body>
+<%@include file="layout/header.jsp"%>
 <!-- Main container  -->
 <div class="main-container">
     <!-- Aside -->

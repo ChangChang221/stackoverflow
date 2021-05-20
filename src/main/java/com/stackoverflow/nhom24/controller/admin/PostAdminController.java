@@ -1,7 +1,7 @@
 package com.stackoverflow.nhom24.controller.admin;
 
 import com.stackoverflow.nhom24.business.QuestionBusiness;
-import com.stackoverflow.nhom24.model.response.QuestionResponse;
+import com.stackoverflow.nhom24.entity.Question;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -18,8 +18,8 @@ public class PostAdminController {
     @GetMapping("/test/adminPost")
     public String getAllPost(final ModelMap model){
 
-      //  List<QuestionResponse> questions =questionBusiness.getAll();
-      //  model.addAttribute("questions", questions);
+        List<Question> questions =questionBusiness.getAll();
+        model.addAttribute("questions", questions);
         return "adminPosts";
     }
 

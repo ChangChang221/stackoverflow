@@ -6,6 +6,7 @@ import com.stackoverflow.nhom24.model.request.LoginRequest;
 import com.stackoverflow.nhom24.repository.UserRepository;
 import javassist.NotFoundException;
 import lombok.AllArgsConstructor;
+import org.bson.types.ObjectId;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -38,7 +39,7 @@ public class UserBusiness extends BaseBusiness {
         User newUser = userRepository.save(user);
         return newUser;
     }
-    public User getUserById(String id){
+    public User getUserById(ObjectId id){
         User user = userRepository.findById(id).get();
         return user;
     }
@@ -47,14 +48,35 @@ public class UserBusiness extends BaseBusiness {
         List<User> user = userRepository.findAll();
         return user;
     }
-
-    public void deleteUser(String id){
+    public void deleteUser(ObjectId id){
 
         userRepository.deleteById(id);
     }
-    public void saveUser (User user){
-        userRepository.save(user);
-
+    public void saveUser(ObjectId id){
+    //    userRepository.save(id);
     }
+    public User getById(String id){
+        User user = userRepository.findById(new ObjectId(id)).get();
+        return user;
+    }
+    public void updateView(User user){
+        user.setViews(user.getViews() + 1);
+        userRepository.save(user);
+    }
+
+    public void updateUser(String id, User newUser){
+        User currentUser = userRepository.findById(new ObjectId(id)).get();
+        if(newUser.getPhoto() != null){
+            currentUser.setPhoto(newUser.getPhoto());
+        }
+        currentUser.setName(newUser.getName());
+        currentUser.setSocial(newUser.getSocial());
+        currentUser.setLink(newUser.getLink());
+        currentUser.setLocation(newUser.getLocation());
+        currentUser.setWebsite(newUser.getWebsite());
+        currentUser.setTitle(newUser.getTitle());
+        userRepository.save(currentUser);
+    }
+
 
 }

@@ -23,7 +23,7 @@
     </script>
 </head>
 <body>
-
+<%@include file="layout/header.jsp"%>
 <!-- Main container  -->
 <div class="main-container">
 
@@ -181,7 +181,6 @@
         <input type="button" value="cancle">
     </div>
 </dialog>
-
 
 <!-- javscript End-->
 <!-- Live Style Switcher - Demo Only -->

@@ -19,7 +19,7 @@ public class UserAdminController {
     public String getAllUser(final ModelMap model){
         List<User> users = userBusiness.getAll();
         model.addAttribute("users", users);
-        return "adminUser";
+        return "adminUsers";
     }
 
 }

@@ -13,7 +13,8 @@ import java.util.List;
 @Getter
 @Document(collection = "user")
 @NoArgsConstructor
-public class User extends BaseEntity {
+public class User extends BaseEntity{
+
     private String name;
     private String username;
     private String password;
