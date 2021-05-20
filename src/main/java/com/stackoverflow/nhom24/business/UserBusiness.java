@@ -112,10 +112,11 @@ public class UserBusiness extends BaseBusiness {
                 List<String> getTagUserList = new ArrayList<>();
                 getTagUserList.addAll(getTagsUserSet);
 
-                UserResponse userResponse = new UserResponse();
-                userResponse.setTags(getTagUserList);
+                users.get(k).setTags(getTagUserList);
 
             }
+
+
         }
 
 

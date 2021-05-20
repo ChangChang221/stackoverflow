@@ -61,11 +61,11 @@
                        <a href="users/${user.id}">${user.name}</a>
                        <p>${user.location}</p>
                        <p style="font-weight: bold">${user.views}</p>
-                       <c:forEach var="tag" items="${user.tag}">
-                           <div>
-                               <a href="${tag}"></a>
-                           </div>
-                       </c:forEach>
+                       <div>
+                           <c:forEach var="tag" items="${user.tags}">
+                               <a href="${tag}">${tag},</a>
+                           </c:forEach>
+                       </div>
                    </div>
                </div>
            </c:forEach>
