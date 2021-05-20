@@ -4,12 +4,14 @@ import com.stackoverflow.nhom24.business.base.BaseBusiness;
 import com.stackoverflow.nhom24.entity.Question;
 import com.stackoverflow.nhom24.entity.Tag;
 import com.stackoverflow.nhom24.entity.User;
+import com.stackoverflow.nhom24.model.response.AnswerResponse;
 import com.stackoverflow.nhom24.model.response.QuestionDetailResponse;
 import com.stackoverflow.nhom24.model.response.QuestionResponse;
 import com.stackoverflow.nhom24.model.response.QuestionsResponse;
 import com.stackoverflow.nhom24.repository.QuestionRepository;
 import com.stackoverflow.nhom24.repository.TagRepository;
 import com.stackoverflow.nhom24.repository.UserRepository;
+import com.stackoverflow.nhom24.service.AnswerService;
 import com.stackoverflow.nhom24.service.QuestionService;
 import com.stackoverflow.nhom24.utils.EncrytedPasswordUtils;
 import lombok.AllArgsConstructor;
@@ -31,6 +33,7 @@ public class QuestionBusiness extends BaseBusiness {
     private final UserRepository userRepository;
 
     private final QuestionService questionService;
+    private final AnswerService answerService;
 
     public List<QuestionResponse> getAll(Integer page, String tab) {
         List<QuestionResponse> response = questionService.findAllQuestionAndItem(page, tab);
@@ -41,10 +44,12 @@ public class QuestionBusiness extends BaseBusiness {
         return questionService.getByUserId(new ObjectId(userId));
     }
 
-    public void setRole(){
-        List<User> users = userRepository.findAll();
-        for (User el : users){
-            userRepository.save(el);
+    public void setAnswer(){
+        List<Question> questions = questionRepository.findAll();
+        for (Question el : questions){
+            List<AnswerResponse> result = answerService.getByQuestionId(el.getId());
+            el.setAnswers(result.size());
+            questionRepository.save(el);
         }
 
     }
@@ -110,6 +115,11 @@ public class QuestionBusiness extends BaseBusiness {
         Question question = questionRepository.findById(questionId).get();
         question.setAnswers(question.getAnswers() + 1);
         questionRepository.save(question);
+    }
+
+
+    public List<QuestionResponse> getQuestionByTag(String tag, long page){
+        return questionService.getByTag(tag, page);
     }
 
 }

@@ -33,21 +33,20 @@ public class QuestionService {
     @DateTimeFormat(pattern = "yyyy-mm-ddThh:mm:ss.SSSZ")
     public List<QuestionResponse> findAllQuestionAndItem(long page, String tab) {
         try {
-
             LookupOperation lookupOperationUser = LookupOperation.newLookup().from("user").localField("userId").foreignField("_id").as("user");
-            LookupOperation lookupOperationAnswer = LookupOperation.newLookup()
-                    .from("answer")
-                    .localField("_id")
-                    .foreignField("questionId")
-                    .as("answer");
-            GroupOperation groupOperation = group("_id").sum("answer").as("answer");
+//            LookupOperation lookupOperationAnswer = LookupOperation.newLookup()
+//                    .from("answer")
+//                    .localField("_id")
+//                    .foreignField("questionId")
+//                    .as("answer");
+//            GroupOperation groupOperation = group("_id").sum("answer").as("answer");
             Aggregation aggregation = null;
             if (tab.equals("newest")) {
-                aggregation = Aggregation.newAggregation(Aggregation.sort(Sort.Direction.ASC, "createdOn"), lookupOperationUser, lookupOperationAnswer, Aggregation.skip((page - 1) * 15), Aggregation.limit(15));
+                aggregation = Aggregation.newAggregation(Aggregation.sort(Sort.Direction.ASC, "createdOn"), lookupOperationUser, Aggregation.skip((page - 1) * 15), Aggregation.limit(15));
             } else if (tab.equals("active")) {
-                aggregation = Aggregation.newAggregation(Aggregation.sort(Sort.Direction.ASC, "createdOn"), lookupOperationUser, lookupOperationAnswer, Aggregation.skip((page - 1) * 15), Aggregation.limit(15));
+                aggregation = Aggregation.newAggregation(Aggregation.sort(Sort.Direction.ASC, "createdOn"), lookupOperationUser, Aggregation.skip((page - 1) * 15), Aggregation.limit(15));
             } else if (tab.equals("unanswers")) {
-                aggregation = Aggregation.newAggregation(Aggregation.match(Criteria.where("answers").is(0)), lookupOperationUser, lookupOperationAnswer, Aggregation.skip((page - 1) * 15), Aggregation.limit(15));
+                aggregation = Aggregation.newAggregation(Aggregation.match(Criteria.where("answers").is(0)), lookupOperationUser, Aggregation.skip((page - 1) * 15), Aggregation.limit(15));
             }
 
             List<QuestionResponse> results = mongoTemplate.aggregate(aggregation, "question", QuestionResponse.class).getMappedResults();
@@ -111,6 +110,26 @@ public class QuestionService {
     public List<QuestionResponse> getByUserId(ObjectId userId){
         try {
             Aggregation aggregation = Aggregation.newAggregation(Aggregation.match(Criteria.where("userId").is(userId)));
+            List<QuestionResponse> results = mongoTemplate.aggregate(aggregation, "question", QuestionResponse.class).getMappedResults();
+//                    .stream().map(answerResponse -> {
+//                        Aggregation _aggregation = Aggregation.newAggregation(Aggregation.match(Criteria.where("_id").is(answerResponse.getUserId())));
+//                        User user = mongoTemplate.aggregate(_aggregation, "user", User.class).getUniqueMappedResult();
+//                        answerResponse.setUser(user);
+//                        return answerResponse;
+//                    }).collect(Collectors.toList());
+            return results;
+        } catch (Exception e) {
+            return List.of();
+        }
+    }
+
+    public List<QuestionResponse> getByTag(String tag, long page){
+        try {
+            LookupOperation lookupOperationUser = LookupOperation.newLookup().from("user").localField("userId").foreignField("_id").as("user");
+            Aggregation aggregation = Aggregation.newAggregation(Aggregation.match(Criteria.where("tags").is(tag)),
+                    lookupOperationUser,
+                    Aggregation.skip((page - 1) * 15),
+                    Aggregation.limit(15));
             List<QuestionResponse> results = mongoTemplate.aggregate(aggregation, "question", QuestionResponse.class).getMappedResults();
 //                    .stream().map(answerResponse -> {
 //                        Aggregation _aggregation = Aggregation.newAggregation(Aggregation.match(Criteria.where("_id").is(answerResponse.getUserId())));

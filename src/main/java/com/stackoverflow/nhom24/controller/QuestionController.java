@@ -40,25 +40,42 @@ public class QuestionController {
     }
 
     @GetMapping("/questions")
-    public String getAllQuestion(final ModelMap model, String page, String tab) {
+    public String getAllQuestion(final ModelMap model, Integer page, String tab, String tag, String search, Integer startPagination) {
         boolean statusPage = true;
         boolean statustab = true;
         if(page == null) {
             statusPage = false;
-            page ="1";
+            page = 1;
         }
         if(tab == null) {
             statustab = false;
             tab = "newest";
         }
+        if(startPagination == null){
+            startPagination = 0;
+        }
+        if(page > startPagination + 10){
+            startPagination = startPagination + 10;
+        } else if(page < startPagination){
+            startPagination = startPagination - 10;
+        }
         int total = questionBusiness.getTotal(tab);
-        List<QuestionResponse> questions = questionBusiness.getAll(Integer.parseInt(page), tab);
-        model.addAttribute("pagination", (int) ( total/ 15) + 1);
+        int totalPagination = (total / 15) + 1;
+        if(startPagination + 10 >= totalPagination){
+            startPagination = totalPagination - 10;
+        } else if(startPagination <= 1){
+            startPagination = 0;
+        }
+
+        List<QuestionResponse> questions = questionBusiness.getAll(page, tab);
+        model.addAttribute("pagination", totalPagination);
         model.addAttribute("total", total);
         model.addAttribute("questions", questions);
         model.addAttribute("page", page);
         model.addAttribute("statusPage", statusPage);
         model.addAttribute("statustab", statustab);
+        model.addAttribute("startPagination", startPagination);
+        model.addAttribute("endPagination", startPagination + 10);
         return "questions";
     }
 
