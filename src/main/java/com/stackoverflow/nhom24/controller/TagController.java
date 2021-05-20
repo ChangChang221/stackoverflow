@@ -19,16 +19,23 @@ public class TagController {
     private final QuestionBusiness questionBusiness;
 
     @GetMapping(value = "/tags")
-    public String tags(final ModelMap modelMap, Integer page) {
+    public String tags(final ModelMap modelMap, Integer page, String tab) {
+        boolean statustab = true;
         if(page == null){
             page = 1;
         }
+        if(tab == null) {
+            statustab = false;
+            tab = "newest";
+        }
         int total  = tagBusiness.getTotal();
+        int x = total/10 + 1;
+        System.out.println("total = " + total + ", total/10+1 = " + x);
         List<Tag> listTag = tagBusiness.getAll(page);
-        List<TagResponse> responses = questionBusiness.countQuestionTag(listTag);
+        List<TagResponse> responses = questionBusiness.countQuestionTag(listTag, page, tab);
         modelMap.addAttribute("tags", responses);
         modelMap.addAttribute("total", total);
-        modelMap.addAttribute("pagination", (int) ( total/ 10) + 1);
+        modelMap.addAttribute("pagination", (int) ( total/ 15) + 1);
         modelMap.addAttribute("page", page);
 //        modelMap.addAttribute("cntQuestionTag", cntQuestionTag);
         return "tags";

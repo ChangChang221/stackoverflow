@@ -10,4 +10,10 @@ public class UserResponse {
     private String name;
     private String username;
     private String photo;
+    private String location;
+    private Integer views;
+    private Integer answers;
+    private  Integer questions;
+    private String link;
+    private String social;
 }

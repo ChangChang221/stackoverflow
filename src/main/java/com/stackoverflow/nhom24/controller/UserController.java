@@ -48,5 +48,11 @@ public class UserController extends BaseController {
         model.addAttribute("user", userBusiness.getUserById(id));
         return "userDetail";
     }
+
+    @GetMapping("/users")
+    public String getAllUser(final ModelMap modelMap) {
+        modelMap.addAttribute("users", userBusiness.getListUser());
+        return "users";
+    }
 }
 

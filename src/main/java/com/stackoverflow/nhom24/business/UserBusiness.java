@@ -9,6 +9,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 
 @Component
 @AllArgsConstructor
@@ -41,4 +43,10 @@ public class UserBusiness extends BaseBusiness {
         User user = userRepository.findById(id).get();
         return user;
     }
+
+    public List<User> getListUser() {
+        return userRepository.findAll();
+    }
+
+//    public List<User> getListUserPagi(Integer page)
 }

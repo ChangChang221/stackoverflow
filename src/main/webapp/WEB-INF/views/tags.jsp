@@ -57,9 +57,12 @@
                         <div class="tag-description">
                             <p>${tag.name}</p>
                         </div>
+                        <div>
+                            <p>${tag.description}</p>
+                        </div>
                         <div class="tag-detail">
                             <div class="questions-about-tag-total">
-                                <p>${tag.numberQuestion}</p>
+                                <p>${tag.numberQuestion} questions</p>
                             </div>
                             <div class="question-about-tag">
                                 <p>561 asked today, 5323 this week</p>
@@ -68,6 +71,7 @@
                     </div>
                 </div>
             </c:forEach>
+
         </div>
         <div class="pagination">
             <c:forEach begin="0" end="${pagination}" var="i">

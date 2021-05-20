@@ -11,4 +11,5 @@ public class TagResponse {
     private String id;
     private String name;
     private int numberQuestion;
+    private  String description;
 }

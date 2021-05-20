@@ -5,6 +5,7 @@ import com.stackoverflow.nhom24.repository.TagRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,13 +14,13 @@ import java.util.stream.Collectors;
 public class TagBusiness {
     private final TagRepository tagRepository;
     public List<Tag> getAll(int page){
-        List<Tag> tags = tagRepository.findAll().stream().skip((page-1)*10 + 1).limit(10).collect(Collectors.toList());
+        List<Tag> tags = tagRepository.findAll().stream().skip((page-1)*10 + 1).limit(15).collect(Collectors.toList());
         return tags;
     }
 
-    public List<String> getNameTag() {
-        List<Tag> tags = tagRepository.findAll();
-        List<String> listNameTag = null;
+    public List<String> getNameTag(int page) {
+        List<Tag> tags = getAll(page);
+        List<String> listNameTag = new ArrayList<>();
         int sizeTag = tags.size();
         for (int i = 0; i < sizeTag; i++) {
             listNameTag.add(tags.get(i).getName());
