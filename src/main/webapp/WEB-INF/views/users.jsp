@@ -61,17 +61,33 @@
                        <a href="users/${user.id}">${user.name}</a>
                        <p>${user.location}</p>
                        <p style="font-weight: bold">${user.views}</p>
-                       <div>
-                           <a href="#">sql</a>,
-                           <a href="#">mysql</a>,
-                           <a href="#">sql-server</a>
-                       </div>
+                       <c:forEach var="tag" items="${user.tag}">
+                           <div>
+                               <a href="${tag}"></a>
+                           </div>
+                       </c:forEach>
                    </div>
                </div>
            </c:forEach>
-
+        </div>
+        <div class="pagination">
+            <c:forEach begin="0" end="${pagination}" var="i">
+                <c:if test="${page != 1 && i == 0}">
+                    <a href="${pageContext.request.contextPath}?page=${page - 1}">Prev</a>
+                </c:if>
+                <c:if test="${page == (i+1) && i != pagination}">
+                    <a href="${pageContext.request.contextPath}?page=${i+1}" class="active">${i+1}</a>
+                </c:if>
+                <c:if test="${page != (i+1) && i != pagination}">
+                    <a href="${pageContext.request.contextPath}?page=${i+1}">${i+1}</a>
+                </c:if>
+                <c:if test="${page != pagination && i == pagination}">
+                    <a href="${pageContext.request.contextPath}?page=${page + 1}">Next</a>
+                </c:if>
+            </c:forEach>
         </div>
     </div>
+
 </main>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
