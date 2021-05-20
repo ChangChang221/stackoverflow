@@ -15,21 +15,21 @@
     />
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="./styles/header.css"/>
-    <link rel="stylesheet" href="./styles/common.css"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/header.css"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/common.css"/>
 </head>
 <body>
 <header class="header-container">
     <div class="container-header">
         <div class="icon-container-header">
-            <img id="logo" src="./asset/logo.png"/>
+            <img id="logo" src="${pageContext.request.contextPath}/asset/logo.png"/>
         </div>
         <nav class="nav-menu">
             <a>About</a>
             <a>Products</a>
         </nav>
         <div class="search-container">
-            <img id="search-icon" src="./asset/search-icon.png"/>
+            <img id="search-icon" src="${pageContext.request.contextPath}/asset/search-icon.png"/>
             <input placeholder="Search..." id="input-search"/>
             <ul class="search-results">
                 <!-- <p style="margin-left: 15px">Gợi ý tìm kiếm:</p> -->
