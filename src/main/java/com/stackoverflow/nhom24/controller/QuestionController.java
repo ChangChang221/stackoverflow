@@ -83,7 +83,7 @@ public class QuestionController {
     public String questionDetail(final ModelMap model, @PathVariable String id) {
         QuestionDetailResponse response = questionBusiness.getById(id);
         List<AnswerResponse> answers = answerBusiness.getByQuestionId(new ObjectId(id));
-        System.out.println("answers: " + answers.get(1).getUser().getPhoto());
+//        System.out.println("answers: " + answers.get(1).getUser().getPhoto());
         model.addAttribute("question", response);
         model.addAttribute("answers", answers);
         return "questionDetail";

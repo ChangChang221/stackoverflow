@@ -76,7 +76,7 @@
                             </c:forEach>
                         </div>
                         <div class="questioner">
-                  <span>asked 53 secs ago <a href="#">${question.user.name}</a>
+                  <span>asked 53 secs ago <a href="${pageContext.request.contextPath}/users/${question.user.id}">${question.user.name}</a>
                     <span style="font-size: 13px; font-weight: 700; color: #3c4146">1</span></span>
                         </div>
                     </div>

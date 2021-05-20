@@ -44,7 +44,7 @@
                         <img
                                 width="164px"
                                 height="164px"
-                                src="https://i.stack.imgur.com/tGgv6.jpg?s=328&g=1"
+                                src="${pageContext.request.contextPath}/asset/${user.photo}"
                         />
                         <div
                                 style="
@@ -81,7 +81,7 @@
                 </div>
                 <div class="user-description">
                     <h2>
-                        Ronak Shah
+                        ${user.name}
                         <a href="#"
                         >top <span style="font-weight: 600">0.01%</span> this year</a
                         >
@@ -112,6 +112,8 @@
                 <div class="user-more-social">
                     <table>
                         <tbody>
+                        <c:choose>
+                            <c:when test="${ user.location != null }">
                         <tr>
                             <td>
                                 <svg
@@ -132,6 +134,8 @@
                       </span>
                             </td>
                         </tr>
+                            </c:when>
+                            <c:when test="${user.social != null}">
                         <tr>
                             <td>
                                 <svg
@@ -147,8 +151,10 @@
                                     ></path>
                                 </svg>
                             </td>
-                            <td><a href="#">${user.social}</a></td>
+                            <td><a href="${user.social}">${user.social}</a></td>
                         </tr>
+                            </c:when>
+                            <c:when test="${user.link != null}">
                         <tr>
                             <td>
                                 <svg
@@ -165,9 +171,11 @@
                                 </svg>
                             </td>
                             <td>
-                                <a href="#">${user.link}</a>
+                                <a href="${user.link}">${user.link}</a>
                             </td>
                         </tr>
+                            </c:when>
+                            <c:when test="${user.website != null}">
                         <tr>
                             <td>
                                 <div class="grid--cell fc-black-350">
@@ -184,8 +192,10 @@
                                     </svg>
                                 </div>
                             </td>
-                            <td><a href="#">${user.website}</a></td>
+                            <td><a href="${user.website}">${user.website}</a></td>
                         </tr>
+                            </c:when>
+                            <c:when test="${ 1 == 1 }">
                         <tr>
                             <td>
                                 <svg
@@ -204,6 +214,8 @@
                                 <span> Member for <span>${user.createdOn}</span> </span>
                             </td>
                         </tr>
+                            </c:when>
+                            <c:when test="${user.views != null}">
                         <tr>
                             <td>
                                 <svg
@@ -220,6 +232,8 @@
                             </td>
                             <td><span>${user.views} profile views</span></td>
                         </tr>
+                            </c:when>
+                        </c:choose>
                         <tr>
                             <td>
                                 <svg
@@ -285,7 +299,7 @@
                             ></path>
                         </svg>
 <%--                        <span class="votes">295</span>--%>
-                        <a href="#">
+                        <a href="${pageContext.request.contextPath}/questions/detail/${question.id}">
                             ${question.title}
                         </a>
                     </div>
