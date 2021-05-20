@@ -1,6 +1,8 @@
 package com.stackoverflow.nhom24.business;
 
 import com.stackoverflow.nhom24.business.base.BaseBusiness;
+import com.stackoverflow.nhom24.elasticsearch.entity.QuestionES;
+import com.stackoverflow.nhom24.elasticsearch.repository.QuestionRepositoryES;
 import com.stackoverflow.nhom24.entity.Question;
 import com.stackoverflow.nhom24.entity.Tag;
 import com.stackoverflow.nhom24.entity.User;
@@ -14,6 +16,9 @@ import com.stackoverflow.nhom24.service.QuestionService;
 import com.stackoverflow.nhom24.utils.EncrytedPasswordUtils;
 import lombok.AllArgsConstructor;
 import org.bson.types.ObjectId;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
@@ -32,8 +37,12 @@ public class QuestionBusiness extends BaseBusiness {
 
     private final QuestionService questionService;
 
+    private final QuestionRepositoryES questionRepositoryES;
+
     public List<QuestionResponse> getAll(Integer page, String tab) {
         List<QuestionResponse> response = questionService.findAllQuestionAndItem(page, tab);
+
+        Page<QuestionES> result = questionRepositoryES.findByTitle("how", PageRequest.of(0, 15, Sort.by("createdOn").descending()));
         return response;
     }
 
@@ -41,12 +50,21 @@ public class QuestionBusiness extends BaseBusiness {
         return questionService.getByUserId(new ObjectId(userId));
     }
 
-    public void setRole(){
-        List<User> users = userRepository.findAll();
-        for (User el : users){
-            userRepository.save(el);
+    public void setElasticsearch(){
+        List<Question> questions = questionRepository.findAll();
+        List<QuestionES> questionESes = new ArrayList<>();
+        for (Question el : questions){
+            QuestionES q = new QuestionES();
+            q.setId(el.getId().toString());
+            q.setCreatedOn(el.getCreatedOn());
+            q.setUserId(el.getUserId().toString());
+            q.setViews(el.getViews());
+            q.setTitle(el.getTitle());
+            q.setTags(el.getTags());
+            q.setAnswers(el.getAnswers());
+            questionESes.add(q);
         }
-
+        questionRepositoryES.saveAll(questionESes);
     }
 
     public void updatePhoto(){
