@@ -11,7 +11,7 @@
 
 </head>
 <body>
-<%@include file="layout/header.jsp"%>
+
 <!-- Main container  -->
 <div class="main-container">
     <!-- Aside -->
@@ -53,8 +53,8 @@
                     <!-- Service item -->
                     <div class="service-item padd-15">
                         <div class="service-item-inner">
-                            <div class="icon"><i class="fa fa-laptop"></i></div>
-                            <h4>All User</h4>
+                            <div class="icon"><i class="fa fa-question"></i></div>
+                            <h4>All Post</h4>
                             <p>12000</p>
                         </div>
                     </div>
@@ -64,7 +64,7 @@
                     <!-- Service item -->
                     <div class="service-item padd-15">
                         <div class="service-item-inner">
-                            <div class="icon"><i class="fa fa-laptop"></i></div>
+                            <div class="icon"><i class="fa fa-calendar"></i></div>
                             <h4>Day</h4>
                             <p>12000</p>
                         </div>
@@ -75,7 +75,7 @@
                     <!-- Service item -->
                     <div class="service-item padd-15">
                         <div class="service-item-inner">
-                            <div class="icon"><i class="fa fa-laptop"></i></div>
+                            <div class="icon"><i class="fa fa-calendar"></i></div>
                             <h4>Month</h4>
                             <p>12000</p>
                         </div>
@@ -86,7 +86,7 @@
                     <!-- Service item -->
                     <div class="service-item padd-15">
                         <div class="service-item-inner">
-                            <div class="icon"><i class="fa fa-laptop"></i></div>
+                            <div class="icon"><i class="fa fa-calendar"></i></div>
                             <h4>Year</h4>
                             <p>12000</p>
                         </div>
