@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface AnswerRepository extends MongoRepository<Answer, String> {
+public interface AnswerRepository extends MongoRepository<Answer, ObjectId> {
 
     @Query("{questionId:'?0'}")
     List<Answer> findByQuestionId(ObjectId questionId);

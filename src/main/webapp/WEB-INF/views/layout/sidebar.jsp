@@ -1,6 +1,6 @@
 <aside id="sidebar">
     <ul>
-        <li>Home</li>
+        <li><a href="/">Home</a></li>
         <li>
             PUBLIC
             <ul style="padding-left: 0px">

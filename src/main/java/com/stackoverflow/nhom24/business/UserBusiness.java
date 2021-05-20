@@ -3,9 +3,12 @@ package com.stackoverflow.nhom24.business;
 import com.stackoverflow.nhom24.business.base.BaseBusiness;
 import com.stackoverflow.nhom24.entity.User;
 import com.stackoverflow.nhom24.model.request.LoginRequest;
+import com.stackoverflow.nhom24.model.response.UserResponse;
 import com.stackoverflow.nhom24.repository.UserRepository;
+import com.stackoverflow.nhom24.service.UserService;
 import javassist.NotFoundException;
 import lombok.AllArgsConstructor;
+import org.bson.types.ObjectId;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +19,8 @@ import java.util.List;
 @AllArgsConstructor
 public class UserBusiness extends BaseBusiness {
     private final UserRepository userRepository;
+    private final UserService userService;
+
 
     public User login(LoginRequest model) throws NotFoundException {
         User user = userRepository.findByUsername(model.getUsername());
@@ -39,14 +44,32 @@ public class UserBusiness extends BaseBusiness {
         return newUser;
     }
 
-    public User getUserById(String id){
-        User user = userRepository.findById(id).get();
+    public UserResponse getUserById(String id){
+        UserResponse user = userService.getById(id);
         return user;
     }
 
-    public List<User> getListUser() {
-        return userRepository.findAll();
+    public User getById(String id){
+        User user = userRepository.findById(new ObjectId(id)).get();
+        return user;
     }
 
-//    public List<User> getListUserPagi(Integer page)
+    public void updateView(User user){
+        user.setViews(user.getViews() + 1);
+        userRepository.save(user);
+    }
+
+    public void updateUser(String id, User newUser){
+        User currentUser = userRepository.findById(new ObjectId(id)).get();
+        if(newUser.getPhoto() != null){
+            currentUser.setPhoto(newUser.getPhoto());
+        }
+        currentUser.setName(newUser.getName());
+        currentUser.setSocial(newUser.getSocial());
+        currentUser.setLink(newUser.getLink());
+        currentUser.setLocation(newUser.getLocation());
+        currentUser.setWebsite(newUser.getWebsite());
+        currentUser.setTitle(newUser.getTitle());
+        userRepository.save(currentUser);
+    }
 }

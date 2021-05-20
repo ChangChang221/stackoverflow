@@ -8,6 +8,7 @@ import com.stackoverflow.nhom24.model.response.AnswerResponse;
 import com.stackoverflow.nhom24.model.response.QuestionDetailResponse;
 import com.stackoverflow.nhom24.model.response.QuestionResponse;
 import lombok.AllArgsConstructor;
+import org.bson.types.ObjectId;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -52,7 +53,7 @@ public class QuestionController {
         }
         int total = questionBusiness.getTotal(tab);
         List<QuestionResponse> questions = questionBusiness.getAll(Integer.parseInt(page), tab);
-        model.addAttribute("pagination", (int) ( total/ 10) + 1);
+        model.addAttribute("pagination", (int) ( total/ 15) + 1);
         model.addAttribute("total", total);
         model.addAttribute("questions", questions);
         model.addAttribute("page", page);
@@ -62,9 +63,10 @@ public class QuestionController {
     }
 
     @GetMapping("/questions/detail/{id}")
-    public String questionDetail(final ModelMap model, @PathVariable String id){
+    public String questionDetail(final ModelMap model, @PathVariable String id) {
         QuestionDetailResponse response = questionBusiness.getById(id);
-        List<AnswerResponse> answers = answerBusiness.getByQuestionId(id);
+        List<AnswerResponse> answers = answerBusiness.getByQuestionId(new ObjectId(id));
+        System.out.println("answers: " + answers.get(1).getUser().getPhoto());
         model.addAttribute("question", response);
         model.addAttribute("answers", answers);
         return "questionDetail";
