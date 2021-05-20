@@ -1,4 +1,4 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,12 +8,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/orange.css" type="text/css" >
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/header.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/style.css" type="text/css">
-    <!-- StyleSwitcher -->
-    <link rel="stylesheet" class="alternate-style" title="pink" href="${pageContext.request.contextPath}/styles/pink.css" type="text/css" disabled>
-    <link rel="stylesheet" class="alternate-style" title="blue" href="${pageContext.request.contextPath}/styles/blue.css" type="text/css" disabled>
-    <link rel="stylesheet" class="alternate-style" title="orange" href="${pageContext.request.contextPath}/styles/orange.css" type="text/css" disabled>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/styleSwitcher.css" type="text/css">
-    <script src="${pageContext.request.contextPath}/styles/styleSwitcher.js"></script>
+
 </head>
 <body>
 <%@include file="layout/header.jsp"%>
@@ -35,6 +30,7 @@
             <li><a href="#" onclick="location.href='/test/adminAbout';"><i class="fa fa-user"></i>About</a></li>
             <li><a href="#"  onclick="location.href='/test/user';"><i class="fa fa-users"></i>User Manage</a></li>
             <li><a href="#" class="active" onclick="location.href='/test/adminPost';"><i class="fa fa-question"></i>Post Manage</a></li>
+            <li><a href="#" onclick="location.href='/';"><i class="fa fa-sign-out"></i>Logout</a></li>
         </ul>
         <!-- copyright  -->
         <div class="copyright-text">
@@ -97,6 +93,25 @@
                     </div>
                     <!--  Service item End-->
                 </div>
+
+                <!-- Searcher box-->
+                <div class="row" style="padding-bottom: 100px">
+
+
+                    <form action="" class="search-box padd-15">
+                        <input type="text" name="" value="" placeholder="Search...">
+
+                        <button class="search-button" type="button" name="Tìm Kiếm">
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                        </button>
+                    </form>
+
+
+                </div>
+                <!-- Searcher box-->
+
+
+
                 <div class="row">
                     <div class="section-title padd-15">
                         <table class="table padd-15">
@@ -139,26 +154,6 @@
     <!-- Main content end -->
 </div>
 
-<!-- javscript End-->
-<div class="style-switcher">
-    <div class="toggle-style-switcher">
-        <i class="fa fa-cog fa-spin"></i>
-    </div>
-    <h5>Style Switcher</h5>
-    <ul>
-        <li><a href="#" title="pink" style="background: #ec1839" onclick="setActiveStyle('pink')"></a></li>
-        <li><a href="#" title="blue" style="background: #2196F8" onclick="setActiveStyle('blue')"></a></li>
-        <li><a href="#" title="orange" style="background: #fa5b0f" onclick="setActiveStyle('orange')"></a></li>
-    </ul>
-
-</div>
-
-<!-- Live Style Switcher - Demo Only -->
-
-
-<!-- Live Style Switcher - Demo Only End-->
 <!-- Main container  -->
-<script src="${pageContext.request.contextPath}/js/styleSwitcher.js"></script>
-
 </body>
 </html>
