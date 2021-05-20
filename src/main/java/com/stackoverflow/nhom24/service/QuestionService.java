@@ -1,6 +1,7 @@
 package com.stackoverflow.nhom24.service;
 
 import com.stackoverflow.nhom24.entity.Question;
+import com.stackoverflow.nhom24.model.response.AnswerResponse;
 import com.stackoverflow.nhom24.model.response.QuestionDetailResponse;
 import com.stackoverflow.nhom24.model.response.QuestionResponse;
 import com.stackoverflow.nhom24.model.response.QuestionsResponse;
@@ -107,8 +108,20 @@ public class QuestionService {
         }
     }
 
-//    public Question filterCount(){
-//        ;
-//    }
+    public List<QuestionResponse> getByUserId(ObjectId userId){
+        try {
+            Aggregation aggregation = Aggregation.newAggregation(Aggregation.match(Criteria.where("userId").is(userId)));
+            List<QuestionResponse> results = mongoTemplate.aggregate(aggregation, "question", QuestionResponse.class).getMappedResults();
+//                    .stream().map(answerResponse -> {
+//                        Aggregation _aggregation = Aggregation.newAggregation(Aggregation.match(Criteria.where("_id").is(answerResponse.getUserId())));
+//                        User user = mongoTemplate.aggregate(_aggregation, "user", User.class).getUniqueMappedResult();
+//                        answerResponse.setUser(user);
+//                        return answerResponse;
+//                    }).collect(Collectors.toList());
+            return results;
+        } catch (Exception e) {
+            return List.of();
+        }
+    }
 
 }

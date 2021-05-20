@@ -1,3 +1,4 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,6 +9,7 @@
             name="viewport"
             content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
+
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/header.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/sidebar.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/common.css" />
@@ -17,16 +19,19 @@
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/styles/default.min.css"
     />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/summernote/summernote-bs4.css" >
     <script src="https://cdn.jsdelivr.net/npm/quill-image-resize-module@3.0.0/image-resize.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/highlight.min.js"></script>
     <!-- and it's easy to individually load additional languages -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/languages/go.min.js"></script>
+
     <link
             href="https://cdn.quilljs.com/1.3.6/quill.snow.css"
             rel="stylesheet"
     />
     <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.888.0.min.js"></script>
+    <script src="${pageContext.request.contextPath}/summernote/summernote-bs4.js"></script>
     <script src="${pageContext.request.contextPath}/js/uploadImage.js" type="text/javascript"></script>
     <script type="text/javascript">
         const change_avatar = async (files) => {
@@ -37,7 +42,9 @@
             // document.querySelector(".avatar>img")[0].setAttribute("src", url);
         };
     </script>
+
     <!-- Bootstrap CSS -->
+
 </head>
 <body>
 <%@include file="layout/header.jsp"%>
@@ -46,7 +53,7 @@
     <div class="content-container">
         <div class="user-heading-container">
             <div>
-                <a class="menu-user" href="#">Profiles</a>
+                <a class="menu-user" href="${pageContext.request.contextPath}/users/${user.id}">Profiles</a>
                 <a class="menu-user" href="#">Activity</a>
                 <a class="menu-user-active" href="#">Developer Story</a>
             </div>
@@ -63,33 +70,38 @@
         </div>
         <div class="user-edit-profile-container">
             <div class="title">Edit your profile</div>
-            <form>
+            <form:form modelAttribute="user" action="/users/editProfile/${user.id}" enctype="multipart/form-data">
             <h3 style="color: #555555">Public information</h3>
             <div class="edit-container">
                 <div class="avatar">
                     <img
-                            src="https://lh3.googleusercontent.com/-n6S3A4nd7yA/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucm5G1ok5cW5xGDjLDu41wqnhhlwTw/s96-c/photo.jpg?sz=328"
+<%--                            src="https://lh3.googleusercontent.com/-n6S3A4nd7yA/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucm5G1ok5cW5xGDjLDu41wqnhhlwTw/s96-c/photo.jpg?sz=328"--%>
+                            src="${pageContext.request.contextPath}/asset/${user.photo}"
                             width="125px"
                             height="125px"
                     />
                     <label class="custom-file-upload">
-                        <input type="file" onchange="change_avatar(this.files)" />
+                        <input type="file" name="postImg" onchange="change_avatar(this.files)" />
                         Change Picture
                     </label>
                 </div>
                 <div class="profiles">
                     <div>Display name</div>
-                    <input type="text" value="Khánh Toàn Lê" class="input-type" />
+                    <form:input path="name" type="text" value="${user.name}" class="input-type" />
                     <br />
                     <div>Location</div>
-                    <input
+                    <form:input
+                            value="${user.location}"
+                            path="location"
                             type="text"
                             placeholder="Enter a location"
                             class="input-type"
                     />
                     <br />
                     <div>Title</div>
-                    <input
+                    <form:input
+                            value="${user.title}"
+                            path="title"
                             type="text"
                             placeholder="No title has been set"
                             class="input-type"
@@ -97,8 +109,7 @@
                     <br />
                 </div>
             </div>
-            <h4>About me</h4>
-            <div id="editor"></div>
+<%--            <textarea id="editor"></textarea>--%>
             <br />
             <div class="social">
                 <h3 style="font-weight: 500">Web presence</h3>
@@ -117,7 +128,7 @@
                                         d="M7.22 11.83a6 6 0 001.62.85l.61-1.8a4.1 4.1 0 114.04-.8l1.26 1.42a6 6 0 10-7.53.33zm3.43-5.6a6 6 0 00-1.6-.87L8.4 7.15a4.1 4.1 0 11-4.05.73L3.12 6.43a6 6 0 107.53-.2z"
                                 ></path>
                             </svg>
-                            <input class="input-type" />
+                            <form:input value="${user.website}" path="website" class="input-type" />
                         </div>
                     </div>
                     <div>
@@ -135,7 +146,7 @@
                                         fill="#2AA3EF"
                                 ></path>
                             </svg>
-                            <input class="input-type" />
+                            <form:input value="${user.social}" path="social" class="input-type" />
                         </div>
                     </div>
                     <div>
@@ -153,21 +164,21 @@
                                         fill="#010101"
                                 ></path>
                             </svg>
-                            <input class="input-type" />
+                            <form:input path="link" value="${user.link}" class="input-type" />
                         </div>
                     </div>
                 </div>
             </div>
             <div class="action">
-                <button class="btn-primary">Save profile</button>
+                <button type="submit" class="btn-primary">Save profile</button>
                 <a href="#">Cancel</a>
             </div>
         </div>
-        </form>
+        </form:form>
     </div>
 </main>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="./js/quill.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/js/quill.js" type="text/javascript"></script>
 </body>
 </html>

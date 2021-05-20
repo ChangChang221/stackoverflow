@@ -26,4 +26,7 @@ public class UserResponse {
     private Number reputationScore;
     private Number questions;
     private Number answers;
+    private String title;
+    private String description;
+    private String website;
 }
