@@ -128,12 +128,16 @@ public class UserBusiness extends BaseBusiness {
 
                 //chuyển các set thành list
                 List<String> getTagUserList = new ArrayList<>();
+
+                //sort map theo thứ tự giảm dần của value
                 LinkedHashMap<String, Integer> reverseSortedMap = new LinkedHashMap<>();
                 hashMapTag.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
                         .forEachOrdered(x -> reverseSortedMap.put(x.getKey(), x.getValue()));
                 Set<String> getKeyHashMap = reverseSortedMap.keySet();
+
                 System.out.println(hashMapTag);
                 int cnt = 0;
+                //lấy 3 tag có value lớn nhất
                 for(String s: getKeyHashMap) {
                     if (cnt == 3) break;
                     else {
