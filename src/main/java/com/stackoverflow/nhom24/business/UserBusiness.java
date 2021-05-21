@@ -16,7 +16,7 @@ import org.bson.types.ObjectId;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import java.util.*;
 
 
 @Component
@@ -24,6 +24,7 @@ import java.util.List;
 public class UserBusiness extends BaseBusiness {
     private final UserRepository userRepository;
     private final UserService userService;
+    private final QuestionService questionService;
 
     public List<User> getAll(){
 
