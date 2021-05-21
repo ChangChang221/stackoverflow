@@ -8,6 +8,5 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 public class TagResponse {
-    private String id;
     private String name;
 }

@@ -1,10 +1,8 @@
 package com.stackoverflow.nhom24.service;
 
+import com.stackoverflow.nhom24.entity.Answer;
 import com.stackoverflow.nhom24.entity.Question;
-import com.stackoverflow.nhom24.model.response.AnswerResponse;
-import com.stackoverflow.nhom24.model.response.QuestionDetailResponse;
-import com.stackoverflow.nhom24.model.response.QuestionResponse;
-import com.stackoverflow.nhom24.model.response.QuestionsResponse;
+import com.stackoverflow.nhom24.model.response.*;
 import org.bson.types.ObjectId;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +14,14 @@ import org.springframework.data.mongodb.core.aggregation.GroupOperation;
 import org.springframework.data.mongodb.core.aggregation.LookupOperation;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.TextCriteria;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.group;
 
@@ -108,6 +109,7 @@ public class QuestionService {
         }
     }
 
+
     public List<QuestionResponse> getByUserId(ObjectId userId){
         try {
             Aggregation aggregation = Aggregation.newAggregation(Aggregation.match(Criteria.where("userId").is(userId)));
@@ -120,6 +122,33 @@ public class QuestionService {
 //                    }).collect(Collectors.toList());
             return results;
         } catch (Exception e) {
+            return List.of();
+        }
+    }
+
+    public List<LiveSearchQuestionResponse> getQuestions(String query) {
+        try {
+//            Aggregation aggregation = Aggregation.newAggregation(Aggregation.match(TextCriteria.forDefaultLanguage().matching(query)), Aggregation.sort(Sort.Direction.ASC, "views"), Aggregation.limit(5));
+            Aggregation aggregation = Aggregation.newAggregation(Aggregation.match(Criteria.where("title").regex(".*" + query + ".*")), Aggregation.sort(Sort.Direction.ASC, "views"), Aggregation.limit(5));
+            List<LiveSearchQuestionResponse> results = mongoTemplate.aggregate(aggregation, "question", QuestionResponse.class).getMappedResults().stream().map(questionResponse -> {
+                Aggregation aggregationAnswer = Aggregation.newAggregation(Aggregation.match(Criteria.where("questionId").is(questionResponse.getId())));
+                Integer answers = mongoTemplate.aggregate(aggregationAnswer, "answer", Answer.class).getMappedResults().size();
+                LiveSearchQuestionResponse result = new LiveSearchQuestionResponse();
+                result.setId(new ObjectId(questionResponse.getId()));
+                result.setTitle(questionResponse.getTitle());
+                ArrayList<TagResponse> tags = new ArrayList<TagResponse>();
+                questionResponse.getTags().forEach(tag_name -> {
+                    TagResponse tag = new TagResponse();
+                    tag.setName(tag_name);
+                    tags.add(tag);
+                });
+                result.setTags((List<TagResponse>) tags);
+                result.setAnswers(answers);
+                return result;
+            }).collect(Collectors.toList());
+            return (List<LiveSearchQuestionResponse>) results;
+        } catch (Exception e) {
+            System.out.println("error: " + e);
             return List.of();
         }
     }

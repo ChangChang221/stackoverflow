@@ -19,71 +19,129 @@
     <link rel="stylesheet" href="./styles/common.css"/>
 </head>
 <body>
+<script>
+    let controller = new AbortController();
+    const search = async (value) => {
+        controller.abort();
+        controller = new AbortController();
+        const signal = controller.signal;
+        const loader = document.getElementById("loader");
+        const ul = document.getElementById("search-results")
+        if (value === "") {
+            ul.innerHTML = "";
+            ul.appendChild(loader);
+            loader.style.display = "none"
+        } else {
+            ul.innerHTML = "";
+            ul.appendChild(loader);
+            loader.style.display = "block"
+            const _response = await fetch("/search?" + new URLSearchParams({
+                query: value
+            }), {signal});
+            const response = await _response.json();
+            if (response.status) {
+                loader.style.display = "none";
+                const _results = response.result;
+                _results.forEach((_result) => {
+                    let li = document.createElement("li");
+                    let div_1 = document.createElement("div");
+                    let div_2_1 = document.createElement("div");
+                    let div_3_1 = document.createElement("div");
+                    div_3_1.innerHTML = _result.answers;
+                    let div_3_2 = document.createElement("div");
+                    div_3_2.innerHTML = "answers"
+                    let div_2_2 = document.createElement("div");
+                    let a_3_1 = document.createElement("a");
+                    a_3_1.innerHTML = _result.title;
+                    a_3_1.setAttribute("href", "#");
+                    let div_3_3 = document.createElement("div");
+                    div_3_3.setAttribute("class", "answer-question-tags");
+                    for (let i = 0; i < _result.tags.length; i++) {
+                        let tag = document.createElement("a");
+                        tag.innerHTML = _result.tags[i].name;
+                        tag.setAttribute("href", "#");
+                        tag.setAttribute("class", "tag");
+                        div_3_3.appendChild(tag)
+                    }
+                    div_2_2.appendChild(a_3_1);
+                    div_2_2.appendChild(div_3_3);
+                    div_2_1.appendChild(div_3_1);
+                    div_2_1.appendChild(div_3_2);
+                    div_1.appendChild(div_2_1);
+                    div_1.appendChild(div_2_2)
+                    li.appendChild(div_1)
+                    ul.appendChild(li)
+                })
+            }
+        }
+    }
+</script>
 <header class="header-container">
     <div class="container-header">
         <div class="icon-container-header">
-            <img id="logo" src="./asset/logo.png"/>
+            <img id="logo" src="/asset/logo.png"/>
         </div>
         <nav class="nav-menu">
             <a>About</a>
             <a>Products</a>
         </nav>
         <div class="search-container">
-            <img id="search-icon" src="./asset/search-icon.png"/>
-            <input placeholder="Search..." id="input-search" onkeyup="search()"/>
-            <ul class="search-results">
+            <img id="search-icon" src="/asset/search-icon.png"/>
+            <input placeholder="Search..." id="input-search" onkeyup="search(value)"/>
+            <ul class="search-results" id="search-results">
+                <div class="lds-hourglass" id="loader" style="display: none"></div>
                 <!-- <p style="margin-left: 15px">Gợi ý tìm kiếm:</p> -->
-                <li>
-                    <div>
-                        <div>
-                            <div>8</div>
-                            <div>answers</div>
-                        </div>
-                        <div>
-                            <a href="#">Can StyleCop automatically fix anything?</a>
-                            <div class="answer-question-tags">
-                                <a href="#" class="tag">android</a>
-                                <a href="#" class="tag">react-native</a>
-                                <a href="#" class="tag">huawei-mobile-services</a>
-                                <a href="#" class="tag">huawei-push-notification</a>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div>
-                        <div>
-                            <div>8</div>
-                            <div>answers</div>
-                        </div>
-                        <div>
-                            <a href="#">Can StyleCop automatically fix anything?</a>
-                            <div class="answer-question-tags">
-                                <a href="#" class="tag">android</a>
-                                <a href="#" class="tag">react-native</a>
-                                <a href="#" class="tag">huawei-mobile-services</a>
-                                <a href="#" class="tag">huawei-push-notification</a>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div>
-                        <div>
-                            <div>8</div>
-                            <div>answers</div>
-                        </div>
-                        <div>
-                            <a href="#">Can StyleCop automatically fix anything?</a>
-                            <div class="answer-question-tags">
-                                <a href="#" class="tag">android</a>
-                                <a href="#" class="tag">react-native</a>
-                                <a href="#" class="tag">huawei-mobile-services</a>
-                                <a href="#" class="tag">huawei-push-notification</a>
-                            </div>
-                        </div>
-                    </div>
-                </li>
+                <%--                <li>--%>
+                <%--                    <div>--%>
+                <%--                        <div>--%>
+                <%--                            <div>8</div>--%>
+                <%--                            <div>answers</div>--%>
+                <%--                        </div>--%>
+                <%--                        <div>--%>
+                <%--                            <a href="#">Can StyleCop automatically fix anything?</a>--%>
+                <%--                            <div class="answer-question-tags">--%>
+                <%--                                <a href="#" class="tag">android</a>--%>
+                <%--                                <a href="#" class="tag">react-native</a>--%>
+                <%--                                <a href="#" class="tag">huawei-mobile-services</a>--%>
+                <%--                                <a href="#" class="tag">huawei-push-notification</a>--%>
+                <%--                            </div>--%>
+                <%--                        </div>--%>
+                <%--                    </div>--%>
+                <%--                </li>--%>
+                <%--                <li>--%>
+                <%--                    <div>--%>
+                <%--                        <div>--%>
+                <%--                            <div>8</div>--%>
+                <%--                            <div>answers</div>--%>
+                <%--                        </div>--%>
+                <%--                        <div>--%>
+                <%--                            <a href="#">Can StyleCop automatically fix anything?</a>--%>
+                <%--                            <div class="answer-question-tags">--%>
+                <%--                                <a href="#" class="tag">android</a>--%>
+                <%--                                <a href="#" class="tag">react-native</a>--%>
+                <%--                                <a href="#" class="tag">huawei-mobile-services</a>--%>
+                <%--                                <a href="#" class="tag">huawei-push-notification</a>--%>
+                <%--                            </div>--%>
+                <%--                        </div>--%>
+                <%--                    </div>--%>
+                <%--                </li>--%>
+                <%--                <li>--%>
+                <%--                    <div>--%>
+                <%--                        <div>--%>
+                <%--                            <div>8</div>--%>
+                <%--                            <div>answers</div>--%>
+                <%--                        </div>--%>
+                <%--                        <div>--%>
+                <%--                            <a href="#">Can StyleCop automatically fix anything?</a>--%>
+                <%--                            <div class="answer-question-tags">--%>
+                <%--                                <a href="#" class="tag">android</a>--%>
+                <%--                                <a href="#" class="tag">react-native</a>--%>
+                <%--                                <a href="#" class="tag">huawei-mobile-services</a>--%>
+                <%--                                <a href="#" class="tag">huawei-push-notification</a>--%>
+                <%--                            </div>--%>
+                <%--                        </div>--%>
+                <%--                    </div>--%>
+                <%--                </li>--%>
             </ul>
         </div>
         <div class="button-container">
@@ -100,17 +158,6 @@
     }
     const signup = () => {
         window.location.href = "http://localhost:8000/users/auth"
-    }
-    const search = () => {
-        var xmlhttp=new XMLHttpRequest();
-        xmlhttp.onreadystatechange=function() {
-            if (this.readyState==4 && this.status==200) {
-                document.getElementById("livesearch").innerHTML=this.responseText;
-                document.getElementById("livesearch").style.border="1px solid #A5ACB2";
-            }
-        }
-        xmlhttp.open("GET","/search);
-        xmlhttp.send();
     }
 </script>
 <!-- Optional JavaScript -->

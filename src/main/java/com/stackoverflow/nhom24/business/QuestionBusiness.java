@@ -4,6 +4,7 @@ import com.stackoverflow.nhom24.business.base.BaseBusiness;
 import com.stackoverflow.nhom24.entity.Question;
 import com.stackoverflow.nhom24.entity.Tag;
 import com.stackoverflow.nhom24.entity.User;
+import com.stackoverflow.nhom24.model.response.LiveSearchQuestionResponse;
 import com.stackoverflow.nhom24.model.response.QuestionDetailResponse;
 import com.stackoverflow.nhom24.model.response.QuestionResponse;
 import com.stackoverflow.nhom24.model.response.QuestionsResponse;
@@ -34,6 +35,11 @@ public class QuestionBusiness extends BaseBusiness {
 
     public List<QuestionResponse> getAll(Integer page, String tab) {
         List<QuestionResponse> response = questionService.findAllQuestionAndItem(page, tab);
+        return response;
+    }
+
+    public List<LiveSearchQuestionResponse> getQuestions(String query){
+        List<LiveSearchQuestionResponse> response = questionService.getQuestions(query);
         return response;
     }
 

@@ -69,10 +69,7 @@ public class QuestionController {
         return "questionDetail";
     }
 
-//    @GetMapping("/search")
-//    public String questionSearch(@RequestParam String query){
-//        return "search";
-//    }
+
 
 
 }
