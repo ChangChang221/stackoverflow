@@ -1,29 +1,29 @@
-<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <title>Title</title>
     <!-- Required meta tags -->
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
     <meta
             name="viewport"
             content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/header.css" />
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/sign-up.css" />
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/sidebar.css" />
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/common.css" />
-<%--    <script type="text/javascript" src="${pageContext.request.contextPath}/js/navigate_form.js"></script>--%>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/header.css"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/sign-up.css"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/sidebar.css"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/common.css"/>
+    <%--    <script type="text/javascript" src="${pageContext.request.contextPath}/js/navigate_form.js"></script>--%>
 
 </head>
 <body style="background-color: #eff0f1">
-<%@include file="layout/header.jsp"%>
+<%@include file="layout/header.jsp" %>
 <main class="main-container">
     <aside id="sidebar">
         <ul>
@@ -55,15 +55,15 @@
             <h2>Join the Stack Overflow community</h2>
             <ul>
                 <li>
-                    <img src="${pageContext.request.contextPath}/asset/question-removebg-preview.png" />
+                    <img src="${pageContext.request.contextPath}/asset/question-removebg-preview.png"/>
                     <span>Get unstuck — ask a question</span>
                 </li>
                 <li>
-                    <img src="${pageContext.request.contextPath}/asset/vote-removebg-preview.png" />
+                    <img src="${pageContext.request.contextPath}/asset/vote-removebg-preview.png"/>
                     <span>Unlock new privileges like voting and commenting</span>
                 </li>
                 <li>
-                    <img src="${pageContext.request.contextPath}/asset/tag.webp" />
+                    <img src="${pageContext.request.contextPath}/asset/tag.webp"/>
                     <span>Save your favorite tags, filters, and jobs</span>
                 </li>
             </ul>
@@ -72,9 +72,9 @@
     <div class="form-auth-container" id="signin">
         <form:form class="form-auth" modelAttribute="login" action="/login">
             <label>Email</label>
-            <form:input path="username" class="input-type" />
+            <form:input path="username" class="input-type"/>
             <label>Password</label>
-            <form:input path="password" class="input-type" />
+            <form:input path="password" class="input-type"/>
             <a
                     style="
               text-decoration: none;
@@ -87,7 +87,7 @@
             </a>
             <button class="btn-primary" type="submit">Sign in</button>
         </form:form>
-        <span style="font-size: 14px; color: #868585; " ;
+        <span style="font-size: 14px; color: #868585; width: 360px; text-align: center; display: block " ;
         >Don’t have an account?
         <a style="text-decoration: none; color:#0095ff; cursor:pointer"
            onclick="navigate_form('sign_up')"
@@ -113,7 +113,7 @@
         <a href="#"> cookie policy</a>
       </span>
         </form:form>
-        <span style="font-size: 14px; color: #868585" ;
+        <span style="font-size: 14px; color: #868585; width: 360px; text-align: center; display: block"
         >Already have an account?
       <a
               style="text-decoration: none; color:#0095ff; cursor:pointer"
@@ -126,19 +126,22 @@
             <p style="margin: 10px 0px"> Type vefify code you received.
             </p>
             <label>Code</label>
-            <input />
+            <input/>
             <button class="btn-primary" style="margin :10px 0px">Type verify code</button>
         </form>
     </div>
     <div class="form-auth-container" id="forgot-password">
         <form class="form-auth">
-            <p style="margin: 10px 0px"> Forgot your account’s password or having trouble logging into your Team? Enter your email address and we’ll send you a recovery code.
+            <p style="margin: 10px 0px"> Forgot your account’s password or having trouble logging into your Team? Enter
+                your email address and we’ll send you a recovery code.
             </p>
             <label>Email</label>
-                    <input class="input-type"/>
-            <button class="btn-primary" style="margin:10px 0px" onclick="navigate_form('type_code_forgot_password')" >Send recovery email</button>
+            <input class="input-type"/>
+            <button class="btn-primary" style="margin:10px 0px" onclick="navigate_form('type_code_forgot_password')">
+                Send recovery email
+            </button>
         </form>
-        <span style="font-size: 14px; color: #868585" ;
+        <span style="font-size: 14px; color: #868585; width: 360px; text-align: center; display: block"
         >Don’t have an account?
           <a
                   style="text-decoration: none; color: #0095ff; cursor: pointer"

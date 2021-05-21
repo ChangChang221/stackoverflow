@@ -100,11 +100,11 @@
 
                 <input id="userFilter"type="text" placeholder="Filter by post" >
             </div>
-            <div class="button-container">
+        <!--    <div class="button-container">
                 <button class="ok">
-                    <img src="${pageContext.request.contextPath}/asset/add.png" height="10" width="10"/> Add Post
+                    <img src="$'{pageContext.request.contextPath}/asset/add.png" height="10" width="10"/> Add Post
                 </button>
-            </div>
+            </div> -->
         </div>
         <table class="table">
             <tr>
@@ -115,20 +115,20 @@
                 <th>Action</th>
             </tr>
             <c:forEach var="question" items="${questions}">
-            <tr>
-                <td>${question.id}</td>
-                <td>${question.userId}</td>
-                <td  style=" text-align: center;">${question.createdOn}</td>
-                <td>${question.title}</td>
-                <td style=" text-align: center;">
-                    <a href="#">
-                        <img src="${pageContext.request.contextPath}/asset/edit.png" style="height: 18px; width: 18px"/>
-                    </a>
-                    <a href="#">
-                        <img src="${pageContext.request.contextPath}/asset/clear.png" style="height: 15px; width: 15px"/>
-                    </a>
-                </td>
-            </tr>
+                <tr>
+                    <td>${question.id}</td>
+                    <td>${question.userId}</td>
+                    <td  style=" text-align: center;">${question.createdOn}</td>
+                    <td>${question.title}</td>
+                    <td style=" text-align: center;">
+                        <a href="#">
+                            <img src="${pageContext.request.contextPath}/asset/edit.png" style="height: 18px; width: 18px"/>
+                        </a>
+                        <a href="#">
+                            <img src="${pageContext.request.contextPath}/asset/clear.png" style="height: 15px; width: 15px"/>
+                        </a>
+                    </td>
+                </tr>
             </c:forEach>
         </table>
 

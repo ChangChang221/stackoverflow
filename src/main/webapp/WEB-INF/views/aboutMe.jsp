@@ -31,7 +31,7 @@
             <li><a href="#" class="active" onclick="location.href='/test/adminAbout';"><i class="fa fa-user"></i>About</a></li>
             <li><a href="#" onclick="location.href='/test/user';"><i class="fa fa-users"></i>User Manage</a></li>
             <li><a href="#" onclick="location.href='/test/adminPost';"><i class="fa fa-question"></i>Post Manage</a></li>
-            <li><a href="#" onclick="location.href='/';"><i class="fa fa-sign-out"></i>Logout</a></li>
+    <!--        <li><a href="#" onclick="location.href='/';"><i class="fa fa-sign-out"></i>Logout</a></li> -->
         </ul>
         <!-- copyright  -->
         <div class="copyright-text">

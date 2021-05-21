@@ -40,14 +40,19 @@ public class AnswerRestController extends BaseController {
         response.setStatus(1);
         return ResponseEntity.ok(response);
     }
+    //lam giong phan nay
+    // the lai lam ca giao dien nua a :V
+    //uh lam ajax, no tra ve true thi xoa di bang js, sua thi update bang js,...
+    // vang de em xem :V
+    //u h
 
     @PutMapping("/answers/upVote")
     public ResponseEntity<DataResponse> voteAnswer(@RequestBody Map<String, Object> data,
                                                    HttpServletRequest req,
                                                    Principal principal){
-        ObjectId answerId = (ObjectId) data.get("answerId");
-        ObjectId userId = getUserId(principal, req);
-        Answer answer = answerBusiness.upVote(answerId, userId);
+          ObjectId answerId = (ObjectId) data.get("answerId");
+          ObjectId userId = getUserId(principal, req);
+          Answer answer = answerBusiness.upVote(answerId, userId);
         DataResponse response = new DataResponse();
         response.setResult(answer);
         response.setStatus(1);

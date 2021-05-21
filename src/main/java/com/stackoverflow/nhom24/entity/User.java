@@ -4,8 +4,9 @@ import com.stackoverflow.nhom24.entity.base.BaseEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
-
+import org.springframework.format.annotation.DateTimeFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -14,7 +15,6 @@ import java.util.List;
 @Document(collection = "user")
 @NoArgsConstructor
 public class User extends BaseEntity{
-
     private String name;
     private String username;
     private String password;
@@ -30,4 +30,7 @@ public class User extends BaseEntity{
     private Number reputationScore;
     private Number questions;
     private Number answers;
+    private String title;
+    private String description;
+    private String website;
 }

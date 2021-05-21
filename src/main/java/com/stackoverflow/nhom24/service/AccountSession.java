@@ -26,7 +26,7 @@ public class AccountSession extends org.springframework.security.core.userdetail
     public static AccountSession build(User user) {
         GrantedAuthority authority = new SimpleGrantedAuthority(user.getRole());
         List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(authority);
+                authorities.add(authority);
 
         return new AccountSession(
                 user.getId(),
@@ -37,7 +37,6 @@ public class AccountSession extends org.springframework.security.core.userdetail
     }
 
     public ObjectId getId(){
-
         return this.id;
     }
 

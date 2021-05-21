@@ -3,7 +3,9 @@ package com.stackoverflow.nhom24.business;
 import com.stackoverflow.nhom24.business.base.BaseBusiness;
 import com.stackoverflow.nhom24.entity.User;
 import com.stackoverflow.nhom24.model.request.LoginRequest;
+import com.stackoverflow.nhom24.model.response.UserResponse;
 import com.stackoverflow.nhom24.repository.UserRepository;
+import com.stackoverflow.nhom24.service.UserService;
 import javassist.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.bson.types.ObjectId;
@@ -17,6 +19,14 @@ import java.util.List;
 @AllArgsConstructor
 public class UserBusiness extends BaseBusiness {
     private final UserRepository userRepository;
+    private final UserService userService;
+
+    public List<User> getAll(){
+
+            List<User> user = userRepository.findAll();
+            return user;
+
+    }
 
     public User login(LoginRequest model) throws NotFoundException {
         User user = userRepository.findByUsername(model.getUsername());
@@ -39,26 +49,17 @@ public class UserBusiness extends BaseBusiness {
         User newUser = userRepository.save(user);
         return newUser;
     }
-    public User getUserById(ObjectId id){
-        User user = userRepository.findById(id).get();
+
+    public UserResponse getUserById(String id){
+        UserResponse user = userService.getById(id);
         return user;
     }
 
-    public List<User> getAll() {
-        List<User> user = userRepository.findAll();
-        return user;
-    }
-    public void deleteUser(ObjectId id){
-
-        userRepository.deleteById(id);
-    }
-    public void saveUser(ObjectId id){
-    //    userRepository.save(id);
-    }
     public User getById(String id){
         User user = userRepository.findById(new ObjectId(id)).get();
         return user;
     }
+
     public void updateView(User user){
         user.setViews(user.getViews() + 1);
         userRepository.save(user);
@@ -77,6 +78,9 @@ public class UserBusiness extends BaseBusiness {
         currentUser.setTitle(newUser.getTitle());
         userRepository.save(currentUser);
     }
+    public void deleteUser(String id){
 
-
+        userRepository.deleteById(new ObjectId(id).get());
+//        userRepository.deleteById(;
+    }
 }

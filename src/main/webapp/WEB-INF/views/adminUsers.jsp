@@ -6,10 +6,13 @@
     <meta name="viewpost" content="width=device-width, initial-scale=1">
     <title>StackOverFlow</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/orange.css" type="text/css" >
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/header.css" />
+
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/style.css" type="text/css">
     <!-- StyleSwitcher -->
+<!--
 
+   <link rel="stylesheet" href="$'{pageContext.request.contextPath}/styles/header.css" />
+-->
 
     <script type="text/javascript">
         function myFunction(){
@@ -45,7 +48,7 @@
             <li><a href="#" onclick="location.href='/test/adminAbout';"><i class="fa fa-user"></i>About</a></li>
             <li><a href="#" class="active" onclick="location.href='/test/user';"><i class="fa fa-users"></i>User Manage</a></li>
             <li><a href="#" onclick="location.href='/test/adminPost';"><i class="fa fa-question"></i>Post Manage</a></li>
-            <li><a href="#" onclick="location.href='/';"><i class="fa fa-sign-out"></i>Logout</a></li>
+      <!--      <li><a href="#" onclick="location.href='/';"><i class="fa fa-sign-out"></i>Logout</a></li> -->
         </ul>
         <!-- copyright  -->
         <div class="copyright-text">
@@ -142,7 +145,6 @@
                                 <tr>
                                     <td>ID</td>
                                     <td>${user.username}</td>
-
                                     <td>${user.role}</td>
                                     <td>${user.name}</td>
 
@@ -150,7 +152,7 @@
                                         <a href="#">
                                             <img src="${pageContext.request.contextPath}/asset/edit.png" style="height: 18px; width: 18px"/>
                                         </a>
-                                        <a href="@{/deleteUser/} + ${user.id}">
+                                        <a href="@{/deleteUser/{id}(id=${user.id})}">
                                             <img src="${pageContext.request.contextPath}/asset/clear.png" style="height: 15px; width: 15px"/>
                                         </a>
                                     </td>

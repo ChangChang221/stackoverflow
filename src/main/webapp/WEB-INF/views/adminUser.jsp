@@ -100,36 +100,32 @@
 
                 <input id="userFilter"type="text" placeholder="Filter by user" >
             </div>
+            <!--
             <div class="button-container">
                 <button class="ok">
-                    <img src="${pageContext.request.contextPath}/asset/add.png" height="10" width="10"/> Add User
+                    <img src="$'{pageContext.request.contextPath} /asset/add.png" height="10" width="10"/> Add User
                 </button>
-            </div>
+            </div> -->
         </div>
         <table class="table">
             <tr>
                 <th>ID</th>
                 <th>Username</th>
-                <th>Password</th>
                 <th>Role</th>
                 <th>Name</th>
-                <th>Registration Date</th>
                 <th>Action</th>
             </tr>
             <c:forEach var="user" items="${users}">
                 <tr>
                     <td>ID</td>
                     <td>${user.username}</td>
-                    <td>${user.password}</td>
-                    <td>${user.name}</td>
                     <td>${user.role}</td>
-                    <td  style=" text-align: center;">${user.createdOn}</td>
+                    <td>${user.name}</td>
                     <td style=" text-align: center;">
-                        <a href="#" >
+                        <a href="#">
                             <img src="${pageContext.request.contextPath}/asset/edit.png" style="height: 18px; width: 18px"/>
                         </a>
-                        <!-- -->
-                        <a href="@{/deleteUser/}+${user.id}">
+                        <a href="@{/deleteUser/} + ${user.id}">
                             <img src="${pageContext.request.contextPath}/asset/clear.png" style="height: 15px; width: 15px"/>
                         </a>
                     </td>
