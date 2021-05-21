@@ -123,15 +123,15 @@ public class QuestionBusiness extends BaseBusiness {
         //get name tag
         List<String> nameTag = tagBusiness.getNameTag(page);
         int sizeNameTag = nameTag.size();
-        System.out.println("sizenametag = " + sizeNameTag);
+//        System.out.println("sizenametag = " + sizeNameTag);
 
-        System.out.print("nameTag = " );
+//        System.out.print("nameTag = " );
         for(int j = 0; j < sizeNameTag; j++) {
-            System.out.print(nameTag.get(j) + ", ");
+//            System.out.print(nameTag.get(j) + ", ");
         }
-        System.out.println();
+//        System.out.println();
 
-        System.out.println("gettotal = " + tagBusiness.getTotal()/10 + 1);
+//        System.out.println("gettotal = " + tagBusiness.getTotal()/10 + 1);
         for (int i = 0; i < 15; i++) {
             tagsResponse.get(i).setNumberQuestion(0);
             /*TagResponse tagResponse = new TagResponse();
@@ -143,20 +143,20 @@ public class QuestionBusiness extends BaseBusiness {
 
         List<Question> response = questionRepository.findAll();
         int sizeResponse = response.size();
-        System.out.println("sizeResponse = " + sizeResponse);
+//        System.out.println("sizeResponse = " + sizeResponse);
 
-        System.out.println();
+//        System.out.println();
         for (int i = 0; i < sizeResponse; i++) {
 
             //get tag of a question
             List<String> tagList = response.get(i).getTags();
             int sizeTagList = tagList.size();
 
-            System.out.print("tagList = ");
+//            System.out.print("tagList = ");
             for (int k = 0; k < sizeTagList; k++) {
                 System.out.print(tagList.get(k) + ", ");
             }
-            System.out.println();
+//            System.out.println();
             for (int j = 0; j < sizeNameTag; j++) {
                 for (int k = 0; k < sizeTagList; k++) {
                     if (tagList.get(k).equals(nameTag.get(j))) {

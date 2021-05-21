@@ -52,4 +52,5 @@ public class QuestionRestController extends BaseController {
         response.setStatus(1);
         return ResponseEntity.ok(response);
     }
+
 }

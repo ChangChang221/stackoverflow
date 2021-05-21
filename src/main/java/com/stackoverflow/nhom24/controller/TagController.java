@@ -30,7 +30,7 @@ public class TagController {
         }
         int total  = tagBusiness.getTotal();
         int x = total/10 + 1;
-        System.out.println("total = " + total + ", total/10+1 = " + x);
+//        System.out.println("total = " + total + ", total/10+1 = " + x);
         List<Tag> listTag = tagBusiness.getAll(page);
         List<TagResponse> responses = questionBusiness.countQuestionTag(listTag, page, tab);
         modelMap.addAttribute("tags", responses);
