@@ -1,7 +1,6 @@
 package com.stackoverflow.nhom24.business;
 
 import com.stackoverflow.nhom24.business.base.BaseBusiness;
-import com.stackoverflow.nhom24.entity.Tag;
 import com.stackoverflow.nhom24.entity.User;
 import com.stackoverflow.nhom24.model.request.LoginRequest;
 import com.stackoverflow.nhom24.model.response.QuestionDetailResponse;
@@ -17,8 +16,7 @@ import org.bson.types.ObjectId;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.Array;
-import java.util.*;
+import java.util.List;
 
 
 @Component
@@ -26,8 +24,13 @@ import java.util.*;
 public class UserBusiness extends BaseBusiness {
     private final UserRepository userRepository;
     private final UserService userService;
-    private final QuestionService questionService;
 
+    public List<User> getAll(){
+
+            List<User> user = userRepository.findAll();
+            return user;
+
+    }
 
     public User login(LoginRequest model) throws NotFoundException {
         User user = userRepository.findByUsername(model.getUsername());
@@ -78,6 +81,11 @@ public class UserBusiness extends BaseBusiness {
         currentUser.setWebsite(newUser.getWebsite());
         currentUser.setTitle(newUser.getTitle());
         userRepository.save(currentUser);
+    }
+    public void deleteUser(String id){
+
+        userRepository.deleteById(new ObjectId(id).get());
+//        userRepository.deleteById(;
     }
     public List<UserResponse> getListUser(Integer page) {
 

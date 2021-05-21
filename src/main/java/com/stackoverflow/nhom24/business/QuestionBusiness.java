@@ -39,6 +39,11 @@ public class QuestionBusiness extends BaseBusiness {
     private final QuestionService questionService;
     private final TagBusiness tagBusiness;
 
+    public List<Question> getAll(){
+        List<Question> response= questionRepository.findAll();
+        return response;
+    }
+
     public List<QuestionResponse> getAll(Integer page, String tab) {
         List<QuestionResponse> response = questionService.findAllQuestionAndItem(page, tab);
         return response;

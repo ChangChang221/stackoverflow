@@ -40,6 +40,11 @@ public class AnswerRestController extends BaseController {
         response.setStatus(1);
         return ResponseEntity.ok(response);
     }
+    //lam giong phan nay
+    // the lai lam ca giao dien nua a :V
+    //uh lam ajax, no tra ve true thi xoa di bang js, sua thi update bang js,...
+    // vang de em xem :V
+    //u h
 
     @PutMapping("/answers/upVote")
     public ResponseEntity<DataResponse> voteAnswer(@RequestBody Map<String, Object> data,

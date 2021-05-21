@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.security.Principal;
@@ -87,7 +88,7 @@ public class UserController extends BaseController {
 
     @GetMapping("/users/edit/{id}")
     public String getProfile(final ModelMap model, Principal principal, HttpServletRequest request, @PathVariable String id) {
-//        String userId = getUserId(principal, request);
+   //    String userId = getUserId(principal, request);
         User users = userBusiness.getById(id);
         model.addAttribute("user", users);
         return "userEditProfile";
@@ -111,6 +112,17 @@ public class UserController extends BaseController {
             return "redirect:/users/edit/" + id;
         }
 
+    }
+    @RequestMapping(value = {"/deleteUser/{id}"}, method = RequestMethod.GET)
+    public String deleteUser( @PathVariable("id") String id, ModelMap model) {
+        System.out.println("test");
+        userBusiness.deleteUser(id);
+        return "test/user";
+    }
+    @PostMapping("/editUser/{id}")
+    public String editUser(@PathVariable String id){
+
+        return "redirect:/test/user/edit/"+id;
     }
 }
 
