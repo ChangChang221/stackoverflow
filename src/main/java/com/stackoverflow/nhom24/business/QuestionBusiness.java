@@ -36,6 +36,7 @@ public class QuestionBusiness extends BaseBusiness {
     private final UserRepository userRepository;
 
     private final QuestionService questionService;
+    private final TagBusiness tagBusiness;
 
     public List<QuestionResponse> getAll(Integer page, String tab) {
         List<QuestionResponse> response = questionService.findAllQuestionAndItem(page, tab);
@@ -46,15 +47,15 @@ public class QuestionBusiness extends BaseBusiness {
         return questionService.getByUserId(new ObjectId(userId));
     }
 
-    public void setAnswer(){
-        List<Question> questions = questionRepository.findAll();
-        for (Question el : questions){
-            List<AnswerResponse> result = answerService.getByQuestionId(el.getId());
-            el.setAnswers(result.size());
-            questionRepository.save(el);
-        }
-
-    }
+//    public void setAnswer(){
+//        List<Question> questions = questionRepository.findAll();
+//        for (Question el : questions){
+//            List<AnswerResponse> result = answerService.getByQuestionId(el.getId());
+//            el.setAnswers(result.size());
+//            questionRepository.save(el);
+//        }
+//
+//    }
 
     public void updatePhoto(){
         List<String> photo = new ArrayList<>();
