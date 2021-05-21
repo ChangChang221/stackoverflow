@@ -121,13 +121,13 @@ public class QuestionBusiness extends BaseBusiness {
         List<TagResponse> tagsResponse = mapper.mapAsList(tags, TagResponse.class);
 
         //get name tag
-        List<String> nameTag = tagBusiness.getNameTag(page);
-        int sizeNameTag = nameTag.size();
-        System.out.println("sizenametag = " + sizeNameTag);
+        //List<String> nameTag = tagBusiness.getNameTag(page);
+        int sizeNameTag = tags.size();
+        //System.out.println("sizenametag = " + sizeNameTag);
 
-        System.out.print("nameTag = " );
+        //System.out.print("nameTag = " );
         for(int j = 0; j < sizeNameTag; j++) {
-            System.out.print(nameTag.get(j) + ", ");
+            System.out.print(tags.get(j) + ", ");
         }
         System.out.println();
 
@@ -140,7 +140,6 @@ public class QuestionBusiness extends BaseBusiness {
         }
 
         //get questions response
-
         List<Question> response = questionRepository.findAll();
         int sizeResponse = response.size();
         System.out.println("sizeResponse = " + sizeResponse);
@@ -159,7 +158,7 @@ public class QuestionBusiness extends BaseBusiness {
             System.out.println();
             for (int j = 0; j < sizeNameTag; j++) {
                 for (int k = 0; k < sizeTagList; k++) {
-                    if (tagList.get(k).equals(nameTag.get(j))) {
+                    if (tagList.get(k).equals(tags.get(j))) {
                         tagsResponse.get(j).setNumberQuestion(tagsResponse.get(j).getNumberQuestion() + 1);
                     }
                 }
