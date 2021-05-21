@@ -17,10 +17,8 @@ import org.bson.types.ObjectId;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.lang.reflect.Array;
+import java.util.*;
 
 
 @Component
@@ -90,13 +88,29 @@ public class UserBusiness extends BaseBusiness {
         return userRepository.findAll().size();
     }
 
+    public void  tagIsExist(String tag, HashMap<String, Integer> hashMapTag) {
+
+        Set<String> getSetKey = hashMapTag.keySet();
+
+        boolean exist = false;
+        for (String s : getSetKey) {
+            if(s.equals(tag)) {
+                exist = true;
+                hashMapTag.replace(s, hashMapTag.get(s) + 1);
+            }
+        }
+        if (exist == false) {
+            hashMapTag.put(tag, 0);
+        }
+    }
     public List<UserResponse> getTagOfUser(List<UserResponse> users) {
         int sizeUsersList = users.size();
         for (int k = 0; k < sizeUsersList; k++) {
             List<QuestionResponse> questionResponseList = questionService.getByUserId(new ObjectId(users.get(k).getId()));
-
-            Set<String> getTagsUserSet = new HashSet<>(); // khởi tao set để tránh trùng lặp tag
             int sizeQuestionResponse = questionResponseList.size();
+
+            List<String> listTag = new ArrayList<String>(); //list chứa các tag của user (các tag không trùng lăp)
+            HashMap<String, Integer> hashMapTag = new HashMap<>();
 
             for (int i = 0; i < sizeQuestionResponse; i++) {
                 //get list tag cho mỗi câu hỏi
@@ -104,14 +118,34 @@ public class UserBusiness extends BaseBusiness {
                 int sizelistTagUser = listTagUser.size();
 
                 //get các tag này vào set
-                for (int  j = 0;  j < sizelistTagUser; j++) {
+                /*for (int  j = 0;  j < sizelistTagUser; j++) {
                     getTagsUserSet.add(listTagUser.get(j));
+                }*/
+
+                for (int j = 0; j < sizelistTagUser; j++) {
+                    tagIsExist(listTagUser.get(j), hashMapTag);
                 }
 
                 //chuyển các set thành list
                 List<String> getTagUserList = new ArrayList<>();
-                getTagUserList.addAll(getTagsUserSet);
 
+                //sort map theo thứ tự giảm dần của value
+                LinkedHashMap<String, Integer> reverseSortedMap = new LinkedHashMap<>();
+                hashMapTag.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                        .forEachOrdered(x -> reverseSortedMap.put(x.getKey(), x.getValue()));
+                Set<String> getKeyHashMap = reverseSortedMap.keySet();
+
+                System.out.println(hashMapTag);
+                int cnt = 0;
+                //lấy 3 tag có value lớn nhất
+                for(String s: getKeyHashMap) {
+                    if (cnt == 3) break;
+                    else {
+                        getTagUserList.add(s);
+                        cnt++;
+                    }
+                }
+                System.out.println(getTagUserList);
                 users.get(k).setTags(getTagUserList);
 
             }
