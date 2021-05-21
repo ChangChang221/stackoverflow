@@ -19,8 +19,10 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.group;
 
@@ -33,23 +35,45 @@ public class QuestionService {
     @DateTimeFormat(pattern = "yyyy-mm-ddThh:mm:ss.SSSZ")
     public List<QuestionResponse> findAllQuestionAndItem(long page, String tab) {
         try {
-            LookupOperation lookupOperationUser = LookupOperation.newLookup().from("user").localField("userId").foreignField("_id").as("user");
-//            LookupOperation lookupOperationAnswer = LookupOperation.newLookup()
-//                    .from("answer")
-//                    .localField("_id")
-//                    .foreignField("questionId")
-//                    .as("answer");
-//            GroupOperation groupOperation = group("_id").sum("answer").as("answer");
+
+            LookupOperation lookupOperationUser = LookupOperation.newLookup()
+                    .from("user")
+                    .localField("userId")
+                    .foreignField("_id")
+                    .as("user");
+            LookupOperation lookupOperationAnswer = LookupOperation.newLookup()
+                    .from("answer")
+                    .localField("_id")
+                    .foreignField("questionId")
+                    .as("answer");
+            GroupOperation groupOperation = group("_id").sum("answer").as("answer");
             Aggregation aggregation = null;
             if (tab.equals("newest")) {
-                aggregation = Aggregation.newAggregation(Aggregation.sort(Sort.Direction.ASC, "createdOn"), lookupOperationUser, Aggregation.skip((page - 1) * 15), Aggregation.limit(15));
+                aggregation = Aggregation.newAggregation(
+                        Aggregation.sort(Sort.Direction.ASC, "createdOn"),
+                        lookupOperationUser,
+                        lookupOperationAnswer,
+                        Aggregation.skip((page - 1) * 15),
+                        Aggregation.limit(15));
             } else if (tab.equals("active")) {
-                aggregation = Aggregation.newAggregation(Aggregation.sort(Sort.Direction.ASC, "createdOn"), lookupOperationUser, Aggregation.skip((page - 1) * 15), Aggregation.limit(15));
+                aggregation = Aggregation.newAggregation(
+                        Aggregation.sort(Sort.Direction.ASC, "createdOn"),
+                        lookupOperationUser,
+                        lookupOperationAnswer,
+                        Aggregation.skip((page - 1) * 15),
+                        Aggregation.limit(15));
             } else if (tab.equals("unanswers")) {
-                aggregation = Aggregation.newAggregation(Aggregation.match(Criteria.where("answers").is(0)), lookupOperationUser, Aggregation.skip((page - 1) * 15), Aggregation.limit(15));
+                aggregation = Aggregation.newAggregation(
+                        Aggregation.match(Criteria.where("answers").is(0)),
+                        lookupOperationUser,
+                        lookupOperationAnswer,
+                        Aggregation.skip((page - 1) * 15),
+                        Aggregation.limit(15));
             }
 
-            List<QuestionResponse> results = mongoTemplate.aggregate(aggregation, "question", QuestionResponse.class).getMappedResults();
+            List<QuestionResponse> results = mongoTemplate
+                    .aggregate(aggregation, "question", QuestionResponse.class)
+                    .getMappedResults();
             return results;
         } catch (Exception e) {
             System.out.print("error :" + e.getMessage() + "\n");
@@ -88,7 +112,11 @@ public class QuestionService {
         try {
             System.out.println("id:" + id);
             ObjectId objId = new ObjectId(id);
-            LookupOperation lookupOperationUser = LookupOperation.newLookup().from("user").localField("id").foreignField("userId").as("user");
+            LookupOperation lookupOperationUser = LookupOperation
+                    .newLookup().from("user")
+                    .localField("id")
+                    .foreignField("userId")
+                    .as("user");
 //        LookupOperation lookupOperationAnswer = LookupOperation.newLookup()
 //                .from("answer")
 //                .localField("_id")
@@ -96,8 +124,13 @@ public class QuestionService {
 //                .as("answer");
 //        GroupOperation groupOperation = group("_id").sum("answer").as("answer");
 
-            Aggregation aggregation = Aggregation.newAggregation(Aggregation.match(Criteria.where("_id").is(objId)), lookupOperationUser);
-            QuestionDetailResponse results = mongoTemplate.aggregate(aggregation, "question", QuestionDetailResponse.class).getUniqueMappedResult();
+            Aggregation aggregation = Aggregation.newAggregation(
+                    Aggregation.match(Criteria.where("_id").is(objId)),
+                    lookupOperationUser
+            );
+            QuestionDetailResponse results = mongoTemplate
+                    .aggregate(aggregation, "question", QuestionDetailResponse.class)
+                    .getUniqueMappedResult();
             Query query = new Query();
 //        query.
             return results;
