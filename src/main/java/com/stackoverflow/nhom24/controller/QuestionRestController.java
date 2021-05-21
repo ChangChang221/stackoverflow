@@ -5,13 +5,11 @@ import com.stackoverflow.nhom24.controller.base.BaseController;
 import com.stackoverflow.nhom24.entity.Question;
 import com.stackoverflow.nhom24.entity.Tag;
 import com.stackoverflow.nhom24.model.response.DataResponse;
+import com.stackoverflow.nhom24.model.response.LiveSearchQuestionResponse;
 import lombok.AllArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -53,4 +51,14 @@ public class QuestionRestController extends BaseController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/search")
+    @CrossOrigin(origins = "*")
+    public ResponseEntity<DataResponse> questionSearch(@RequestParam String query, HttpServletRequest req, HttpServletResponse res, Principal principal) {
+        System.out.println("query" + query);
+        List<LiveSearchQuestionResponse> results = questionBusiness.getQuestions(query);
+        DataResponse response = new DataResponse();
+        response.setResult(results);
+        response.setStatus(1);
+        return ResponseEntity.ok(response);
+    }
 }

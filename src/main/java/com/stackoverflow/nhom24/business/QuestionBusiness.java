@@ -5,6 +5,7 @@ import com.stackoverflow.nhom24.entity.Question;
 import com.stackoverflow.nhom24.entity.Tag;
 import com.stackoverflow.nhom24.entity.User;
 import com.stackoverflow.nhom24.model.response.AnswerResponse;
+import com.stackoverflow.nhom24.model.response.LiveSearchQuestionResponse;
 import com.stackoverflow.nhom24.model.response.QuestionDetailResponse;
 import com.stackoverflow.nhom24.model.response.QuestionResponse;
 import com.stackoverflow.nhom24.model.response.QuestionsResponse;
@@ -36,10 +37,14 @@ public class QuestionBusiness extends BaseBusiness {
     private final UserRepository userRepository;
 
     private final QuestionService questionService;
-    private final TagBusiness tagBusiness;
 
     public List<QuestionResponse> getAll(Integer page, String tab) {
         List<QuestionResponse> response = questionService.findAllQuestionAndItem(page, tab);
+        return response;
+    }
+
+    public List<LiveSearchQuestionResponse> getQuestions(String query){
+        List<LiveSearchQuestionResponse> response = questionService.getQuestions(query);
         return response;
     }
 
@@ -47,15 +52,13 @@ public class QuestionBusiness extends BaseBusiness {
         return questionService.getByUserId(new ObjectId(userId));
     }
 
-//    public void setAnswer(){
-//        List<Question> questions = questionRepository.findAll();
-//        for (Question el : questions){
-//            List<AnswerResponse> result = answerService.getByQuestionId(el.getId());
-//            el.setAnswers(result.size());
-//            questionRepository.save(el);
-//        }
-//
-//    }
+    public void setRole(){
+        List<User> users = userRepository.findAll();
+        for (User el : users){
+            userRepository.save(el);
+        }
+
+    }
 
     public void updatePhoto(){
         List<String> photo = new ArrayList<>();
