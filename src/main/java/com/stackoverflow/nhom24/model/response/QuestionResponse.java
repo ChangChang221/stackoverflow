@@ -24,7 +24,7 @@ public class QuestionResponse {
     private Date createdOn;
     private List<String> tags;
     private Integer views;
-    private Answer answers;
+    private int answers;
     private User user;
     private int total;
 }

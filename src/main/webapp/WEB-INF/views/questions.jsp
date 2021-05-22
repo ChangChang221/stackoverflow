@@ -87,7 +87,7 @@
             <div class="question">
                 <div class="info-question">
                     <div>
-                        <p>${question.answers.size()}</p>
+                        <p>${question.answers}</p>
                         <p>answers</p>
                     </div>
                     <div>

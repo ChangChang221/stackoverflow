@@ -100,15 +100,7 @@
                 <div class="question">
                     <div class="info-question">
                         <div>
-<%--                            <c:choose>--%>
-<%--                                <c:when test="${question.answers != null }">--%>
-<%--                                    <p>${question.answers.size()}</p>--%>
-<%--                                </c:when>--%>
-<%--                                <c:otherwise>--%>
-                                    <p>0</p>
-<%--                                </c:otherwise>--%>
-<%--                            </c:choose>--%>
-
+                            <p>${question.answers}</p>
                             <p>answers</p>
                         </div>
                         <div>
