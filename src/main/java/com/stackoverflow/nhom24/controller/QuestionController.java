@@ -38,7 +38,7 @@ public class QuestionController {
     }
 
     @GetMapping("/questions")
-    public String getAllQuestion(final ModelMap model, String page, String tab) {
+    public String getAllQuestion(final ModelMap model, Integer page, String tab, Integer startPagination) {
         boolean statusPage = true;
         boolean statustab = true;
         if(page == null) {
@@ -75,7 +75,7 @@ public class QuestionController {
             endPagination = totalPagination;
         }
         List<QuestionResponse> questions = questionBusiness.getAll(page, tab);
-        model.addAttribute("tag", tag);
+//        model.addAttribute("tag", tag);
         model.addAttribute("pagination", totalPagination);
         model.addAttribute("total", total);
         model.addAttribute("questions", questions);
