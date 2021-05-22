@@ -1,5 +1,6 @@
 package com.stackoverflow.nhom24.model.response;
 
+import com.stackoverflow.nhom24.entity.Answer;
 import com.stackoverflow.nhom24.entity.Tag;
 import com.stackoverflow.nhom24.entity.User;
 import lombok.Getter;
@@ -23,7 +24,7 @@ public class QuestionResponse {
     private Date createdOn;
     private List<String> tags;
     private Integer views;
-    private Integer answers;
+    private int answers;
     private User user;
     private int total;
 }

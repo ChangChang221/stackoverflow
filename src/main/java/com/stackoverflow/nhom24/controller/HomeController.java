@@ -19,17 +19,34 @@ public class HomeController {
 
     @GetMapping(value = "/")
     
-    public String home(final ModelMap model, Integer page) {
+    public String home(final ModelMap model, Integer page, Integer startPagination) {
 
         if (page == null) {
             page = 1;
         }
+        if(startPagination == null){
+            startPagination = 0;
+        }
+        if(page > startPagination + 10){
+            startPagination = startPagination + 10;
+        } if(page < startPagination){
+            startPagination = startPagination - 10;
+        }
         int total = questionBusiness.getTotal("newest");
+        int totalPagination = (total / 15) + 1;
+        if(startPagination + 10 >= totalPagination){
+            startPagination = totalPagination - 10;
+        } else if(startPagination <= 1){
+            startPagination = 0;
+        }
         List<QuestionResponse> questions = questionBusiness.getAll(page, "newest");
-        model.addAttribute("pagination", (int) (total / 10) + 1);
+        model.addAttribute("pagination", totalPagination);
         model.addAttribute("total", total);
         model.addAttribute("questions", questions);
         model.addAttribute("page", page);
+        model.addAttribute("startPagination", startPagination);
+        model.addAttribute("endPagination", startPagination + 10);
+        model.addAttribute("sidebar", 1);
         return "home";
     }
 }

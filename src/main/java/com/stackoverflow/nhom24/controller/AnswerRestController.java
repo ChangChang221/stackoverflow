@@ -27,7 +27,7 @@ public class AnswerRestController extends BaseController {
                                                    HttpServletRequest req,
                                                    Principal principal) {
         String body = (String) data.get("body");
-        ObjectId questionId = (ObjectId) data.get("questionId");
+        ObjectId questionId = new ObjectId((String)data.get("questionId"));
         Answer answer = new Answer();
         answer.setBody(body);
         answer.setUserId((getUserId(principal, req)));

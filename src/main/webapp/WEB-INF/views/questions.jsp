@@ -87,7 +87,7 @@
             <div class="question">
                 <div class="info-question">
                     <div>
-                        <p>0</p>
+                        <p>${question.answers}</p>
                         <p>answers</p>
                     </div>
                     <div>
@@ -95,21 +95,21 @@
                         <span style="margin-left: 5px">views</span>
                     </div>
                 </div>
-                <div class="content-question">
+                <div class="content-question" style="margin-left: 10px; width: 100%;">
                     <a href="#">${question.title}</a>
-                    <p>
-                        I have two images when hovering the mouse over one of these
-                        images, a certain component is displayed if it says more in
-                        detail when hovering over the first image, a component with a
-                        red background is ...
-                    </p>
-                    <div class="more-info-question">
+<%--                    <p>--%>
+<%--                        I have two images when hovering the mouse over one of these--%>
+<%--                        images, a certain component is displayed if it says more in--%>
+<%--                        detail when hovering over the first image, a component with a--%>
+<%--                        red background is ...--%>
+<%--                    </p>--%>
+                    <div class="more-info-question" style="margin-top: 20px;">
                         <div class="tags-question">
                             <c:forEach var="tag" items="${question.tags}">
                                 <a href="#" class="tag">${tag}</a>
                             </c:forEach>
                         </div>
-                        <div class="questioner">
+                        <div class="questioner" style="width: 210px;">
                             <span>asked 37 secs ago</span>
                             <div>
                                 <img
@@ -143,17 +143,17 @@
         </div>
         <div class="pagination">
 
-            <c:forEach begin="0" end="${pagination}" var="i">
-                <c:if test="${page != 1 && i == 0}">
+            <c:forEach begin="${startPagination}" end="${endPagination}" var="i">
+                <c:if test="${page != 1 && i == startPagination}">
                     <a href="${pageContext.request.contextPath}?page=${page - 1}">Prev</a>
                 </c:if>
-                <c:if test="${page == (i+1) && i != pagination}">
+                <c:if test="${page == (i+1) && i != endPagination}">
                     <a href="${pageContext.request.contextPath}?page=${i+1}" class="active">${i+1}</a>
                 </c:if>
-                <c:if test="${page != (i+1) && i != pagination}">
+                <c:if test="${page != (i+1) && i != endPagination}">
                     <a href="${pageContext.request.contextPath}?page=${i+1}">${i+1}</a>
                 </c:if>
-                <c:if test="${page != pagination && i == pagination}">
+                <c:if test="${page != pagination && i == endPagination}">
                     <a href="${pageContext.request.contextPath}?page=${page + 1}">Next</a>
                 </c:if>
             </c:forEach>

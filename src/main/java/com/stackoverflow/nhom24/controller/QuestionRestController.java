@@ -5,13 +5,12 @@ import com.stackoverflow.nhom24.controller.base.BaseController;
 import com.stackoverflow.nhom24.entity.Question;
 import com.stackoverflow.nhom24.entity.Tag;
 import com.stackoverflow.nhom24.model.response.DataResponse;
+import com.stackoverflow.nhom24.model.response.LiveSearchQuestionResponse;
+import com.stackoverflow.nhom24.model.response.QuestionPostResponse;
 import lombok.AllArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,16 +38,28 @@ public class QuestionRestController extends BaseController {
         question.setTitle(title);
         question.setCreatedOn(new Date());
         question.setViews(0);
-//        question.setUserId(new String(getUserId(principal, req)));
-        question.setUserId(new ObjectId());
+        question.setUserId(getUserId(principal, req));
         question.setAnswers(0);
         Question newQuestion = questionBusiness.postQuestion(question, tags.stream().map(post -> {
             Tag tag = new Tag();
             tag.setName(post);
             return tag;
         }).collect(Collectors.toList()));
+        QuestionPostResponse q = new QuestionPostResponse();
+        q.setId(newQuestion.getId().toString());
         DataResponse response = new DataResponse();
-        response.setResult(newQuestion);
+        response.setResult(q);
+        response.setStatus(1);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/search")
+    @CrossOrigin(origins = "*")
+    public ResponseEntity<DataResponse> questionSearch(@RequestParam String query, HttpServletRequest req, HttpServletResponse res, Principal principal) {
+        System.out.println("query" + query);
+        List<LiveSearchQuestionResponse> results = questionBusiness.getQuestions(query);
+        DataResponse response = new DataResponse();
+        response.setResult(results);
         response.setStatus(1);
         return ResponseEntity.ok(response);
     }

@@ -2,18 +2,14 @@ package com.stackoverflow.nhom24.business;
 
 import com.stackoverflow.nhom24.business.base.BaseBusiness;
 import com.stackoverflow.nhom24.entity.Answer;
-import com.stackoverflow.nhom24.entity.User;
 import com.stackoverflow.nhom24.entity.Vote;
 import com.stackoverflow.nhom24.model.response.AnswerResponse;
-import com.stackoverflow.nhom24.model.response.UserResponse;
 import com.stackoverflow.nhom24.repository.AnswerRepository;
 import com.stackoverflow.nhom24.repository.UserRepository;
 import com.stackoverflow.nhom24.repository.VoteRepository;
 import com.stackoverflow.nhom24.service.AnswerService;
 import lombok.AllArgsConstructor;
 import org.bson.types.ObjectId;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

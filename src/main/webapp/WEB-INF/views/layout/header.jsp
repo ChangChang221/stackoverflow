@@ -2,6 +2,7 @@
            uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <sec:authorize access="hasRole('ROLE_USER')" var="isUser" />
+<sec:authorize access="hasRole('ROLE_ADMIN')" var="isAdmin" />
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,9 +15,71 @@
     />
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/header.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/header.css"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/common.css"/>
 </head>
 <body>
+<script>
+    let controller = new AbortController();
+    const search = async (value) => {
+        console.log(value);
+        if(event.keyCode === 13) {
+            window.location.href =  "http://localhost:8000/questions/search?search=" + value;
+        }
+        controller.abort();
+        controller = new AbortController();
+        const signal = controller.signal;
+        const loader = document.getElementById("loader");
+        const ul = document.getElementById("search-results")
+        if (value === "") {
+            ul.innerHTML = "";
+            ul.appendChild(loader);
+            loader.style.display = "none"
+        } else {
+            ul.innerHTML = "";
+            ul.appendChild(loader);
+            loader.style.display = "block"
+            const _response = await fetch("/search?" + new URLSearchParams({
+                query: value
+            }), {signal});
+            const response = await _response.json();
+            if (response.status) {
+                loader.style.display = "none";
+                const _results = response.result;
+                _results.forEach((_result) => {
+                    let li = document.createElement("li");
+                    let div_1 = document.createElement("div");
+                    let div_2_1 = document.createElement("div");
+                    let div_3_1 = document.createElement("div");
+                    div_3_1.innerHTML = _result.answers;
+                    let div_3_2 = document.createElement("div");
+                    div_3_2.innerHTML = "answers"
+                    let div_2_2 = document.createElement("div");
+                    let a_3_1 = document.createElement("a");
+                    a_3_1.innerHTML = _result.title;
+                    a_3_1.setAttribute("href", "#");
+                    let div_3_3 = document.createElement("div");
+                    div_3_3.setAttribute("class", "answer-question-tags");
+                    for (let i = 0; i < _result.tags.length; i++) {
+                        let tag = document.createElement("a");
+                        tag.innerHTML = _result.tags[i].name;
+                        tag.setAttribute("href", "#");
+                        tag.setAttribute("class", "tag");
+                        div_3_3.appendChild(tag)
+                    }
+                    div_2_2.appendChild(a_3_1);
+                    div_2_2.appendChild(div_3_3);
+                    div_2_1.appendChild(div_3_1);
+                    div_2_1.appendChild(div_3_2);
+                    div_1.appendChild(div_2_1);
+                    div_1.appendChild(div_2_2)
+                    li.appendChild(div_1)
+                    ul.appendChild(li)
+                })
+            }
+        }
+    }
+</script>
 <header class="header-container">
     <div class="container-header">
         <div class="icon-container-header">
@@ -28,21 +91,112 @@
         </nav>
 
         <div class="search-container">
-            <img id="search-icon" src="${pageContext.request.contextPath}/asset/search-icon.png" />
-            <input placeholder="Search..." id="input-search" />
+            <img id="search-icon" src="/asset/search-icon.png" onclick="home()"/>
+            <input placeholder="Search..." id="input-search" onkeyup="search(value)"/>
+            <ul class="search-results" id="search-results">
+                <div class="lds-hourglass" id="loader" style="display: none"></div>
+                <!-- <p style="margin-left: 15px">Gợi ý tìm kiếm:</p> -->
+                <%--                <li>--%>
+                <%--                    <div>--%>
+                <%--                        <div>--%>
+                <%--                            <div>8</div>--%>
+                <%--                            <div>answers</div>--%>
+                <%--                        </div>--%>
+                <%--                        <div>--%>
+                <%--                            <a href="#">Can StyleCop automatically fix anything?</a>--%>
+                <%--                            <div class="answer-question-tags">--%>
+                <%--                                <a href="#" class="tag">android</a>--%>
+                <%--                                <a href="#" class="tag">react-native</a>--%>
+                <%--                                <a href="#" class="tag">huawei-mobile-services</a>--%>
+                <%--                                <a href="#" class="tag">huawei-push-notification</a>--%>
+                <%--                            </div>--%>
+                <%--                        </div>--%>
+                <%--                    </div>--%>
+                <%--                </li>--%>
+                <%--                <li>--%>
+                <%--                    <div>--%>
+                <%--                        <div>--%>
+                <%--                            <div>8</div>--%>
+                <%--                            <div>answers</div>--%>
+                <%--                        </div>--%>
+                <%--                        <div>--%>
+                <%--                            <a href="#">Can StyleCop automatically fix anything?</a>--%>
+                <%--                            <div class="answer-question-tags">--%>
+                <%--                                <a href="#" class="tag">android</a>--%>
+                <%--                                <a href="#" class="tag">react-native</a>--%>
+                <%--                                <a href="#" class="tag">huawei-mobile-services</a>--%>
+                <%--                                <a href="#" class="tag">huawei-push-notification</a>--%>
+                <%--                            </div>--%>
+                <%--                        </div>--%>
+                <%--                    </div>--%>
+                <%--                </li>--%>
+                <%--                <li>--%>
+                <%--                    <div>--%>
+                <%--                        <div>--%>
+                <%--                            <div>8</div>--%>
+                <%--                            <div>answers</div>--%>
+                <%--                        </div>--%>
+                <%--                        <div>--%>
+                <%--                            <a href="#">Can StyleCop automatically fix anything?</a>--%>
+                <%--                            <div class="answer-question-tags">--%>
+                <%--                                <a href="#" class="tag">android</a>--%>
+                <%--                                <a href="#" class="tag">react-native</a>--%>
+                <%--                                <a href="#" class="tag">huawei-mobile-services</a>--%>
+                <%--                                <a href="#" class="tag">huawei-push-notification</a>--%>
+                <%--                            </div>--%>
+                <%--                        </div>--%>
+                <%--                    </div>--%>
+                <%--                </li>--%>
+            </ul>
         </div>
         <div class="button-container">
-            <c:if test="${isUser}">
+            <c:if test="${isUser == true || isAdmin == true}">
+                <div style="margin-top: 5px;
+                            position: relative;
+                            flex-shrink: 0;
+                            display: inline-flex;
+                            padding-bottom: 0;
+                            height: 100%;">
+
+                <div>
+                    <a style="padding: 0 12px;
+                            height: 100%;
+                            font-size: 12px;
+                            color: #3c4146;
+                            white-space: nowrap;
+                            display: flex;
+                            flex-flow: row nowrap;
+                            align-items: center;">
+                    <img src="https://lh3.googleusercontent.com/-vay8kp6zeaw/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucnARADGtjy6WlWEKVpUPIgRlWLk2A/s96-c/photo.jpg?sz=48" alt width="24" height="24" style="border-radius: 3px;vertical-align: middle;">
+                    </a>
+                </div>
+                </div>
+
             </c:if>
-            <c:if test="${!isUser}">
+            <c:if test="${isAdmin == true }">
+                <button id="log-in" onclick="admin()">Admin</button>
+            </c:if>
+            <c:if test="${isUser == true || isAdmin == true}">
+                <button id="sign-up" onclick="logout()">Log out</button>
+            </c:if>
+            <c:if test="${ isUser == false && isAdmin == false }">
                 <button id="log-in" onclick="login()">Log in</button>
-                <button id="sign-up" onclick="signup()">Sign up</button>
+<%--                <button id="sign-up" onclick="signup()">Sign up</button>--%>
             </c:if>
 
         </div>
     </div>
 </header>
 <script>
+    const home = () => {
+        window.location.href = "http://localhost:8000"
+    }
+    const admin = () => {
+        window.location.href = "http://localhost:8000/admin/home"
+    }
+    const logout = () => {
+        window.location.href = "http://localhost:8000/logout"
+    }
     const login = () => {
         window.location.href = "http://localhost:8000/users/auth"
     }

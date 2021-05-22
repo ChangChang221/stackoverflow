@@ -21,8 +21,6 @@ public class QuestionDetailResponse {
     private String title;
     private String userId;
     private String body;
-    
-    
     private Date createdOn;
     private List<String> tags;
     private Integer views;
