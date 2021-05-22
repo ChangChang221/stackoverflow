@@ -41,32 +41,32 @@ public class QuestionService {
                     .localField("userId")
                     .foreignField("_id")
                     .as("user");
-            LookupOperation lookupOperationAnswer = LookupOperation.newLookup()
-                    .from("answer")
-                    .localField("_id")
-                    .foreignField("questionId")
-                    .as("answers");
+//            LookupOperation lookupOperationAnswer = LookupOperation.newLookup()
+//                    .from("answer")
+//                    .localField("_id")
+//                    .foreignField("questionId")
+//                    .as("answers");
             GroupOperation groupOperation = group("_id").sum("answer").as("answer");
             Aggregation aggregation = null;
             if (tab.equals("newest")) {
                 aggregation = Aggregation.newAggregation(
                         Aggregation.sort(Sort.Direction.ASC, "createdOn"),
                         lookupOperationUser,
-                        lookupOperationAnswer,
+//                        lookupOperationAnswer,
                         Aggregation.skip((page - 1) * 15),
                         Aggregation.limit(15));
             } else if (tab.equals("active")) {
                 aggregation = Aggregation.newAggregation(
                         Aggregation.sort(Sort.Direction.ASC, "createdOn"),
                         lookupOperationUser,
-                        lookupOperationAnswer,
+//                        lookupOperationAnswer,
                         Aggregation.skip((page - 1) * 15),
                         Aggregation.limit(15));
             } else if (tab.equals("unanswers")) {
                 aggregation = Aggregation.newAggregation(
                         Aggregation.match(Criteria.where("answers").is(0)),
                         lookupOperationUser,
-                        lookupOperationAnswer,
+//                        lookupOperationAnswer,
                         Aggregation.skip((page - 1) * 15),
                         Aggregation.limit(15));
             }
@@ -110,12 +110,11 @@ public class QuestionService {
 
     public QuestionDetailResponse findQuestionAndItemById(String id) {
         try {
-            System.out.println("id:" + id);
             ObjectId objId = new ObjectId(id);
             LookupOperation lookupOperationUser = LookupOperation
                     .newLookup().from("user")
-                    .localField("id")
-                    .foreignField("userId")
+                    .localField("userId")
+                    .foreignField("_id")
                     .as("user");
 //        LookupOperation lookupOperationAnswer = LookupOperation.newLookup()
 //                .from("answer")

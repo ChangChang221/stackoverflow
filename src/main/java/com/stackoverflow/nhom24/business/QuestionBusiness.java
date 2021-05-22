@@ -115,7 +115,9 @@ public class QuestionBusiness extends BaseBusiness {
             return tag;
         }).collect(Collectors.toList());
         question.setTags(tags.stream().map(el -> el.getName()).collect(Collectors.toList()));
-        return questionRepository.save(question);
+        question.setId(new ObjectId());
+        questionRepository.save(question);
+        return question;
     }
 
     public QuestionDetailResponse getById(String id) {

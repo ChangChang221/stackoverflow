@@ -26,10 +26,10 @@
         </div>
         <!-- Nav  -->
         <ul class="nav">
-            <li><a href="#" onclick="location.href='/test/adminHome';"><i class="fa fa-home"></i>Home</a></li>
-            <li><a href="#" onclick="location.href='/test/adminAbout';"><i class="fa fa-user"></i>About</a></li>
-            <li><a href="#"  onclick="location.href='/test/user';"><i class="fa fa-users"></i>User Manage</a></li>
-            <li><a href="#" class="active" onclick="location.href='/test/adminPost';"><i class="fa fa-question"></i>Post Manage</a></li>
+            <li><a href="#" onclick="location.href='/admin/home';"><i class="fa fa-home"></i>Home</a></li>
+            <li><a href="#" onclick="location.href='/admin/about';"><i class="fa fa-user"></i>About</a></li>
+            <li><a href="#"  onclick="location.href='/admin/user';"><i class="fa fa-users"></i>User Manage</a></li>
+            <li><a href="#" class="active" onclick="location.href='/admin/post';"><i class="fa fa-question"></i>Post Manage</a></li>
    <!--         <li><a href="#" onclick="location.href='/';"><i class="fa fa-sign-out"></i>Logout</a></li> -->
 
         </ul>

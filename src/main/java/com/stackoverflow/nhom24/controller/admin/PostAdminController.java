@@ -17,7 +17,7 @@ public class PostAdminController {
 
     private final QuestionBusiness questionBusiness;
 
-    @GetMapping("/test/adminPost")
+    @GetMapping("/admin/post")
     public String getAllPost( final ModelMap model) {
 
         List<Question> questions = questionBusiness.getAll();

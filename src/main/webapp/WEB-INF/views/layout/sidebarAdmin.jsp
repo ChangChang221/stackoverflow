@@ -10,10 +10,10 @@
     </div>
     <!-- Nav  -->
     <ul class="nav">
-        <li><a href="#" class="active"><i class="fa fa-home"></i>Home</a></li>
-        <li><a href="#"><i class="fa fa-user"></i>About</a></li>
-        <li><a href="#"><i class="fa fa-users"></i>User Manage</a></li>
-        <li><a href="#"><i class="fa fa-question"></i>Post Manage</a></li>
+        <li><a href="/admin" class="active"><i class="fa fa-home"></i>Home</a></li>
+        <li><a href="/admin/about"><i class="fa fa-user"></i>About</a></li>
+        <li><a href="/admin/user"><i class="fa fa-users"></i>User Manage</a></li>
+        <li><a href="/admin/post"><i class="fa fa-question"></i>Post Manage</a></li>
     </ul>
     <!-- copyright  -->
     <div class="copyright-text">

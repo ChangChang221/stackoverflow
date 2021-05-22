@@ -54,6 +54,7 @@ public class UserController extends BaseController {
         user.setName(model.getNameSignUp());
         user.setPassword(EncrytedPasswordUtils.encrytedPassword(model.getPasswordSignUp()));
         user.setRole("ROLE_USER");
+        user.setPhoto("avatar1.png");
         User newUser = userBusiness.createUser(user);
 
         return "redirect:/users/auth";

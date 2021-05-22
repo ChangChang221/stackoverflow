@@ -49,7 +49,7 @@ const postAskQuestion = () => {
     http.setRequestHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     http.onload = function () {
         // do something to response
-        window.location.href = `http://localhost:8000/questions/detail/${JSON.parse(this.responseText)['result']['id']}`;
+        window.location.href = "http://localhost:8000/questions/detail/" + JSON.parse(this.responseText)['result']['id'];
     };
     http.send(JSON.stringify(question));
 }

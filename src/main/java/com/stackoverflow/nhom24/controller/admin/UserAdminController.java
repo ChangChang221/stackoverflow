@@ -16,7 +16,7 @@ public class UserAdminController {
 
     private final UserBusiness userBusiness;
 
-    @GetMapping("/test/user")
+    @GetMapping("/admin/user")
     public String getAllUser(final ModelMap model) {
         List<User> users = userBusiness.getAll();
         model.addAttribute("users", users);

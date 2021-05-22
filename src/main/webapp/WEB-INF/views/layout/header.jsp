@@ -2,6 +2,7 @@
            uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <sec:authorize access="hasRole('ROLE_USER')" var="isUser" />
+<sec:authorize access="hasRole('ROLE_ADMIN')" var="isAdmin" />
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -90,7 +91,7 @@
         </nav>
 
         <div class="search-container">
-            <img id="search-icon" src="/asset/search-icon.png"/>
+            <img id="search-icon" src="/asset/search-icon.png" onclick="home()"/>
             <input placeholder="Search..." id="input-search" onkeyup="search(value)"/>
             <ul class="search-results" id="search-results">
                 <div class="lds-hourglass" id="loader" style="display: none"></div>
@@ -149,17 +150,53 @@
             </ul>
         </div>
         <div class="button-container">
-            <c:if test="${isUser}">
+            <c:if test="${isUser == true || isAdmin == true}">
+                <div style="margin-top: 5px;
+                            position: relative;
+                            flex-shrink: 0;
+                            display: inline-flex;
+                            padding-bottom: 0;
+                            height: 100%;">
+
+                <div>
+                    <a style="padding: 0 12px;
+                            height: 100%;
+                            font-size: 12px;
+                            color: #3c4146;
+                            white-space: nowrap;
+                            display: flex;
+                            flex-flow: row nowrap;
+                            align-items: center;">
+                    <img src="https://lh3.googleusercontent.com/-vay8kp6zeaw/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucnARADGtjy6WlWEKVpUPIgRlWLk2A/s96-c/photo.jpg?sz=48" alt width="24" height="24" style="border-radius: 3px;vertical-align: middle;">
+                    </a>
+                </div>
+                </div>
+
             </c:if>
-            <c:if test="${!isUser}">
+            <c:if test="${isAdmin == true }">
+                <button id="log-in" onclick="admin()">Admin</button>
+            </c:if>
+            <c:if test="${isUser == true || isAdmin == true}">
+                <button id="sign-up" onclick="logout()">Log out</button>
+            </c:if>
+            <c:if test="${ isUser == false && isAdmin == false }">
                 <button id="log-in" onclick="login()">Log in</button>
-                <button id="sign-up" onclick="signup()">Sign up</button>
+<%--                <button id="sign-up" onclick="signup()">Sign up</button>--%>
             </c:if>
 
         </div>
     </div>
 </header>
 <script>
+    const home = () => {
+        window.location.href = "http://localhost:8000"
+    }
+    const admin = () => {
+        window.location.href = "http://localhost:8000/admin/home"
+    }
+    const logout = () => {
+        window.location.href = "http://localhost:8000/logout"
+    }
     const login = () => {
         window.location.href = "http://localhost:8000/users/auth"
     }

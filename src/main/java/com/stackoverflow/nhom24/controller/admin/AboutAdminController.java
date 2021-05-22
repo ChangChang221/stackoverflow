@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 @AllArgsConstructor
 public class AboutAdminController {
-    @GetMapping("/test/adminAbout")
+    @GetMapping("/admin/about")
 
     public String home(final ModelMap model){
         return "aboutMe";
