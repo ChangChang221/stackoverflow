@@ -57,7 +57,8 @@
 
                 <div class="info-question">
                     <div>
-                        <p>${question.answers}</p>
+<%--                        <p>${question.answers}</p>--%>
+                        <p>0</p>--%>
                         <p>answers</p>
                     </div>
                     <div>

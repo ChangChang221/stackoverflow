@@ -66,23 +66,41 @@ public class UserController extends BaseController {
         userBusiness.updateView(user);
         model.addAttribute("user", user);
         model.addAttribute("questions", questions);
+        model.addAttribute("sidebar", 3);
         return "userDetail";
     }
 
     @GetMapping("/users")
-    public String getAllUser(final ModelMap modelMap, String page) {
+    public String getAllUser(final ModelMap modelMap, Integer page, Integer startPagination) {
         if (page == null) {
-            page = "1";
+            page = 1;
+        }
+        if(startPagination == null){
+            startPagination = 0;
+        }
+        if(page > startPagination + 10){
+            startPagination = startPagination + 10;
+        } else if(page < startPagination){
+            startPagination = startPagination - 10;
         }
 
         int total = userBusiness.getTotal();
+        int totalPagination = (total / 40) + 1;
+        if(startPagination + 10 >= totalPagination){
+            startPagination = totalPagination - 10;
+        } if(startPagination <= 1){
+            startPagination = 0;
+        }
 //        List<Tag> listTag = tagBusiness.getAll(Integer.parseInt(page));
-        List<UserResponse> users = userBusiness.getListUser(Integer.parseInt(page));
+        List<UserResponse> users = userBusiness.getListUser(page);
         List<UserResponse> response = userBusiness.getTagOfUser(users);
         modelMap.addAttribute("users", response);
-        modelMap.addAttribute("pagination", (int) total/15 + 1);
+        modelMap.addAttribute("pagination", totalPagination);
         modelMap.addAttribute("total", total);
         modelMap.addAttribute("page", page);
+        modelMap.addAttribute("startPagination", startPagination);
+        modelMap.addAttribute("endPagination", startPagination + 10);
+        modelMap.addAttribute("sidebar", 3);
         return "users";
     }
 
@@ -91,6 +109,7 @@ public class UserController extends BaseController {
    //    String userId = getUserId(principal, request);
         User users = userBusiness.getById(id);
         model.addAttribute("user", users);
+        model.addAttribute("sidebar", 3);
         return "userEditProfile";
     }
 

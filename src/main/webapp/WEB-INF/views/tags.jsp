@@ -29,6 +29,7 @@
         </p>
         <a href="#">Show all tag synonyms</a>
         <br />
+        <br />
         <div class="options-container-user-filter">
             <div class="search-input">
                 <svg aria-hidden="true" width="18" height="18" viewBox="0 0 18 18">
@@ -40,7 +41,7 @@
                         placeholder="Filter by tag name"
                         class="input-type"
                         style="padding-left: 40px"
-                        onkeyup="chk_me(value)"
+                        onkeyup="filter(value)"
                 />
             </div>
 <%--            <ul class="filter-questions-list">--%>
@@ -79,18 +80,18 @@
 
         </div>
         <div id="pagination" class="pagination">
-            <c:forEach begin="0" end="${pagination}" var="i">
-                <c:if test="${page != 1 && i == 0}">
-                    <a href="${pageContext.request.contextPath}?page=${page - 1}">Prev</a>
+            <c:forEach begin="${startPagination}" end="${endPagination}" var="i">
+                <c:if test="${page != 1 && i == startPagination}">
+                    <a href="${pageContext.request.contextPath}/tags?page=${page - 1}">Prev</a>
                 </c:if>
-                <c:if test="${page == (i+1) && i != pagination}">
-                    <a href="${pageContext.request.contextPath}?page=${i+1}" class="active">${i+1}</a>
+                <c:if test="${page == (i+1) && i != endPagination}">
+                    <a href="${pageContext.request.contextPath}/tags?page=${i+1}" class="active">${i+1}</a>
                 </c:if>
-                <c:if test="${page != (i+1) && i != pagination}">
-                    <a href="${pageContext.request.contextPath}?page=${i+1}">${i+1}</a>
+                <c:if test="${page != (i+1) && i != endPagination}">
+                    <a href="${pageContext.request.contextPath}/tags?page=${i+1}">${i+1}</a>
                 </c:if>
-                <c:if test="${page != pagination && i == pagination}">
-                    <a href="${pageContext.request.contextPath}?page=${page + 1}">Next</a>
+                <c:if test="${page != pagination && i == endPagination}">
+                    <a href="${pageContext.request.contextPath}/tags?page=${page + 1}">Next</a>
                 </c:if>
             </c:forEach>
         </div>
@@ -98,24 +99,33 @@
 
 </main>
 <script type="text/javascript">
-    // const filterValue = document.getElementById("filter-value");
-    // const currentValue = document.getElementById("current-value");
-    // const pagination = document.getElementById("pagination");
-    function fetchApi() {
-        return new Promise(function(resolve, reject) {
-            var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function () {
-                // console.log(this.response);
-                if (this.readyState == 4 && this.status == 200) {
-                    document.getElementById("current-value").style.display = 'none';
-                    document.getElementById("pagination").style.display = 'none';
-                    document.getElementById("filter-value").style.display = 'block';
-                    const data = JSON.parse(this.responseText);
-                    let tag = "";
-                    document.getElementById("filter-value").innerHTML = "";
-                    data.result.forEach((e) => {
-                        document.getElementById("filter-value").innerHTML +=
-                            `<div class="content-tag-container">
+    const filterValue = document.getElementById("filter-value");
+    const currentValue = document.getElementById("current-value");
+    const pagination = document.getElementById("pagination");
+    const filter = async (value) => {
+        controller.abort();
+        controller = new AbortController();
+        if(value == null || value == ''){
+            currentValue.style.display = 'block';
+            pagination.style.display = 'inline-block';
+            filterValue.innerHTML = "";
+            filterValue.style.display = 'none';
+            return;
+        } else {
+            const signal = controller.signal;
+            const _response = await fetch("/tags/search?" + new URLSearchParams({
+                query: value
+            }), {signal});
+            currentValue.style.display = 'none';
+            pagination.style.display = 'none';
+            filterValue.style.display = 'block';
+            filterValue.innerHTML = "";
+            const data = await _response.json();
+            console.log(data)
+            if (data.status) {
+                data.result.forEach((e) => {
+                    filterValue.innerHTML +=
+                        `<div class="content-tag-container">
                     <div class="content-tag">
                         <div><a class="tag" href="#">` + e.name + `</a></div>
                         <div class="tag-description">
@@ -134,76 +144,15 @@
                         </div>
                     </div>
                 </div>`;
-                    });
-                    // filterValue.innerHTML = tag;
-                }
-                resolve();
+                });
             }
-            xhttp.open("GET", "http://localhost:8000/tags/search?query="+ value, true);
-            xhttp.send();
-        });
-    }
-    function filter(value) {
-        console.log(value === null || value === '' || value === ' ');
-        if(value == null || value == ''){
-            document.getElementById("current-value").style.display = 'block';
-            document.getElementById("pagination").style.display = 'inline-block';
-            document.getElementById("filter-value").innerHTML = "";
-            document.getElementById("filter-value").style.display = 'none';
-            return;
-        } else {
-            // var xhttp = new XMLHttpRequest();
-            // xhttp.onreadystatechange = function () {
-            //     // console.log(this.response);
-            //     if (this.readyState == 4 && this.status == 200) {
-            //     document.getElementById("current-value").style.display = 'none';
-            //     document.getElementById("pagination").style.display = 'none';
-            //     document.getElementById("filter-value").style.display = 'block';
-            //     const data = JSON.parse(this.responseText);
-            //     let tag = "";
-            //     document.getElementById("filter-value").innerHTML = "";
-            //     data.result.forEach((e) => {
-            //         document.getElementById("filter-value").innerHTML +=
-            //             `<div class="content-tag-container">
-            //         <div class="content-tag">
-            //             <div><a class="tag" href="#">` + e.name + `</a></div>
-            //             <div class="tag-description">
-            //                 <p>` + e.name + `</p>
-            //             </div>
-            //             <div>
-            //                 <p>` + e.description + `</p>
-            //             </div>
-            //             <div class="tag-detail">
-            //                 <div class="questions-about-tag-total">
-            //                     <p>` + e.numberQuestion + `questions</p>
-            //                 </div>
-            //                 <div class="question-about-tag">
-            //                     <p>561 asked today, 5323 this week</p>
-            //                 </div>
-            //             </div>
-            //         </div>
-            //     </div>`;
-            //     });
-            //     // filterValue.innerHTML = tag;
-            //     }
-            // }
-            // xhttp.open("GET", "http://localhost:8000/tags/search?query="+ value, true);
-            // xhttp.send();
-            Promise.all(() => {
-                return fetchApi();
-            }
-            ).then(data => {
-                console.log("success!");
-                // All of your network Promises have completed!
-                // The value of "data" here will be an array of all your network results
-            });
         };
     };
-    var timer;
-    function chk_me(value){
-        clearTimeout(timer);
-        timer=setTimeout(filter(value),2000);
-    }
+    // var timer;
+    // function chk_me(value){
+    //     clearTimeout(timer);
+    //     timer=setTimeout(filter(value), 10000);
+    // }
 </script>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->

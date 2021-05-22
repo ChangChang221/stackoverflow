@@ -87,7 +87,7 @@
             <div class="question">
                 <div class="info-question">
                     <div>
-                        <p>0</p>
+                        <p>${question.answers.size()}</p>
                         <p>answers</p>
                     </div>
                     <div>
@@ -95,21 +95,21 @@
                         <span style="margin-left: 5px">views</span>
                     </div>
                 </div>
-                <div class="content-question">
+                <div class="content-question" style="margin-left: 10px; width: 100%;">
                     <a href="#">${question.title}</a>
-                    <p>
-                        I have two images when hovering the mouse over one of these
-                        images, a certain component is displayed if it says more in
-                        detail when hovering over the first image, a component with a
-                        red background is ...
-                    </p>
-                    <div class="more-info-question">
+<%--                    <p>--%>
+<%--                        I have two images when hovering the mouse over one of these--%>
+<%--                        images, a certain component is displayed if it says more in--%>
+<%--                        detail when hovering over the first image, a component with a--%>
+<%--                        red background is ...--%>
+<%--                    </p>--%>
+                    <div class="more-info-question" style="margin-top: 20px;">
                         <div class="tags-question">
                             <c:forEach var="tag" items="${question.tags}">
                                 <a href="#" class="tag">${tag}</a>
                             </c:forEach>
                         </div>
-                        <div class="questioner">
+                        <div class="questioner" style="width: 210px;">
                             <span>asked 37 secs ago</span>
                             <div>
                                 <img

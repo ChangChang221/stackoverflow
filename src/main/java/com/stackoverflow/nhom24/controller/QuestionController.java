@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -37,7 +38,7 @@ public class QuestionController {
     }
 
     @GetMapping("/questions")
-    public String getAllQuestion(final ModelMap model, Integer page, String tab, String tag, String search, Integer startPagination) {
+    public String getAllQuestion(final ModelMap model, String page, String tab) {
         boolean statusPage = true;
         boolean statustab = true;
         if(page == null) {
@@ -53,18 +54,28 @@ public class QuestionController {
         }
         if(page > startPagination + 10){
             startPagination = startPagination + 10;
-        } else if(page < startPagination){
+        } if(page < startPagination){
             startPagination = startPagination - 10;
         }
+//        if(search == null && tag == null){
+//            search = "";
+//        }
+//        List<QuestionResponse> questions = questionBusiness.getALlByCondition(page, search, tag);
+//        int total = questionBusiness.getCountByCondition(page, search, tag);
+
         int total = questionBusiness.getTotal(tab);
         int totalPagination = (total / 15) + 1;
         if(startPagination + 10 >= totalPagination){
             startPagination = totalPagination - 10;
-        } else if(startPagination <= 1){
+        } if(startPagination <= 1){
             startPagination = 0;
         }
-
+        int endPagination = 10;
+        if(totalPagination < 10){
+            endPagination = totalPagination;
+        }
         List<QuestionResponse> questions = questionBusiness.getAll(page, tab);
+        model.addAttribute("tag", tag);
         model.addAttribute("pagination", totalPagination);
         model.addAttribute("total", total);
         model.addAttribute("questions", questions);
@@ -72,7 +83,8 @@ public class QuestionController {
         model.addAttribute("statusPage", statusPage);
         model.addAttribute("statustab", statustab);
         model.addAttribute("startPagination", startPagination);
-        model.addAttribute("endPagination", startPagination + 10);
+        model.addAttribute("endPagination", endPagination);
+        model.addAttribute("sidebar", 1);
         return "questions";
     }
 
@@ -82,9 +94,59 @@ public class QuestionController {
         List<AnswerResponse> answers = answerBusiness.getByQuestionId(new ObjectId(id));
         model.addAttribute("question", response);
         model.addAttribute("answers", answers);
+        model.addAttribute("sidebar", 1);
         return "questionDetail";
     }
 
+    @GetMapping("/questions/search")
+    public String searchQuestion(final ModelMap model, String search, String tag, String tab, Integer page, Integer startPagination){
+        boolean statusPage = true;
+        boolean statustab = true;
+        if(page == null) {
+            statusPage = false;
+            page = 1;
+        }
+        if(tab == null) {
+            statustab = false;
+            tab = "relevance";
+        }
+        if(startPagination == null){
+            startPagination = 0;
+        }
+        if(page > startPagination + 10){
+            startPagination = startPagination + 10;
+        } if(page < startPagination){
+            startPagination = startPagination - 10;
+        }
+        if(search == null && tag == null){
+            search = "";
+        }
+        List<QuestionResponse> questions = questionBusiness.getALlByCondition(page, search, tag);
+        int total = questionBusiness.getCountByCondition(page, search, tag);
+
+        int totalPagination = (total / 15) + 1;
+        if(startPagination + 10 >= totalPagination){
+            startPagination = totalPagination - 10;
+        } if(startPagination <= 1){
+            startPagination = 0;
+        }
+        int endPagination = 10;
+        if(totalPagination < 10){
+            endPagination = totalPagination;
+        }
+        model.addAttribute("query", search);
+        model.addAttribute("tag", tag);
+        model.addAttribute("pagination", totalPagination);
+        model.addAttribute("total", total);
+        model.addAttribute("questions", questions);
+        model.addAttribute("page", page);
+        model.addAttribute("statusPage", statusPage);
+        model.addAttribute("statustab", statustab);
+        model.addAttribute("startPagination", startPagination);
+        model.addAttribute("endPagination", endPagination);
+        model.addAttribute("sidebar", 1);
+        return "searchQuestion";
+    }
 
 
 

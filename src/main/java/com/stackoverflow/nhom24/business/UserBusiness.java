@@ -144,7 +144,7 @@ public class UserBusiness extends BaseBusiness {
                         .forEachOrdered(x -> reverseSortedMap.put(x.getKey(), x.getValue()));
                 Set<String> getKeyHashMap = reverseSortedMap.keySet();
 
-                System.out.println(hashMapTag);
+//                System.out.println(hashMapTag);
                 int cnt = 0;
                 //lấy 3 tag có value lớn nhất
                 for(String s: getKeyHashMap) {
@@ -154,7 +154,7 @@ public class UserBusiness extends BaseBusiness {
                         cnt++;
                     }
                 }
-                System.out.println(getTagUserList);
+//                System.out.println(getTagUserList);
                 users.get(k).setTags(getTagUserList);
 
             }
@@ -164,5 +164,9 @@ public class UserBusiness extends BaseBusiness {
 
 
         return users;
+    }
+
+    public List<UserResponse> filterUser(String query){
+        return userService.getByName(query);
     }
 }

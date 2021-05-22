@@ -20,7 +20,7 @@ public class TagBusiness {
     private final TagService tagService;
     private final QuestionRepository questionRepository;
     public List<Tag> getAll(int page){
-        List<Tag> tags = tagRepository.findAll().stream().skip((page-1)*10 + 1).limit(15).collect(Collectors.toList());
+        List<Tag> tags = tagRepository.findAll().stream().skip((page-1)*20).limit(20).collect(Collectors.toList());
         return tags;
     }
 

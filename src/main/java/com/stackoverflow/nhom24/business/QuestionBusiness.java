@@ -49,6 +49,14 @@ public class QuestionBusiness extends BaseBusiness {
         return response;
     }
 
+    public List<QuestionResponse> getALlByCondition(Integer page, String query, String tag){
+        return questionService.findAllByCondition(page, query, tag, false);
+    }
+
+    public int getCountByCondition(Integer page, String query, String tag){
+        return questionService.findAllByCondition(page, query, tag, true).size();
+    }
+
     public List<LiveSearchQuestionResponse> getQuestions(String query){
         List<LiveSearchQuestionResponse> response = questionService.getQuestions(query);
         return response;

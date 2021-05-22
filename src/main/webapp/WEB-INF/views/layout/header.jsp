@@ -3,25 +3,28 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <sec:authorize access="hasRole('ROLE_USER')" var="isUser" />
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <title>Title</title>
     <!-- Required meta tags -->
-    <meta charset="utf-8"/>
+    <meta charset="utf-8" />
     <meta
             name="viewport"
             content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="./styles/header.css"/>
-    <link rel="stylesheet" href="./styles/common.css"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/header.css"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/common.css"/>
 </head>
 <body>
 <script>
     let controller = new AbortController();
     const search = async (value) => {
+        console.log(value);
+        if(event.keyCode === 13) {
+            window.location.href =  "http://localhost:8000/questions/search?search=" + value;
+        }
         controller.abort();
         controller = new AbortController();
         const signal = controller.signal;
@@ -79,12 +82,13 @@
 <header class="header-container">
     <div class="container-header">
         <div class="icon-container-header">
-            <img id="logo" src="/asset/logo.png"/>
+            <img id="logo" src="${pageContext.request.contextPath}/asset/logo.png" />
         </div>
         <nav class="nav-menu">
             <a>About</a>
             <a>Products</a>
         </nav>
+
         <div class="search-container">
             <img id="search-icon" src="/asset/search-icon.png"/>
             <input placeholder="Search..." id="input-search" onkeyup="search(value)"/>
@@ -145,13 +149,16 @@
             </ul>
         </div>
         <div class="button-container">
-            <button id="log-in">Log in</button>
-            <button id="sign-up">Sign up</button>
+            <c:if test="${isUser}">
+            </c:if>
+            <c:if test="${!isUser}">
+                <button id="log-in" onclick="login()">Log in</button>
+                <button id="sign-up" onclick="signup()">Sign up</button>
+            </c:if>
+
         </div>
     </div>
 </header>
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script>
     const login = () => {
         window.location.href = "http://localhost:8000/users/auth"

@@ -19,7 +19,7 @@ public class TagController {
     private final QuestionBusiness questionBusiness;
 
     @GetMapping(value = "/tags")
-    public String tags(final ModelMap modelMap, Integer page, String tab) {
+    public String tags(final ModelMap modelMap, Integer page, String tab, Integer startPagination) {
         boolean statustab = true;
         if(page == null){
             page = 1;
@@ -28,15 +28,31 @@ public class TagController {
             statustab = false;
             tab = "newest";
         }
+        if(startPagination == null){
+            startPagination = 0;
+        }
+        if(page > startPagination + 10){
+            startPagination = startPagination + 10;
+        } else if(page < startPagination){
+            startPagination = startPagination - 10;
+        }
         int total  = tagBusiness.getTotal();
-        int x = total/10 + 1;
+        int totalPagination = (total / 20) + 1;
+        if(startPagination + 10 >= totalPagination) {
+            startPagination = totalPagination - 10;
+        } if(startPagination <= 1){
+            startPagination = 0;
+        }
 //        System.out.println("total = " + total + ", total/10+1 = " + x);
         List<Tag> listTag = tagBusiness.getAll(page);
         List<TagResponse> responses = questionBusiness.countQuestionTag(listTag, page, tab);
         modelMap.addAttribute("tags", responses);
         modelMap.addAttribute("total", total);
-        modelMap.addAttribute("pagination", (int) ( total/ 15) + 1);
+        modelMap.addAttribute("pagination", totalPagination);
         modelMap.addAttribute("page", page);
+        modelMap.addAttribute("startPagination", startPagination);
+        modelMap.addAttribute("endPagination", startPagination + 10);
+        modelMap.addAttribute("sidebar", 2);
 //        modelMap.addAttribute("cntQuestionTag", cntQuestionTag);
         return "tags";
     }

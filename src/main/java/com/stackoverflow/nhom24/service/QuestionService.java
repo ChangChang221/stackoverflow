@@ -45,7 +45,7 @@ public class QuestionService {
                     .from("answer")
                     .localField("_id")
                     .foreignField("questionId")
-                    .as("answer");
+                    .as("answers");
             GroupOperation groupOperation = group("_id").sum("answer").as("answer");
             Aggregation aggregation = null;
             if (tab.equals("newest")) {
@@ -202,6 +202,61 @@ public class QuestionService {
             System.out.println("error: " + e);
             return List.of();
         }
+    }
+
+    public List<QuestionResponse> findAllByCondition(long page, String query, String tag, boolean isCount) {
+        try {
+
+            LookupOperation lookupOperationUser = LookupOperation.newLookup()
+                    .from("user")
+                    .localField("userId")
+                    .foreignField("_id")
+                    .as("user");
+            LookupOperation lookupOperationAnswer = LookupOperation.newLookup()
+                    .from("answer")
+                    .localField("_id")
+                    .foreignField("questionId")
+                    .as("answers");
+            Aggregation aggregation = null;
+            if(query != null) {
+                if(isCount == true){
+                    aggregation = Aggregation.newAggregation(
+                            Aggregation.match(Criteria.where("title").regex(query)),
+                            lookupOperationUser,
+                            lookupOperationAnswer);
+                } else {
+                    aggregation = Aggregation.newAggregation(
+                            Aggregation.match(Criteria.where("title").regex(query)),
+                            lookupOperationUser,
+                            lookupOperationAnswer,
+                            Aggregation.skip((page - 1) * 15),
+                            Aggregation.limit(15));
+                }
+            } else {
+                if(isCount == true){
+                    aggregation = Aggregation.newAggregation(
+                            Aggregation.match(Criteria.where("tags").is(tag)),
+                            lookupOperationUser,
+                            lookupOperationAnswer);
+                } else {
+                    aggregation = Aggregation.newAggregation(
+                            Aggregation.match(Criteria.where("tags").is(tag)),
+                            lookupOperationUser,
+                            lookupOperationAnswer,
+                            Aggregation.skip((page - 1) * 15),
+                            Aggregation.limit(15));
+                }
+            }
+
+            List<QuestionResponse> results = mongoTemplate
+                    .aggregate(aggregation, "question", QuestionResponse.class)
+                    .getMappedResults();
+            return results;
+        } catch (Exception e) {
+            System.out.print("error :" + e.getMessage() + "\n");
+            return List.of();
+        }
+
     }
 
 }

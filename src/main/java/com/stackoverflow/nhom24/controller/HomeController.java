@@ -29,7 +29,7 @@ public class HomeController {
         }
         if(page > startPagination + 10){
             startPagination = startPagination + 10;
-        } else if(page < startPagination){
+        } if(page < startPagination){
             startPagination = startPagination - 10;
         }
         int total = questionBusiness.getTotal("newest");
@@ -46,6 +46,7 @@ public class HomeController {
         model.addAttribute("page", page);
         model.addAttribute("startPagination", startPagination);
         model.addAttribute("endPagination", startPagination + 10);
+        model.addAttribute("sidebar", 1);
         return "home";
     }
 }

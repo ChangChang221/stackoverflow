@@ -2,6 +2,7 @@ package com.stackoverflow.nhom24.service;
 
 import com.stackoverflow.nhom24.model.response.AnswerResponse;
 import com.stackoverflow.nhom24.model.response.QuestionResponse;
+import com.stackoverflow.nhom24.model.response.TagResponse;
 import com.stackoverflow.nhom24.model.response.UserResponse;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,13 +30,22 @@ public class UserService {
         Aggregation aggregation = null;
         aggregation = Aggregation.newAggregation(
                 Aggregation.sort(Sort.Direction.ASC, "createdOn"),
-                Aggregation.skip((page - 1) * 15),
-                Aggregation.limit(15)
+                Aggregation.skip((page - 1) * 40L),
+                Aggregation.limit(40)
         );
 
         List<UserResponse> results = mongoTemplate
                 .aggregate(aggregation, "user", UserResponse.class)
                 .getMappedResults();
         return results;
+    }
+    public List<UserResponse> getByName(String query){
+        try {
+            Aggregation aggregation = Aggregation.newAggregation(Aggregation.match(Criteria.where("name").regex(query)), Aggregation.limit(40));
+            List<UserResponse> results = mongoTemplate.aggregate(aggregation, "user", UserResponse.class).getMappedResults();
+            return results;
+        } catch (Exception e) {
+            return List.of();
+        }
     }
 }
