@@ -56,7 +56,7 @@
                         <div class="service-item-inner">
                             <div class="icon"><i class="fa fa-question"></i></div>
                             <h4>All Post</h4>
-                            <p>12000</p>
+                            <p>${questions.size()}</p>
                         </div>
                     </div>
 
@@ -117,7 +117,8 @@
                     <div class="section-title padd-15">
                         <table class="table padd-15">
                             <tr>
-                                <th>ID</th>
+
+                                <th></th>
                                 <th>UserId</th>
                                 <th>CreatedOn</th>
                                 <th>Title</th>

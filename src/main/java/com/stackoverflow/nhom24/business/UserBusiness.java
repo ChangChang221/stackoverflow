@@ -27,7 +27,12 @@ public class UserBusiness extends BaseBusiness {
             return user;
 
     }
-
+/*
+    public int getAllDay(){
+        List<User> user = userRepository.findAll();
+        return user.size();
+    }
+*/
     public User login(LoginRequest model) throws NotFoundException {
         User user = userRepository.findByUsername(model.getUsername());
         if(user == null){
@@ -78,6 +83,10 @@ public class UserBusiness extends BaseBusiness {
         currentUser.setTitle(newUser.getTitle());
         userRepository.save(currentUser);
     }
+
+
+
+
     public void deleteUser(String id){
 
         userRepository.deleteById(new ObjectId(id).get());

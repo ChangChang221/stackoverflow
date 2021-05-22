@@ -74,7 +74,7 @@
                         <div class="service-item-inner">
                             <div class="icon"><i class="fa fa-users"></i></div>
                             <h4>All User</h4>
-                            <p>12000</p>
+                            <p>${users.size()}</p>
                         </div>
                     </div>
 
