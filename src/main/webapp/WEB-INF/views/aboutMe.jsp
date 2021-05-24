@@ -7,6 +7,7 @@
     <title>StackOverFlow</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/orange.css" type="text/css" >
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/style.css" type="text/css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/header.css" />
 
 </head>
 <body>

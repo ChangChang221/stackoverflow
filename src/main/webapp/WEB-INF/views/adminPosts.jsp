@@ -47,7 +47,7 @@
             <div class="container">
                 <div class="row">
                     <div class="section-title padd-15">
-                        <h2>User Manage</h2>
+                        <h2>Post Manage</h2>
                     </div>
                 </div>
                 <div class="row">
@@ -67,7 +67,7 @@
                         <div class="service-item-inner">
                             <div class="icon"><i class="fa fa-calendar"></i></div>
                             <h4>Day</h4>
-                            <p>12000</p>
+                            <p>13</p>
                         </div>
                     </div>
 
@@ -78,7 +78,7 @@
                         <div class="service-item-inner">
                             <div class="icon"><i class="fa fa-calendar"></i></div>
                             <h4>Month</h4>
-                            <p>12000</p>
+                            <p>200</p>
                         </div>
                     </div>
 
@@ -89,7 +89,7 @@
                         <div class="service-item-inner">
                             <div class="icon"><i class="fa fa-calendar"></i></div>
                             <h4>Year</h4>
-                            <p>12000</p>
+                            <p>207</p>
                         </div>
                     </div>
                     <!--  Service item End-->
@@ -118,7 +118,7 @@
                         <table class="table padd-15">
                             <tr>
 
-                                <th></th>
+                                <th>ID</th>
                                 <th>UserId</th>
                                 <th>CreatedOn</th>
                                 <th>Title</th>
@@ -131,10 +131,8 @@
                                     <td  style=" text-align: center;">${question.createdOn}</td>
                                     <td>${question.title}</td>
                                     <td style=" text-align: center;">
-                                        <a href="#">
-                                            <img src="${pageContext.request.contextPath}/asset/edit.png" style="height: 18px; width: 18px"/>
-                                        </a>
-                                        <a href="#">
+
+                                        <a onclick="Delete()" href="#">
                                             <img src="${pageContext.request.contextPath}/asset/clear.png" style="height: 15px; width: 15px"/>
                                         </a>
                                     </td>
@@ -148,6 +146,8 @@
         <!-- Service User End-->
 
 
+
+
         <!-- Service Post End-->
 
 
@@ -156,6 +156,57 @@
     <!-- Main content end -->
 </div>
 
+<!-- test    -->
+
 <!-- Main container  -->
+
+<div id="myModal" class="modal">
+    <!-- Nội dung form đăng nhập -->
+    <div class="modal-content">
+        <form action="#">
+            <span class="close">&times;</span>
+            <div class="icon1">
+                <i class="fa fa-exclamation"></i>
+            </div>
+            <header>Confirm</header>
+            <p>Are you sure want to permanently delete post?</p>
+
+            <div class="btns" >
+                <button>Yes,Delete</button>
+                <button>Cancle</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<!-- javscript-->
+<script>
+    // lấy phần Modal
+    var modal = document.getElementById('myModal');
+
+    // Lấy phần button mở Modal
+
+    // Lấy phần span đóng Modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // Khi button được click thi mở Modal
+
+    function Delete(){
+        modal.style.display = "block";
+    }
+    // Khi span được click thì đóng Modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+    // Khi click ngoài Modal thì đóng Modal
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
+
+<!-- javscript End-->
 </body>
 </html>
