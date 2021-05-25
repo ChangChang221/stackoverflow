@@ -23,13 +23,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class Answer extends BaseEntity {
     private ObjectId userId;
     private String body;
-    
-    
     private Date createdOn;
     private ObjectId questionId;
     private List<ObjectId> votes;
     private Integer score;
-
     public void addVote(ObjectId vote) {
         this.votes.add(vote);
     }

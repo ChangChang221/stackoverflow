@@ -22,7 +22,5 @@ public class Comment extends BaseEntity {
     private String name;
     private String body;
     private ObjectId answerId;
-    
-    
     private Date createdOn;
 }

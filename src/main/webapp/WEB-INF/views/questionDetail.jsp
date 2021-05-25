@@ -3,9 +3,13 @@
            uri="http://www.springframework.org/security/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:formatDate value="${bean.date}" pattern="yyyy-MM-dd HH:mm:ss"/>
 <sec:authorize access="hasRole('ROLE_USER')" var="isUser"/>
 <sec:authorize access="hasRole('ROLE_ADMIN')" var="isAdmin"/>
+<sec:authentication property="principal" var="user"/>
+<%--<sec:authentication property="principal.name" var="user_name"/>--%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,9 +28,6 @@
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/styles/default.min.css"
     />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/highlight.min.js"></script>
-    <!-- and it's easy to individually load additional languages -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/languages/go.min.js"></script>
     <!-- moment js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <link
@@ -35,6 +36,7 @@
     />
     <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.888.0.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/time.js"></script>
     <!-- Bootstrap CSS -->
 </head>
 <body>
@@ -57,9 +59,12 @@
                 </div>
             </div>
             <div class="more-info-question-detail-container">
-                <span>Asked<span>2 days ago</span></span>
+                <span>Asked<span class="createdOn">
+                    <fmt:formatDate value="${question.createdOn}"
+                                    pattern="yyyy-MM-dd HH:mm:ss"/>
+                </span></span>
                 <span>Active<span>today</span> </span>
-                <span>Viewed<span>15 times</span> </span>
+                <span>Viewed<span>${question.views} times</span> </span>
             </div>
         </div>
         <div class="content-question-detail-container">
@@ -75,7 +80,7 @@
                     >
                         <path d="M2 26h32L18 10 2 26z"></path>
                     </svg>
-                    <p>0</p>
+                    <div style="color: #6a737c; font-size: 20px;">0</div>
                     <svg
                             onclick=""
                             aria-hidden="true"
@@ -125,13 +130,8 @@
                             <a href="#">Follow</a>
                         </div>
                         <div class="answer-question-author">
-                            <p id="createdOn">${question.createdOn}</p>
-                            <script>
-                                let createdOn = document.getElementById("createdOn");
-                                let date = moment();
-                                createdOn.innerHTML = date(createdOn.outerHTML).fromNow();
-
-                            </script>
+                            <p class="createdOn"><fmt:formatDate value="${question.createdOn}"
+                                                                 pattern="yyyy-MM-dd HH:mm:ss"/></p>
                             <div>
                                 <img
                                         src="${pageContext.request.contextPath}/asset/${question.user.photo}"
@@ -171,10 +171,10 @@
                 </ul>
             </div>
             <c:forEach var="answer" items="${answers}">
-                <div class="content-question-detail">
+                <div class="content-question-detail" id="${answer.id}">
                     <div class="action-option-question-detail">
                         <svg
-                                onclick="upVote(`${answer.id}`)"
+                                onclick="upVote(`${answer.id}`, true)"
                                 aria-hidden="true"
                                 class="m0 svg-icon iconArrowUpLg"
                                 width="36"
@@ -183,13 +183,15 @@
                         >
                             <path d="M2 26h32L18 10 2 26z"></path>
                         </svg>
-                        <p id="${answer.id}" style="color: #6a737c; font-size: 20px;">${answer.votes.size()}</p>
+                        <div id="${answer.id}"
+                             style="color: #6a737c; font-size: 20px;    margin: 5px 0px;">${answer.score}</div>
                         <svg
                                 aria-hidden="true"
                                 class="m0 svg-icon iconArrowDownLg"
                                 width="36"
                                 height="36"
                                 viewBox="0 0 36 36"
+                                onclick="upVote(`${answer.id}`, false)"
                         >
                             <path d="M2 10h32L18 26 2 10z"></path>
                         </svg>
@@ -226,11 +228,12 @@
                                 <a href="#">Follow</a>
                             </div>
                             <div class="answer-question-author">
-                                <p>asked 14 mins ago</p>
+                                <p class="createdOn"><fmt:formatDate value="${answer.createdOn}"
+                                                                     pattern="yyyy-MM-dd HH:mm:ss"/></p>
                                 <div>
                                     <img
                                             src="${pageContext.request.contextPath}/asset/${answer.user.photo}"
-                                                    height="32px"
+                                            height="32px"
                                             width="32px"
                                             style="border-radius: 8px"
                                     />
@@ -248,22 +251,35 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="comment-answer-container">
-                            <div class="comment-answer">
-                  <span
-                  >I have fixed your syntax error and now it seems to be
-                    working fine. Check it out.
-                  </span>
-                                <span>-</span>
-                                <a href="#"> Yadab</a>
-                                <span>9 mins ago</span>
+
+                        <div class="comment-answer-container" id="`${answer.id}comments">
+                            <c:forEach var="comment" items="${answer.comments}">
+                                <div class="comment-answer">
+                                    <span>${comment.body}</span>
+                                    <span>-</span>
+                                    <a href="#"> ${comment.name}</a>
+                                    <span class="createdOn"><fmt:formatDate value="${comment.createdOn}"
+                                                                            pattern="yyyy-MM-dd HH:mm:ss"/></span>
+                                </div>
+                            </c:forEach>
+                        </div>
+                        <div class="add-a-comment" id="${answer.id}addcommentbtn"
+                             onclick="addCommentForm(`${answer.id}`)">Add a
+                            comment
+                        </div>
+                        <div class="form-comment" id="${answer.id}form">
+                            <input id="${answer.id}inputform" class="form-comment-input"
+                                   placeholder="Add a comment ..."/>
+                            <div style="display: flex; padding-left:25px">
+                                <div class="form-comment-btn" onclick="commentbtn(`${answer.id}`)">Comment</div>
+                                <div class="form-comment-btn" style="margin-left: 15px;"
+                                     onclick="cancelbtn(`${answer.id}`)">Cancel
+                                </div>
                             </div>
                         </div>
-                        <div class="add-a-comment">Add a comment</div>
                     </div>
                 </div>
             </c:forEach>
-
         </div>
         <div class="type-answer">
             <h2 style="font-weight: 500">Your Answer</h2>
@@ -296,26 +312,34 @@
     </div>
 </main>
 
-<script>
-    const upVote = (answerId) => {
-        let numberOfVote = document.getElementById(answerId);
-        console.log("call api upVote");
-        let answer = {};
-        answer["answerId"] = answerId;
-        let http = new XMLHttpRequest();
-        http.open("PUT", "/answers/upVote", true);
-        http.setRequestHeader('Content-type', 'application/json');
-        http.setRequestHeader("Access-Control-Allow-Origin", '*');
-        http.setRequestHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-        http.onload = function () {
-            // do something to response
-            console.log(this.responseText);
-            data = JSON.parse(this.responseText);
-            if (data.status) {
-                numberOfVote.innerHTML = data.result.votes.length;
-            }
-        };
-        http.send(JSON.stringify(answer));
+<script type="text/javascript">
+    const upVote = (answerId, status) => {
+        if (!${isUser}) {
+            window.location.replace("${pageContext.request.contextPath}/users/auth");
+        } else {
+            // let numberOfVote = document.getElementById(answerId);
+            console.log("call api upVote");
+            const form = {
+                answerId,
+                status
+            };
+            let http = new XMLHttpRequest();
+            http.open("PUT", "/answers/upVote", true);
+            http.setRequestHeader('Content-type', 'application/json');
+            http.setRequestHeader("Access-Control-Allow-Origin", '*');
+            http.setRequestHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+            http.onload = function () {
+                // do something to response
+                console.log(this.responseText);
+                const data = JSON.parse(this.responseText);
+                console.log("data", data)
+                if (data.status === 1) {
+                    location.reload();
+                    // numberOfVote.innerHTML = data.result.votes.length;
+                }
+            };
+            http.send(JSON.stringify(form));
+        }
     };
     const postAnswer = (questionId) => {
         console.log(questionId, "call api");
@@ -341,8 +365,77 @@
         };
         http.send(JSON.stringify(answer));
     };
+
+    const CreatedOns = document.getElementsByClassName("createdOn");
+    for (let i = 0; i < CreatedOns.length; i++) {
+        CreatedOns[i].innerHTML = convertCreatedOnToAgo(CreatedOns[i].textContent)
+    }
+
+    const addCommentForm = (_id) => {
+        if (!${isUser}) {
+            window.location.replace("${pageContext.request.contextPath}/users/auth");
+        } else {
+            const form = document.getElementById(_id + "form");
+            const btnaddcomment = document.getElementById(_id + "addcommentbtn");
+            form.style.display = "block";
+            btnaddcomment.style.display = "none";
+            console.log("form", form)
+        }
+    }
+
+    const commentbtn = async (_id) => {
+        const body = document.getElementById(_id + "inputform").value;
+        const answerId = _id;
+        const url = "/addcomment";
+        const _response = await fetch(url, {
+            method: 'POST', // *GET, POST, PUT, DELETE, etc.
+            mode: 'cors', // no-cors, *cors, same-origin
+            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: 'same-origin', // include, *same-origin, omit
+            headers: {
+                'Content-Type': 'application/json'
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            redirect: 'follow', // manual, *follow, error
+            referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+            body: JSON.stringify({
+                body, answerId
+            }) // body data type must match "Content-Type" header
+        });
+        const response = await _response.json();
+        if (response.status) {
+            <%--const comments = document.getElementById("${_id}comments");--%>
+            <%-- <div class="comment-answer">--%>
+            <%--                        <span>${comment.body}</span>--%>
+            <%--                        <span>-</span>--%>
+            <%--                        <a href="#"> ${comment.name}</a>--%>
+            <%--                        <span class="createdOn"><fmt:formatDate value="${comment.createdOn}"--%>
+            <%--                                                                pattern="yyyy-MM-dd HH:mm:ss"/></span>--%>
+            <%--                    </div>--%>
+            <%--const _div = document.createElement("div");--%>
+            <%--_div.setAttribute("class","comment-answer" );--%>
+            <%--const _body = document.createElement("span");--%>
+            <%--_body.innerHTML = body;--%>
+            <%--const span = document.createElement("span");--%>
+            <%--span.innerHTML = "-";--%>
+            <%--const _a = document.createElement("a");--%>
+            <%--_a.setAttribute("href", "#");--%>
+            <%--_a.innerHTML = name;--%>
+            <%--const _createdOn = document.createElement("span");--%>
+            <%--_createdOn.innerHTML = --%>
+            location.reload();
+        }
+    }
+
+    const cancelbtn = (id) => {
+        const form = document.getElementById(id + "form");
+        const btnaddcomment = document.getElementById(id + "addcommentbtn");
+        console.log("btnaddcomment", btnaddcomment)
+        btnaddcomment.style.display = "block";
+        form.style.display = "none"
+    }
 </script>
-<script>
+<script type="text/javascript">
     const clickPostAnswerNoLogin = () => {
         let alert = document.getElementById("alertSignin");
         alert.innerHTML = `<div style="
@@ -359,5 +452,10 @@
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <%--<script src="${pageContext.request.contextPath}/js/api.js" type="text/javascript"></script>--%>
 <script src="${pageContext.request.contextPath}/js/quill.js" type="text/javascript"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/highlight.min.js"></script>
+<!-- and it's easy to individually load additional languages -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/languages/go.min.js"></script>
+<script>hljs.highlightAll();</script>
 </body>
 </html>

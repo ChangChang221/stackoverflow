@@ -21,7 +21,8 @@ public class AnswerResponse {
     private String body;
     private Date createdOn;
     private ObjectId questionId;
-    private List<ObjectId> votes;
+    private List<VoteResponse> votes;
     private Integer score;
     private User user;
+    private List<CommentResponse> comments;
 }

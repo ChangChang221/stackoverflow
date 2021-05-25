@@ -166,6 +166,7 @@
 .button-container {
   flex: 1;
   margin-left: 40px;
+  align-items: center;
 }
 
 .button-container > button {
