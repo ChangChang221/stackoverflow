@@ -1,3 +1,4 @@
+<%@ page import="java.util.stream.Collectors" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec"
            uri="http://www.springframework.org/security/tags" %>
@@ -71,7 +72,6 @@
             <div class="first-answer-detail content-question-detail">
                 <div class="action-option-question-detail">
                     <svg
-                            onclick=""
                             aria-hidden="true"
                             class="m0 svg-icon iconArrowUpLg"
                             width="36"
@@ -82,7 +82,6 @@
                     </svg>
                     <div style="color: #6a737c; font-size: 20px;">0</div>
                     <svg
-                            onclick=""
                             aria-hidden="true"
                             class="m0 svg-icon iconArrowDownLg"
                             width="36"
@@ -172,26 +171,38 @@
             </div>
             <c:forEach var="answer" items="${answers}">
                 <div class="content-question-detail" id="${answer.id}">
+                    <c:if test="${isUser}">
+                        <c:set var="votes" value="${answer.votes}"/>
+                        <c:set var="status" value="2"/>
+                        <c:forEach var="vote" items="${votes}">
+                            <c:if test="${vote.userId eq user.id}">
+                                <c:set var="status" value="${vote.status ? 1 : 0}"/>
+                            </c:if>
+                        </c:forEach>
+                    </c:if>
                     <div class="action-option-question-detail">
                         <svg
                                 onclick="upVote(`${answer.id}`, true)"
                                 aria-hidden="true"
-                                class="m0 svg-icon iconArrowUpLg"
+                                class="m0 svg-icon iconArrowUpLg vote"
                                 width="36"
                                 height="36"
                                 viewBox="0 0 36 36"
+                                style="fill: ${status == 1 ?  "#1b92f1" : "#bbc0c4"}"
                         >
-                            <path d="M2 26h32L18 10 2 26z"></path>
+                            <path d=" M2 26h32L18 10 2 26z
+                        "></path>
                         </svg>
                         <div id="${answer.id}"
                              style="color: #6a737c; font-size: 20px;    margin: 5px 0px;">${answer.score}</div>
                         <svg
                                 aria-hidden="true"
-                                class="m0 svg-icon iconArrowDownLg"
+                                class="m0 svg-icon iconArrowDownLg vote"
                                 width="36"
                                 height="36"
                                 viewBox="0 0 36 36"
                                 onclick="upVote(`${answer.id}`, false)"
+                                style="fill: ${status == 0 ?  "#1b92f1" : "#bbc0c4"}"
                         >
                             <path d="M2 10h32L18 26 2 10z"></path>
                         </svg>
@@ -267,7 +278,7 @@
                              onclick="addCommentForm(`${answer.id}`)">Add a
                             comment
                         </div>
-                        <div class="form-comment" id="${answer.id}form">
+                        <div class="form-comment" id="${answer.id}form" style="margin-top: 5px">
                             <input id="${answer.id}inputform" class="form-comment-input"
                                    placeholder="Add a comment ..."/>
                             <div style="display: flex; padding-left:25px">

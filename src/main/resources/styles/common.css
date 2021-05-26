@@ -136,3 +136,8 @@ body {
 .justify-content-between {
   justify-content: space-between !important;
 }
+
+a {
+  color: #0077cc;
+  text-decoration: none;
+}

@@ -216,3 +216,7 @@
 .form-comment-btn:hover{
   color: #000;
 }
+
+.vote:hover{
+  fill: #1b92f1 !important;
+}

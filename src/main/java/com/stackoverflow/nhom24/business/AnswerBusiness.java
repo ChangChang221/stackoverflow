@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @AllArgsConstructor
@@ -37,51 +38,41 @@ public class AnswerBusiness extends BaseBusiness {
         answerRepository.save(answer);
     }
 
-    public List<AnswerResponse> getByQuestionId(ObjectId questionId){
+    public List<AnswerResponse> getByQuestionId(ObjectId questionId) {
         List<AnswerResponse> responses = answerService.getAnswerResponsesByQuestionId(questionId);
-//        for (Answer el: answers){
-//            AnswerResponse answer = mapper.map(el, AnswerResponse.class);
-//            User user = userRepository.findById(el.getUserId().toString()).get();
-//            answer.setUser(mapper.map(user, UserResponse.class));
-//        }
         System.out.println(responses);
         return responses;
     }
 
-    public Answer upVote(ObjectId answerId, ObjectId userId, Boolean status) {
-        Answer answer = answerRepository.findById(answerId).get();
-        List<VoteResponse> voteResponses = answerService.getVotesByAnswerId(answerId);
-        VoteResponse vote_find = voteResponses.stream().filter(voteResponse -> voteResponse.getUserId().equals(userId)).findAny().orElse(null);
-        if (vote_find != null) {
-            if(vote_find.getStatus() == status){
-                voteRepository.deleteById(vote_find.getId());
+    public Integer upVote(ObjectId answerId, ObjectId userId, Boolean status) {
+        try {
+            Answer answer = answerRepository.findById(answerId).get();
+            VoteResponse voteResponse = answerService.getVotesByAnswerIdAndUserId(answerId, userId);
+            System.out.println("voteResponse: " + voteResponse);
+            if (voteResponse != null) {
+                if (voteResponse.getStatus() == status) {
+                    voteRepository.deleteById(voteResponse.getId());
+                } else {
+                    Vote vote = new Vote();
+                    vote.setStatus(status);
+                    vote.setAnswerId(answerId);
+                    vote.setUserId(userId);
+                    vote.setId(voteResponse.getId());
+                    voteRepository.save(vote);
+                }
             } else {
                 Vote vote = new Vote();
                 vote.setStatus(status);
-                vote.setAnswerId(answerId);
                 vote.setUserId(userId);
-                vote.setId(vote_find.getId());
+                vote.setAnswerId(answerId);
                 voteRepository.save(vote);
             }
-        } else {
-            if (status) {
-                answer.setScore(answer.getScore() + 2);
-                answer = answerRepository.save(answer);
-            } else {
-                if (answer.getScore() <= 1) {
-                    answer.setScore(0);
-                } else {
-                    answer.setScore(answer.getScore() - 1);
-                }
-            }
-            Vote vote = new Vote();
-            vote.setStatus(status);
-            vote.setUserId(userId);
-            vote.setAnswerId(answerId);
-            voteRepository.save(vote);
+            answerService.updateAnswerScore(answerId);
+            return 1;
+        } catch (Exception e) {
+            return 0;
         }
 
-        return answer;
     }
 
 //    public List<AnswerResponse> getByUserId(String userId) {
@@ -90,7 +81,7 @@ public class AnswerBusiness extends BaseBusiness {
 
     public DataResponse addComment(Comment comment) {
         try {
-            Comment _comment = commentRepository.save(comment);
+            commentRepository.save(comment);
             DataResponse response = new DataResponse();
             response.setStatus(1);
             return response;

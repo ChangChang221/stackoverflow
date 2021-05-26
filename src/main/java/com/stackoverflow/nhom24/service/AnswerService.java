@@ -25,6 +25,7 @@ public class AnswerService {
 
     private CommentService commentService;
 
+    @Autowired
     private AnswerRepository answerRepository;
 
     private AnswerResponse AnswerToAnswerResponse(Answer answer) {
@@ -90,7 +91,7 @@ public class AnswerService {
                 voteResponse.setId(vote.getId());
                 voteResponse.setAnswerId(vote.getAnswerId());
                 voteResponse.setStatus(vote.getStatus());
-                voteResponse.setAnswerId(vote.getAnswerId());
+                voteResponse.setUserId(vote.getUserId());
                 return voteResponse;
             }).collect(Collectors.toList());
             return results;
@@ -99,26 +100,50 @@ public class AnswerService {
         }
     }
 
-    public void updateAnswerScore(ObjectId answerId){
-        try{
+    public VoteResponse getVotesByAnswerIdAndUserId(ObjectId answerId, ObjectId userId) {
+        try {
+            Aggregation aggregation = Aggregation.newAggregation(Aggregation.match(Criteria.where("answerId").is(answerId)), Aggregation.match(Criteria.where("userId").is(userId)));
+            Vote vote = mongoTemplate.aggregate(aggregation, "vote", Vote.class).getUniqueMappedResult();
+            VoteResponse voteResponse = new VoteResponse();
+            voteResponse.setId(vote.getId());
+            voteResponse.setAnswerId(vote.getAnswerId());
+            voteResponse.setStatus(vote.getStatus());
+            voteResponse.setAnswerId(vote.getAnswerId());
+            return voteResponse;
+        } catch (Exception e) {
+            return new VoteResponse();
+        }
+    }
+
+    public void updateAnswerScore(ObjectId answerId) {
+        try {
             Aggregation aggregation = Aggregation.newAggregation(Aggregation.match(Criteria.where("answerId").is(answerId)));
-            List<Vote> votes = mongoTemplate.aggregate(aggregation , "vote", Vote.class).getMappedResults();
+            List<Vote> votes = mongoTemplate.aggregate(aggregation, "vote", Vote.class).getMappedResults();
             Integer score = 0;
-            for(int i =0; i < votes.size(); i++){
+            for (int i = 0; i < votes.size(); i++) {
                 Vote vote = votes.get(i);
-                if(vote.getStatus()){
-                    score+=2;
+                if (vote.getStatus()) {
+                    score += 2;
                 } else {
-                    score -=1;
+                    score -= 1;
                 }
             }
-            score = score <= 0?0:score;
+            score = score <= 0 ? 0 : score;
+            System.out.println("score: " + score);
             Aggregation _aggregation = Aggregation.newAggregation(Aggregation.match(Criteria.where("_id").is(answerId)));
             Answer answer = mongoTemplate.aggregate(_aggregation, "answer", Answer.class).getUniqueMappedResult();
-            answer.setScore(score);
-            AnswerRepository.save(answer);
+            Answer _answer = new Answer();
+            _answer.setScore(score);
+            _answer.setBody(answer.getBody());
+            _answer.setCreatedOn(answer.getCreatedOn());
+            _answer.setUserId(answer.getUserId());
+            _answer.setQuestionId(answer.getQuestionId());
+            _answer.setId(answer.getId());
+            System.out.println("updateAnswerScore: " + answer);
+            System.out.println("updateAnswerScore score: " + score);
+            answerRepository.save(_answer);
         }catch (Exception e){
-
+            System.out.println("AnswerService updateAnswerScore: " + e);
         }
     }
 }

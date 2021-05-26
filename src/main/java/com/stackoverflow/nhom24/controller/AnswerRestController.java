@@ -58,10 +58,9 @@ public class AnswerRestController extends BaseController {
         System.out.println("status: " + status);
         ObjectId userId = getUserId(principal, req);
         System.out.println("userId: " + userId);
-        Answer answer = answerBusiness.upVote(answerId, userId, status);
+        Integer _status = answerBusiness.upVote(answerId, userId, status);
         DataResponse response = new DataResponse();
-        response.setResult(answer);
-        response.setStatus(1);
+        response.setStatus(_status);
         return ResponseEntity.ok(response);
     }
 
