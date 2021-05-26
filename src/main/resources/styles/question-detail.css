@@ -12,6 +12,8 @@
 
 .question-detail-heading {
   margin-top: 30px;
+  padding-bottom: 15px;
+
 }
 
 .more-info-question-detail-container {
@@ -31,6 +33,9 @@
 
 .content-question-detail {
   display: flex;
+  border-top: 1px solid #e4e6e8;
+  padding-top: 16px;
+  padding-bottom: 16px;
 }
 
 .action-option-question-detail {
@@ -42,10 +47,16 @@
 
 .action-option-question-detail > svg {
   fill: #bbc0c4;
+  margin: 1px 0px;
+  cursor: pointer;
+}
+
+.action-option-question-detail > svg:last-child {
+  margin-right: 2px;
 }
 
 .answer-question-detail {
-  margin-left: 15px;
+  margin-left: 25px;
   width: 100%;
 }
 
@@ -113,9 +124,8 @@
 }
 
 .comment-answer {
-  padding: 12px 0px;
-  padding-left: 25px;
-  border-top: 1px solid #eff0f1;
+  padding: 12px 0px 12px 25px;
+  border-bottom: 1px solid #eff0f1;
 }
 
 .comment-answer span {
@@ -146,15 +156,20 @@
   display: flex;
   margin: 15px 0px;
   justify-content: space-between;
+  align-items: center;
 }
 
-.type-answer{
-    margin-top: 30px;
-    padding-top: 10px;
-    border-top: 1px solid #eff0f1;
+.answer-info h3 {
+  font-weight: 400;
 }
 
-.note-post-your-answers{
+.type-answer {
+  margin-top: 30px;
+  padding-top: 10px;
+  border-top: 1px solid #eff0f1;
+}
+
+.note-post-your-answers {
   margin-bottom: 100px;
   margin-top: 10px;
   font-style: italic;
@@ -162,11 +177,46 @@
   counter-reset: #848d95;
 }
 
-.note-post-your-answers a{
+.note-post-your-answers a {
   text-decoration: none;
   color: #0077cc;
 }
 
-.note-post-your-answers a:hover{
+.note-post-your-answers a:hover {
   color: #0095ff;
+}
+
+.ql-editor p {
+  font-size: 15px;
+  color: #4f4f4f;
+}
+
+.form-comment-btn{
+  color: #848d95;
+  font-size: 13px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.form-comment-input{
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #e8e8e8;
+  outline: none;
+  padding: 10px 0px 10px 25px;
+  background-color: #f4f4f4;
+  border-radius: 10px;
+  font-size: 12px;
+}
+
+.form-comment{
+  display: none;
+}
+
+.form-comment-btn:hover{
+  color: #000;
+}
+
+.vote:hover{
+  fill: #1b92f1 !important;
 }

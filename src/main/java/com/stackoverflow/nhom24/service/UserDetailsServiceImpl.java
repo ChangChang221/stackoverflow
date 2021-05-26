@@ -40,8 +40,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             grantList.add(authority);
         }
         System.out.println(EncrytedPasswordUtils.encrytedPassword("1"));
-        UserDetails userDetails = new AccountSession(appUser.getId(),appUser.getId().toString(),
-                appUser.getPassword(), grantList);
+        UserDetails userDetails = new AccountSession(appUser.getId(), appUser.getUsername(), appUser.getPassword(), appUser.getName(), appUser.getPhoto(), grantList);
 
         return userDetails;
     }

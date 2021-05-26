@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 
 public class LiveSearchQuestionResponse {
-    private ObjectId id;
+    private String id;
     private String title;
     private List<TagResponse> tags;
     private int answers;
