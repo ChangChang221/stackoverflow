@@ -61,13 +61,20 @@ public class UserController extends BaseController {
     }
 
     @GetMapping("/users/{id}")
-    public String getUserById(final ModelMap model, @PathVariable String id) {
+    public String getUserById(final ModelMap model, @PathVariable String id, Principal principal, HttpServletRequest request) {
+        boolean statusEdit = false;
+        if(principal == null || !getUserId(principal, request).toString().equals(id)){
+            statusEdit = false;
+        } else {
+            statusEdit = true;
+        }
         List<QuestionResponse> questions = questionBusiness.getByUserId(id);
         User user = userBusiness.getById(id);
         userBusiness.updateView(user);
         model.addAttribute("user", user);
         model.addAttribute("questions", questions);
         model.addAttribute("sidebar", 3);
+        model.addAttribute("statusEdit", statusEdit);
         return "userDetail";
     }
 

@@ -8,7 +8,7 @@
 <fmt:formatDate value="${bean.date}" pattern="yyyy-MM-dd HH:mm:ss"/>
 <sec:authorize access="hasRole('ROLE_USER')" var="isUser"/>
 <sec:authorize access="hasRole('ROLE_ADMIN')" var="isAdmin"/>
-<sec:authentication property="principal" var="user"/>
+<sec:authentication property="principal" var="userCurrent"/>
 <%--<sec:authentication property="principal.name" var="user_name"/>--%>
 
 <!DOCTYPE html>
@@ -175,7 +175,7 @@
                         <c:set var="votes" value="${answer.votes}"/>
                         <c:set var="status" value="2"/>
                         <c:forEach var="vote" items="${votes}">
-                            <c:if test="${vote.userId eq user.id}">
+                            <c:if test="${vote.userId eq userCurrent.id}">
                                 <c:set var="status" value="${vote.status ? 1 : 0}"/>
                             </c:if>
                         </c:forEach>

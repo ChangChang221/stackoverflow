@@ -48,7 +48,7 @@ public class AnswerBusiness extends BaseBusiness {
         try {
             Answer answer = answerRepository.findById(answerId).get();
             VoteResponse voteResponse = answerService.getVotesByAnswerIdAndUserId(answerId, userId);
-            System.out.println("voteResponse: " + voteResponse);
+//            System.out.println("voteResponse: " + voteResponse);
             if (voteResponse != null) {
                 if (voteResponse.getStatus() == status) {
                     voteRepository.deleteById(voteResponse.getId());
