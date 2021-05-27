@@ -43,12 +43,13 @@ public class QuestionRestController extends BaseController {
         question.setViews(0);
         question.setUserId(getUserId(principal, req));
         question.setAnswers(0);
-        DataResponse newQuestion = questionBusiness.postQuestion(question, tags.stream().map(post -> {
+        Question newQuestion = questionBusiness.postQuestion(question, tags.stream().map(post -> {
             Tag tag = new Tag();
             tag.setName(post);
             return tag;
         }).collect(Collectors.toList()));
         DataResponse response = new DataResponse();
+        response.setResult(newQuestion);
         response.setStatus(1);
         return ResponseEntity.ok(response);
     }

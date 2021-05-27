@@ -1,5 +1,6 @@
 package com.stackoverflow.nhom24.elasticsearch.entity;
 
+import com.stackoverflow.nhom24.entity.User;
 import lombok.Getter;
 import lombok.Setter;
 import org.bson.types.ObjectId;
@@ -14,9 +15,10 @@ import java.util.List;
 public class QuestionES {
     private String id;
     private String title;
-    private String userId;
-    private Date createdOn;
+    private Long createdOn;
     private List<String> tags;
     private Integer views;
     private int answers;
+    private UserES user;
+
 }

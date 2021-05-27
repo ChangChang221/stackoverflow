@@ -257,4 +257,26 @@ public class QuestionService {
 
     }
 
+    public List<QuestionResponse> getAllQuestionAndItem(){
+            try {
+                LookupOperation lookupOperationUser = LookupOperation
+                        .newLookup().from("user")
+                        .localField("userId")
+                        .foreignField("_id")
+                        .as("user");
+
+                Aggregation aggregation = Aggregation.newAggregation(
+                        lookupOperationUser
+                );
+                List<QuestionResponse> results = mongoTemplate
+                        .aggregate(aggregation, "question", QuestionResponse.class)
+                        .getMappedResults();
+//        query.
+                return results;
+            } catch (Exception e) {
+                System.out.println("exception: " + e.getMessage());
+                return new ArrayList<>();
+            }
+    }
+
 }

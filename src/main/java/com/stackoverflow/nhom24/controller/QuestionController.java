@@ -2,6 +2,7 @@ package com.stackoverflow.nhom24.controller;
 
 import com.stackoverflow.nhom24.business.AnswerBusiness;
 import com.stackoverflow.nhom24.business.QuestionBusiness;
+import com.stackoverflow.nhom24.elasticsearch.entity.QuestionES;
 import com.stackoverflow.nhom24.entity.Answer;
 import com.stackoverflow.nhom24.entity.Question;
 import com.stackoverflow.nhom24.model.response.AnswerResponse;
@@ -9,6 +10,7 @@ import com.stackoverflow.nhom24.model.response.QuestionDetailResponse;
 import com.stackoverflow.nhom24.model.response.QuestionResponse;
 import lombok.AllArgsConstructor;
 import org.bson.types.ObjectId;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -118,11 +120,21 @@ public class QuestionController {
         } if(page < startPagination){
             startPagination = startPagination - 10;
         }
+        int total = 0;
+        // elasticsearch
         if(search == null && tag == null){
             search = "";
         }
-        List<QuestionResponse> questions = questionBusiness.getALlByCondition(page, search, tag);
-        int total = questionBusiness.getCountByCondition(page, search, tag);
+        if(search != null){
+            Page<QuestionES> result = questionBusiness.getAllByElasticsearch(page, tab, search);
+            total = (int) result.getTotalElements();
+            model.addAttribute("questions", result.getContent());
+        } else {
+            List<QuestionResponse> questions = questionBusiness.getALlByCondition(page, search, tag);
+            total = questionBusiness.getCountByCondition(page, search, tag);
+            model.addAttribute("questions", questions);
+        }
+        // fix bug trong jsp
 
         int totalPagination = (total / 15) + 1;
         if(startPagination + 10 >= totalPagination){
@@ -138,7 +150,7 @@ public class QuestionController {
         model.addAttribute("tag", tag);
         model.addAttribute("pagination", totalPagination);
         model.addAttribute("total", total);
-        model.addAttribute("questions", questions);
+
         model.addAttribute("page", page);
         model.addAttribute("statusPage", statusPage);
         model.addAttribute("statustab", statustab);
