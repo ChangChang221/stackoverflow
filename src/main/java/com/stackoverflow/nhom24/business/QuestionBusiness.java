@@ -158,14 +158,14 @@ public class QuestionBusiness extends BaseBusiness {
 //        System.out.println("sizenametag = " + sizeNameTag);
 
 //        System.out.print("nameTag = " );
-        for(int j = 0; j < sizeNameTag; j++) {
-//            System.out.print(nameTag.get(j) + ", ");
-        }
 //        System.out.println();
 
 //        System.out.println("gettotal = " + tagBusiness.getTotal()/10 + 1);
-        for (int i = 0; i < 15; i++) {
+        for (int i = 0; i < tagsResponse.size(); i++) {
             tagsResponse.get(i).setNumberQuestion(0);
+            if(tagsResponse.get(i).getDescription().length() > 100){
+                tagsResponse.get(i).setDescription(tagsResponse.get(i).getDescription().substring(0, 100));
+            }
             /*TagResponse tagResponse = new TagResponse();
             tagResponse.setNumberQuestion(0);
             tagsResponse.add(tagResponse);*/
@@ -202,5 +202,8 @@ public class QuestionBusiness extends BaseBusiness {
         return tagsResponse;
     }
 
+    public void deleteQuestion(ObjectId id){
+        questionRepository.deleteById(id);
+    }
 
 }

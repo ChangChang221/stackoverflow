@@ -101,8 +101,9 @@ public class UserController extends BaseController {
         }
 //        List<Tag> listTag = tagBusiness.getAll(Integer.parseInt(page));
         List<UserResponse> users = userBusiness.getListUser(page);
-        List<UserResponse> response = userBusiness.getTagOfUser(users);
-        modelMap.addAttribute("users", response);
+//        List<UserResponse> response = userBusiness.getTagOfUser(users);
+//        modelMap.addAttribute("users", response);
+        modelMap.addAttribute("users", users);
         modelMap.addAttribute("pagination", totalPagination);
         modelMap.addAttribute("total", total);
         modelMap.addAttribute("page", page);
@@ -128,8 +129,8 @@ public class UserController extends BaseController {
             if( postImg != null && postImg.getSize() > 0 ) {
                 Date dateNow = new Date();
                 Random rd = new Random();
-                String name =  id + dateNow.getTime() + rd.nextInt() + postImg.getOriginalFilename().replace(' ', '1');
-                postImg.transferTo(new File( imagePath + "/" + name));
+                String name =  dateNow.getTime() + postImg.getOriginalFilename();
+                postImg.transferTo(new File( imagePath + "/" + name.replace('-', '1')));
                 user.setPhoto(name);
             }
             userBusiness.updateUser(id, user);

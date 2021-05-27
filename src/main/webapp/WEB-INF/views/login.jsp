@@ -74,7 +74,7 @@
             <label>Email</label>
             <form:input path="username" class="input-type"/>
             <label>Password</label>
-            <form:input path="password" class="input-type"/>
+            <form:input path="password" type="password" class="input-type"/>
             <a
                     style="
               text-decoration: none;

@@ -87,7 +87,7 @@
 <header class="header-container">
     <div></div>
     <div class="container-header">
-        <div class="icon-container-header">
+        <div class="icon-container-header" onclick="home()">
             <img id="logo" src="${pageContext.request.contextPath}/asset/logo.png"/>
         </div>
         <nav class="nav-menu">
@@ -96,7 +96,7 @@
         </nav>
 
         <div class="search-container">
-            <img id="search-icon" src="/asset/search-icon.png" onclick="home()"/>
+            <img id="search-icon" src="/asset/search-icon.png" />
             <input placeholder="Search..." id="input-search" onkeyup="search(value)"/>
             <ul class="search-results" id="search-results">
                 <div class="lds-hourglass" id="loader" style="display: none"></div>

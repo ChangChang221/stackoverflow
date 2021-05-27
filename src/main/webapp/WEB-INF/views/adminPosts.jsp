@@ -132,7 +132,7 @@
                                     <td>${question.title}</td>
                                     <td style=" text-align: center;">
 
-                                        <a onclick="Delete()" href="#">
+                                        <a onclick="Delete(`${question.id}`)" href="#">
                                             <img src="${pageContext.request.contextPath}/asset/clear.png" style="height: 15px; width: 15px"/>
                                         </a>
                                     </td>
@@ -144,14 +144,7 @@
             </div>
         </section>
         <!-- Service User End-->
-
-
-
-
         <!-- Service Post End-->
-
-
-
     </div>
     <!-- Main content end -->
 </div>
@@ -172,8 +165,8 @@
             <p>Are you sure want to permanently delete post?</p>
 
             <div class="btns" >
-                <button>Yes,Delete</button>
-                <button>Cancle</button>
+                <button onclick="deleteQuestion()">Yes,Delete</button>
+                <button onclick="closeModalDelete()">Cancer</button>
             </div>
 
         </form>
@@ -182,6 +175,7 @@
 
 <!-- javscript-->
 <script>
+    let id = null;
     // lấy phần Modal
     var modal = document.getElementById('myModal');
 
@@ -203,6 +197,28 @@
     window.onclick = function(event) {
         if (event.target == modal) {
             modal.style.display = "none";
+        }
+    }
+    const closeModalDelete = () => {
+        modal.style.display = "none";
+    }
+    const deleteQuestion = async () => {
+        const url = "/questions/" + id;
+        const _response = await fetch(url, {
+            method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
+            mode: 'cors', // no-cors, *cors, same-origin
+            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: 'same-origin', // include, *same-origin, omit
+            headers: {
+                'Content-Type': 'application/json'
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            redirect: 'follow', // manual, *follow, error
+            referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+        });
+        const response = await _response.json();
+        if(response.status){
+            location.reload();
         }
     }
 </script>
