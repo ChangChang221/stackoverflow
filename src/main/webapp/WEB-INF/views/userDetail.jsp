@@ -90,7 +90,9 @@
                     <p>Contact - shahronak47@yahoo.in</p>
                     <br />
                     <p>
-                        If my answers helped you can <a href="#">buy me a coffee.</a>
+                        <c:if test="${statusEdit}">
+                            <a href="/users/edit/${user.id}">Click here for edit profile.</a>
+                        </c:if>
                     </p>
                 </div>
             </div>

@@ -108,7 +108,7 @@
             return;
         } else {
             const signal = controller.signal;
-            const _response = await fetch("/user/search?" + new URLSearchParams({
+            const _response = await fetch("/users/search?" + new URLSearchParams({
                 query: value
             }), {signal});
             currentValue.style.display = 'none';
@@ -116,29 +116,33 @@
             filterValue.style.display = 'block';
             filterValue.innerHTML = "";
             const data = await _response.json();
+            console.log(data, "data")
             if (data.status) {
                 let user = "";
                 data.result.forEach((e) => {
                     let tags = "";
-                    user.tags.forEach((tag) => tags += `<a href="` + tag + `">` + tag+ `,</a>`);
-                    user +=
+                    let photo =  "/asset/" + e.photo;
+                    // e.tags && e.tags.forEach((tag) => tags += `<a href="` + tag + `">` + tag+ `,</a>`);
+                    filterValue.innerHTML +=
                         `<div class="content-user-container">
                    <img
-                            src="${pageContext.request.contextPath}/asset/${user.photo}"
+                            src="`+ photo+ `"
                            height="48px"
                            width="48px"
                    />
                    <div>
-                       <a href="users/` +  user.id + `">` + user.name + `</a>
-                       <p>` + user.location + `</p>
-                       <p style="font-weight: bold">` + user.views + `</p>
+                       <a href="users/` +  e.id + `">` + e.name + `</a>
+                       <p>` + e.location + `</p>
+                       <p style="font-weight: bold">` + e.views + `</p>
                        <div>
-                           `+ tags +`
+
                        </div>
                    </div>
                </div>`;
-                    filterValue.innerHTML += user;
+
                 });
+                console.log(filterValue.innerHTML)
+                // filterValue.innerHTML += user;
             }
         };
     };

@@ -6,7 +6,7 @@
     <meta name="viewpost" content="width=device-width, initial-scale=1">
     <title>StackOverFlow</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/orange.css" type="text/css" >
-
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/header.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/style.css" type="text/css">
     <!-- StyleSwitcher -->
 <!--
@@ -74,7 +74,7 @@
                         <div class="service-item-inner">
                             <div class="icon"><i class="fa fa-users"></i></div>
                             <h4>All User</h4>
-                            <p>12000</p>
+                            <p>${users.size()}</p>
                         </div>
                     </div>
 
@@ -85,7 +85,7 @@
                         <div class="service-item-inner">
                             <div class="icon"><i class="fa fa-calendar"></i></div>
                             <h4>Day</h4>
-                            <p>12000</p>
+                            <p>12</p>
                         </div>
                     </div>
 
@@ -96,7 +96,7 @@
                         <div class="service-item-inner">
                             <div class="icon"><i class="fa fa-calendar"></i></div>
                             <h4>Month</h4>
-                            <p>12000</p>
+                            <p>140</p>
                         </div>
                     </div>
 
@@ -107,7 +107,7 @@
                         <div class="service-item-inner">
                             <div class="icon"><i class="fa fa-calendar"></i></div>
                             <h4>Year</h4>
-                            <p>12000</p>
+                            <p>149</p>
                         </div>
                     </div>
 
@@ -150,10 +150,10 @@
                                     <td>${user.name}</td>
 
                                     <td style=" text-align: center;">
-                                        <a href="#">
+                                        <a onclick="Delete(document.getElementById('myModal1'), `${user.id}`)"href="#">
                                             <img src="${pageContext.request.contextPath}/asset/edit.png" style="height: 18px; width: 18px"/>
                                         </a>
-                                        <a href="@{/deleteUser/{id}(id=${user.id})}">
+                                        <a onclick="Delete(document.getElementById('myModal'),`${user.id}`)" href="#">
                                             <img src="${pageContext.request.contextPath}/asset/clear.png" style="height: 15px; width: 15px"/>
                                         </a>
                                     </td>
@@ -174,17 +174,157 @@
 </div>
 </div>
 <!-- Main content end -->
-<dialog id="hopthoai" style="height:250px;width: 350px; top: 50%; left: 50%" >
-    <div  style="height:150px;width: 350px">
-        dsakdjaskdjsadddddddddkjassssdsk
+
+<div id="myModal" class="modal">
+    <!-- Nội dung form đăng nhập -->
+    <div class="modal-content">
+        <form action="#">
+            <span class="close">&times;</span>
+            <div class="icon1">
+                <i class="fa fa-exclamation"></i>
+            </div>
+            <header>Confirm</header>
+            <p>Are you sure want to permanently delete user?</p>
+
+            <div class="btns" >
+                <button onclick="deleteUser()">Yes,Delete</button>
+                <button onclick="closeModal()">Cancer</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+
+<div id="myModal1" class="modal">
+    <div class="modal-content">
+        <form action="#">
+        <span class="close">&times;</span>
+        <div class="icon1">
+            <i class="fa fa-edit"></i>
+        </div>
+        <header>
+            Edit Role
+        </header>
+        <div class="btns">
+            <div>Role:</div>
+            <input id="role" type="text" class="editrole" placeholder="Edit role">
+        </div>
+            <div class="btns">
+                <button onclick="updateRole()">OK</button>
+                <button onclick="closeModal()">Cancer</button>
+            </div>
+            <p id="alertRole" style="color: white;
+    background: #ff4444;
+    border-radius: 10px;
+    padding: 0px 3px;
+    margin: 12px 100px 0px 100px;">Input role failed!</p>
+        </form>
     </div>
 
-    <div  style="height:100px;width: 350px">
-        <input type="button" value="ok" onclick="myFunction()">
-        <input type="button" value="cancle">
-    </div>
-</dialog>
+</div>
 
+
+
+<!-- javscript-->
+<script>
+
+ //   var modal = document.getElementById('myModal');
+
+    // Lấy phần button mở Modal
+
+    // lấy phần Modal
+
+    // Lấy phần span đóng Modal
+    var span = document.getElementsByClassName("close")[0];
+    var span1 = document.getElementsByClassName("close")[1];
+    let alertRole = document.getElementById("alertRole");
+    alertRole.style.display = "none";
+    // Khi button được click thi mở Modal
+    let id = null;
+
+    function Delete(modal, userId){
+        modal.style.display = "block";
+        id = userId;
+    }
+    // Khi span được click thì đóng Modal
+    span.onclick = function() {
+        var modal = document.getElementById('myModal');
+
+        modal.style.display = "none";
+    }
+    span1.onclick=function (){
+        var modal1 = document.getElementById('myModal1');
+        modal1.style.display="none";
+    }
+    // Khi click ngoài Modal thì đóng Modal
+    window.onclick = function(event) {
+        var modal = document.getElementById('myModal');
+        var modal1 = document.getElementById('myModal1');
+        if (event.target == modal) {
+            modal.style.display = "none";
+
+        }
+        if(event.target==modal1){
+            modal1.style.display="none";
+        }
+    }
+
+    const closeModal = () => {
+        var modal = document.getElementById('myModal');
+        var modal1 = document.getElementById('myModal1');
+        modal1.style.display="none";
+        modal.style.display = "none";
+    }
+
+    const updateRole = async () => {
+        const role = document.getElementById("role").value;
+        console.log(role);
+        if(role !== "ROLE_USER" && role !== "ROLE_ADMIN"){
+            alertRole.style.display = "block";
+            return;
+        }
+        const url = "/users/updateRole/" + id;
+        const _response = await fetch(url, {
+            method: 'PUT', // *GET, POST, PUT, DELETE, etc.
+            mode: 'cors', // no-cors, *cors, same-origin
+            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: 'same-origin', // include, *same-origin, omit
+            headers: {
+                'Content-Type': 'application/json'
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            redirect: 'follow', // manual, *follow, error
+            referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+            body: JSON.stringify({
+                role
+            }) // body data type must match "Content-Type" header
+        });
+        const response = await _response.json();
+        if(response.status){
+            location.reload();
+        }
+    }
+    const deleteUser = async () => {
+        const url = "/users/" + id;
+        const _response = await fetch(url, {
+            method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
+            mode: 'cors', // no-cors, *cors, same-origin
+            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: 'same-origin', // include, *same-origin, omit
+            headers: {
+                'Content-Type': 'application/json'
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            redirect: 'follow', // manual, *follow, error
+            referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+        });
+        const response = await _response.json();
+        if(response.status){
+            location.reload();
+        }
+    }
+</script>
 <!-- javscript End-->
 <!-- Live Style Switcher - Demo Only -->
 

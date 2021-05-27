@@ -61,13 +61,20 @@ public class UserController extends BaseController {
     }
 
     @GetMapping("/users/{id}")
-    public String getUserById(final ModelMap model, @PathVariable String id) {
+    public String getUserById(final ModelMap model, @PathVariable String id, Principal principal, HttpServletRequest request) {
+        boolean statusEdit = false;
+        if(principal == null || !getUserId(principal, request).toString().equals(id)){
+            statusEdit = false;
+        } else {
+            statusEdit = true;
+        }
         List<QuestionResponse> questions = questionBusiness.getByUserId(id);
         User user = userBusiness.getById(id);
         userBusiness.updateView(user);
         model.addAttribute("user", user);
         model.addAttribute("questions", questions);
         model.addAttribute("sidebar", 3);
+        model.addAttribute("statusEdit", statusEdit);
         return "userDetail";
     }
 
@@ -94,8 +101,9 @@ public class UserController extends BaseController {
         }
 //        List<Tag> listTag = tagBusiness.getAll(Integer.parseInt(page));
         List<UserResponse> users = userBusiness.getListUser(page);
-        List<UserResponse> response = userBusiness.getTagOfUser(users);
-        modelMap.addAttribute("users", response);
+//        List<UserResponse> response = userBusiness.getTagOfUser(users);
+//        modelMap.addAttribute("users", response);
+        modelMap.addAttribute("users", users);
         modelMap.addAttribute("pagination", totalPagination);
         modelMap.addAttribute("total", total);
         modelMap.addAttribute("page", page);
@@ -121,8 +129,8 @@ public class UserController extends BaseController {
             if( postImg != null && postImg.getSize() > 0 ) {
                 Date dateNow = new Date();
                 Random rd = new Random();
-                String name =  id + dateNow.getTime() + rd.nextInt() + postImg.getOriginalFilename().replace(' ', '1');
-                postImg.transferTo(new File( imagePath + "/" + name));
+                String name =  dateNow.getTime() + postImg.getOriginalFilename();
+                postImg.transferTo(new File( imagePath + "/" + name.replace('-', '1')));
                 user.setPhoto(name);
             }
             userBusiness.updateUser(id, user);

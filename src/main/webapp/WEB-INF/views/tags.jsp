@@ -65,6 +65,7 @@
                         </div>
                         <div>
                             <p>${tag.description}</p>
+
                         </div>
                         <div class="tag-detail">
                             <div class="questions-about-tag-total">

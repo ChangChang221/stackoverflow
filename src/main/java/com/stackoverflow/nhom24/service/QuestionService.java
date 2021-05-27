@@ -32,7 +32,7 @@ public class QuestionService {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    @DateTimeFormat(pattern = "yyyy-mm-ddThh:mm:ss.SSSZ")
+    @DateTimeFormat(pattern = "yyyy-mm-dd'T'hh:mm:ss.SSS'Z'")
     public List<QuestionResponse> findAllQuestionAndItem(long page, String tab) {
         try {
 
@@ -130,7 +130,6 @@ public class QuestionService {
             QuestionDetailResponse results = mongoTemplate
                     .aggregate(aggregation, "question", QuestionDetailResponse.class)
                     .getUniqueMappedResult();
-            Query query = new Query();
 //        query.
             return results;
         } catch (Exception e) {
@@ -178,24 +177,24 @@ public class QuestionService {
 
     public List<LiveSearchQuestionResponse> getQuestions(String query) {
         try {
-//            Aggregation aggregation = Aggregation.newAggregation(Aggregation.match(TextCriteria.forDefaultLanguage().matching(query)), Aggregation.sort(Sort.Direction.ASC, "views"), Aggregation.limit(5));
             Aggregation aggregation = Aggregation.newAggregation(Aggregation.match(Criteria.where("title").regex(".*" + query + ".*")), Aggregation.sort(Sort.Direction.ASC, "views"), Aggregation.limit(5));
-            List<LiveSearchQuestionResponse> results = mongoTemplate.aggregate(aggregation, "question", QuestionResponse.class).getMappedResults().stream().map(questionResponse -> {
-                Aggregation aggregationAnswer = Aggregation.newAggregation(Aggregation.match(Criteria.where("questionId").is(questionResponse.getId())));
-                Integer answers = mongoTemplate.aggregate(aggregationAnswer, "answer", Answer.class).getMappedResults().size();
-                LiveSearchQuestionResponse result = new LiveSearchQuestionResponse();
-                result.setId(new ObjectId(questionResponse.getId()));
-                result.setTitle(questionResponse.getTitle());
-                ArrayList<TagResponse> tags = new ArrayList<TagResponse>();
-                questionResponse.getTags().forEach(tag_name -> {
-                    TagResponse tag = new TagResponse();
-                    tag.setName(tag_name);
-                    tags.add(tag);
-                });
-                result.setTags((List<TagResponse>) tags);
-                result.setAnswers(answers);
-                return result;
-            }).collect(Collectors.toList());
+            List<LiveSearchQuestionResponse> results = mongoTemplate.aggregate(aggregation, "question", QuestionResponse.class).getMappedResults()
+                    .stream().map(questionResponse -> {
+                        Aggregation aggregationAnswer = Aggregation.newAggregation(Aggregation.match(Criteria.where("questionId").is(new ObjectId(questionResponse.getId()))));
+                        Integer answers = mongoTemplate.aggregate(aggregationAnswer, "answer", Answer.class).getMappedResults().size();
+                        LiveSearchQuestionResponse result = new LiveSearchQuestionResponse();
+                        result.setId(questionResponse.getId());
+                        result.setTitle(questionResponse.getTitle());
+                        ArrayList<TagResponse> tags = new ArrayList<TagResponse>();
+                        questionResponse.getTags().forEach(tag_name -> {
+                            TagResponse tag = new TagResponse();
+                            tag.setName(tag_name);
+                            tags.add(tag);
+                        });
+                        result.setTags((List<TagResponse>) tags);
+                        result.setAnswers(answers);
+                        return result;
+                    }).collect(Collectors.toList());
             return (List<LiveSearchQuestionResponse>) results;
         } catch (Exception e) {
             System.out.println("error: " + e);

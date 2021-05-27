@@ -32,7 +32,12 @@ public class UserBusiness extends BaseBusiness {
             return user;
 
     }
-
+/*
+    public int getAllDay(){
+        List<User> user = userRepository.findAll();
+        return user.size();
+    }
+*/
     public User login(LoginRequest model) throws NotFoundException {
         User user = userRepository.findByUsername(model.getUsername());
         if(user == null){
@@ -66,7 +71,11 @@ public class UserBusiness extends BaseBusiness {
     }
 
     public void updateView(User user){
-        user.setViews(user.getViews() + 1);
+        if(user.getViews() != null){
+            user.setViews(user.getViews() + 1);
+        } else {
+            user.setViews(1);
+        }
         userRepository.save(user);
     }
 
@@ -83,10 +92,12 @@ public class UserBusiness extends BaseBusiness {
         currentUser.setTitle(newUser.getTitle());
         userRepository.save(currentUser);
     }
-    public void deleteUser(String id){
 
+
+
+
+    public void deleteUser(String id){
         userRepository.deleteById(new ObjectId(id).get());
-//        userRepository.deleteById(;
     }
     public List<UserResponse> getListUser(Integer page) {
 
@@ -168,5 +179,15 @@ public class UserBusiness extends BaseBusiness {
 
     public List<UserResponse> filterUser(String query){
         return userService.getByName(query);
+    }
+
+    public void deleteUserById(ObjectId id){
+        userRepository.deleteById(id);
+    }
+
+    public void updateRole(ObjectId id, String role){
+        User user = userRepository.findById(id).get();
+        user.setRole(role);
+        userRepository.save(user);
     }
 }

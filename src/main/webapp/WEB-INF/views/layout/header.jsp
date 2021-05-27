@@ -1,14 +1,15 @@
 <%@ taglib prefix="sec"
-           uri="http://www.springframework.org/security/tags"%>
+           uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<sec:authorize access="hasRole('ROLE_USER')" var="isUser" />
-<sec:authorize access="hasRole('ROLE_ADMIN')" var="isAdmin" />
+<sec:authorize access="hasRole('ROLE_USER')" var="isUser"/>
+<sec:authorize access="hasRole('ROLE_ADMIN')" var="isAdmin"/>
+<sec:authentication property="principal" var="userCurrent"/>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <title>Title</title>
     <!-- Required meta tags -->
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
     <meta
             name="viewport"
             content="width=device-width, initial-scale=1, shrink-to-fit=no"
@@ -23,8 +24,8 @@
     let controller = new AbortController();
     const search = async (value) => {
         console.log(value);
-        if(event.keyCode === 13) {
-            window.location.href =  "http://localhost:8000/questions/search?search=" + value;
+        if (event.keyCode === 13) {
+            window.location.href = "http://localhost:8000/questions/search?search=" + value;
         }
         controller.abort();
         controller = new AbortController();
@@ -47,6 +48,9 @@
                 loader.style.display = "none";
                 const _results = response.result;
                 _results.forEach((_result) => {
+                    console.log("_result", _result)
+                    console.log("id", _result.id.toString())
+                    // const id = _result.id.toString()
                     let li = document.createElement("li");
                     let div_1 = document.createElement("div");
                     let div_2_1 = document.createElement("div");
@@ -57,7 +61,7 @@
                     let div_2_2 = document.createElement("div");
                     let a_3_1 = document.createElement("a");
                     a_3_1.innerHTML = _result.title;
-                    a_3_1.setAttribute("href", "#");
+                    a_3_1.setAttribute("href", "${pageContext.request.contextPath}/questions/detail/" + _result.id.toString());
                     let div_3_3 = document.createElement("div");
                     div_3_3.setAttribute("class", "answer-question-tags");
                     for (let i = 0; i < _result.tags.length; i++) {
@@ -81,9 +85,10 @@
     }
 </script>
 <header class="header-container">
+    <div></div>
     <div class="container-header">
-        <div class="icon-container-header">
-            <img id="logo" src="${pageContext.request.contextPath}/asset/logo.png" />
+        <div class="icon-container-header" onclick="home()">
+            <img id="logo" src="${pageContext.request.contextPath}/asset/logo.png"/>
         </div>
         <nav class="nav-menu">
             <a>About</a>
@@ -91,85 +96,22 @@
         </nav>
 
         <div class="search-container">
-            <img id="search-icon" src="/asset/search-icon.png" onclick="home()"/>
+            <img id="search-icon" src="/asset/search-icon.png" />
             <input placeholder="Search..." id="input-search" onkeyup="search(value)"/>
             <ul class="search-results" id="search-results">
                 <div class="lds-hourglass" id="loader" style="display: none"></div>
-                <!-- <p style="margin-left: 15px">Gợi ý tìm kiếm:</p> -->
-                <%--                <li>--%>
-                <%--                    <div>--%>
-                <%--                        <div>--%>
-                <%--                            <div>8</div>--%>
-                <%--                            <div>answers</div>--%>
-                <%--                        </div>--%>
-                <%--                        <div>--%>
-                <%--                            <a href="#">Can StyleCop automatically fix anything?</a>--%>
-                <%--                            <div class="answer-question-tags">--%>
-                <%--                                <a href="#" class="tag">android</a>--%>
-                <%--                                <a href="#" class="tag">react-native</a>--%>
-                <%--                                <a href="#" class="tag">huawei-mobile-services</a>--%>
-                <%--                                <a href="#" class="tag">huawei-push-notification</a>--%>
-                <%--                            </div>--%>
-                <%--                        </div>--%>
-                <%--                    </div>--%>
-                <%--                </li>--%>
-                <%--                <li>--%>
-                <%--                    <div>--%>
-                <%--                        <div>--%>
-                <%--                            <div>8</div>--%>
-                <%--                            <div>answers</div>--%>
-                <%--                        </div>--%>
-                <%--                        <div>--%>
-                <%--                            <a href="#">Can StyleCop automatically fix anything?</a>--%>
-                <%--                            <div class="answer-question-tags">--%>
-                <%--                                <a href="#" class="tag">android</a>--%>
-                <%--                                <a href="#" class="tag">react-native</a>--%>
-                <%--                                <a href="#" class="tag">huawei-mobile-services</a>--%>
-                <%--                                <a href="#" class="tag">huawei-push-notification</a>--%>
-                <%--                            </div>--%>
-                <%--                        </div>--%>
-                <%--                    </div>--%>
-                <%--                </li>--%>
-                <%--                <li>--%>
-                <%--                    <div>--%>
-                <%--                        <div>--%>
-                <%--                            <div>8</div>--%>
-                <%--                            <div>answers</div>--%>
-                <%--                        </div>--%>
-                <%--                        <div>--%>
-                <%--                            <a href="#">Can StyleCop automatically fix anything?</a>--%>
-                <%--                            <div class="answer-question-tags">--%>
-                <%--                                <a href="#" class="tag">android</a>--%>
-                <%--                                <a href="#" class="tag">react-native</a>--%>
-                <%--                                <a href="#" class="tag">huawei-mobile-services</a>--%>
-                <%--                                <a href="#" class="tag">huawei-push-notification</a>--%>
-                <%--                            </div>--%>
-                <%--                        </div>--%>
-                <%--                    </div>--%>
-                <%--                </li>--%>
             </ul>
         </div>
         <div class="button-container">
             <c:if test="${isUser == true || isAdmin == true}">
-                <div style="margin-top: 5px;
-                            position: relative;
-                            flex-shrink: 0;
-                            display: inline-flex;
-                            padding-bottom: 0;
-                            height: 100%;">
-
-                <div>
-                    <a style="padding: 0 12px;
-                            height: 100%;
-                            font-size: 12px;
-                            color: #3c4146;
-                            white-space: nowrap;
-                            display: flex;
-                            flex-flow: row nowrap;
-                            align-items: center;">
-                    <img src="https://lh3.googleusercontent.com/-vay8kp6zeaw/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucnARADGtjy6WlWEKVpUPIgRlWLk2A/s96-c/photo.jpg?sz=48" alt width="24" height="24" style="border-radius: 3px;vertical-align: middle;">
-                    </a>
-                </div>
+                <div style="margin-right: 10px">
+                    <div>
+                        <a href="/users/${userCurrent.id}">
+                            <img
+                                    src="${pageContext.request.contextPath}/asset/${userCurrent.photo}"
+                                    alt width="24" height="24" style="border-radius: 3px;vertical-align: middle;">
+                        </a>
+                    </div>
                 </div>
 
             </c:if>
@@ -181,7 +123,7 @@
             </c:if>
             <c:if test="${ isUser == false && isAdmin == false }">
                 <button id="log-in" onclick="login()">Log in</button>
-<%--                <button id="sign-up" onclick="signup()">Sign up</button>--%>
+                <%--                <button id="sign-up" onclick="signup()">Sign up</button>--%>
             </c:if>
 
         </div>

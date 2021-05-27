@@ -6,12 +6,7 @@ import com.stackoverflow.nhom24.elasticsearch.repository.QuestionRepositoryES;
 import com.stackoverflow.nhom24.entity.Question;
 import com.stackoverflow.nhom24.entity.Tag;
 import com.stackoverflow.nhom24.entity.User;
-import com.stackoverflow.nhom24.model.response.AnswerResponse;
-import com.stackoverflow.nhom24.model.response.LiveSearchQuestionResponse;
-import com.stackoverflow.nhom24.model.response.QuestionDetailResponse;
-import com.stackoverflow.nhom24.model.response.QuestionResponse;
-import com.stackoverflow.nhom24.model.response.QuestionsResponse;
-import com.stackoverflow.nhom24.model.response.TagResponse;
+import com.stackoverflow.nhom24.model.response.*;
 import com.stackoverflow.nhom24.repository.QuestionRepository;
 import com.stackoverflow.nhom24.repository.TagRepository;
 import com.stackoverflow.nhom24.repository.UserRepository;
@@ -27,10 +22,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -115,38 +108,48 @@ public class QuestionBusiness extends BaseBusiness {
         return questionService.findCountOfQuestionAndItem(tab);
     }
 
-    public Question postQuestion(Question question, List<Tag> tagsPost) {
-        List<Tag> tagsDto = tagRepository.findAll();
-        for (Tag tag : tagsDto) {
-            for (Tag tagPost : tagsPost) {
-                if (tag.getName().equals(tagPost.getName())) {
-                    tagPost.setId(tag.getId());
+    public DataResponse postQuestion(Question question, List<Tag> tagsPost) {
+        try {
+            List<Tag> tagsDto = tagRepository.findAll();
+            for (Tag tag : tagsDto) {
+                for (Tag tagPost : tagsPost) {
+                    if (tag.getName().equals(tagPost.getName())) {
+                        tagPost.setId(tag.getId());
+                    }
                 }
+                ;
             }
             ;
+            List<Tag> tags = tagsPost.stream().map(tag -> {
+                if (tag.getId() == null) {
+                    tag = tagRepository.save(tag);
+                }
+                return tag;
+            }).collect(Collectors.toList());
+            question.setTags(tags.stream().map(el -> el.getName()).collect(Collectors.toList()));
+            question.setId(new ObjectId());
+            questionRepository.save(question);
+            DataResponse data = new DataResponse();
+            data.setStatus(1);
+            return data;
+        } catch (Exception e) {
+            System.out.println("QuestionBusiness postQuestion error: "+ e.getMessage());
+            DataResponse data = new DataResponse();
+            data.setStatus(0);
+            return data;
         }
-        ;
-        List<Tag> tags = tagsPost.stream().map(tag -> {
-            if (tag.getId() == null) {
-                tag = tagRepository.save(tag);
-            }
-            return tag;
-        }).collect(Collectors.toList());
-        question.setTags(tags.stream().map(el -> el.getName()).collect(Collectors.toList()));
-        question.setId(new ObjectId());
-        questionRepository.save(question);
-        return question;
+
     }
 
     public QuestionDetailResponse getById(String id) {
-        try{
+        try {
             QuestionDetailResponse question = questionService.findQuestionAndItemById(id);
-            Question updateQuestion = questionRepository.findById(new  ObjectId(id)).get();
+            Question updateQuestion = questionRepository.findById(new ObjectId(id)).get();
             updateQuestion.setViews(updateQuestion.getViews() + 1);
             questionRepository.save(updateQuestion);
             return question;
-        }catch (Exception e){
-            System.out.println("QuestionDetailResponse: "+ e.getMessage());
+        } catch (Exception e) {
+            System.out.println("QuestionDetailResponse: " + e.getMessage());
             return new QuestionDetailResponse();
         }
 
@@ -173,14 +176,14 @@ public class QuestionBusiness extends BaseBusiness {
 //        System.out.println("sizenametag = " + sizeNameTag);
 
 //        System.out.print("nameTag = " );
-        for(int j = 0; j < sizeNameTag; j++) {
-//            System.out.print(nameTag.get(j) + ", ");
-        }
 //        System.out.println();
 
 //        System.out.println("gettotal = " + tagBusiness.getTotal()/10 + 1);
-        for (int i = 0; i < 15; i++) {
+        for (int i = 0; i < tagsResponse.size(); i++) {
             tagsResponse.get(i).setNumberQuestion(0);
+            if(tagsResponse.get(i).getDescription().length() > 100){
+                tagsResponse.get(i).setDescription(tagsResponse.get(i).getDescription().substring(0, 100));
+            }
             /*TagResponse tagResponse = new TagResponse();
             tagResponse.setNumberQuestion(0);
             tagsResponse.add(tagResponse);*/
@@ -217,5 +220,8 @@ public class QuestionBusiness extends BaseBusiness {
         return tagsResponse;
     }
 
+    public void deleteQuestion(ObjectId id){
+        questionRepository.deleteById(id);
+    }
 
 }

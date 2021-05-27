@@ -47,7 +47,7 @@
             <div class="container">
                 <div class="row">
                     <div class="section-title padd-15">
-                        <h2>User Manage</h2>
+                        <h2>Post Manage</h2>
                     </div>
                 </div>
                 <div class="row">
@@ -56,7 +56,7 @@
                         <div class="service-item-inner">
                             <div class="icon"><i class="fa fa-question"></i></div>
                             <h4>All Post</h4>
-                            <p>12000</p>
+                            <p>${questions.size()}</p>
                         </div>
                     </div>
 
@@ -67,7 +67,7 @@
                         <div class="service-item-inner">
                             <div class="icon"><i class="fa fa-calendar"></i></div>
                             <h4>Day</h4>
-                            <p>12000</p>
+                            <p>13</p>
                         </div>
                     </div>
 
@@ -78,7 +78,7 @@
                         <div class="service-item-inner">
                             <div class="icon"><i class="fa fa-calendar"></i></div>
                             <h4>Month</h4>
-                            <p>12000</p>
+                            <p>200</p>
                         </div>
                     </div>
 
@@ -89,7 +89,7 @@
                         <div class="service-item-inner">
                             <div class="icon"><i class="fa fa-calendar"></i></div>
                             <h4>Year</h4>
-                            <p>12000</p>
+                            <p>207</p>
                         </div>
                     </div>
                     <!--  Service item End-->
@@ -117,6 +117,7 @@
                     <div class="section-title padd-15">
                         <table class="table padd-15">
                             <tr>
+
                                 <th>ID</th>
                                 <th>UserId</th>
                                 <th>CreatedOn</th>
@@ -130,10 +131,8 @@
                                     <td  style=" text-align: center;">${question.createdOn}</td>
                                     <td>${question.title}</td>
                                     <td style=" text-align: center;">
-                                        <a href="#">
-                                            <img src="${pageContext.request.contextPath}/asset/edit.png" style="height: 18px; width: 18px"/>
-                                        </a>
-                                        <a href="#">
+
+                                        <a onclick="Delete(`${question.id}`)" href="#">
                                             <img src="${pageContext.request.contextPath}/asset/clear.png" style="height: 15px; width: 15px"/>
                                         </a>
                                     </td>
@@ -145,16 +144,85 @@
             </div>
         </section>
         <!-- Service User End-->
-
-
         <!-- Service Post End-->
-
-
-
     </div>
     <!-- Main content end -->
 </div>
 
+<!-- test    -->
+
 <!-- Main container  -->
+
+<div id="myModal" class="modal">
+    <!-- Nội dung form đăng nhập -->
+    <div class="modal-content">
+        <form action="#">
+            <span class="close">&times;</span>
+            <div class="icon1">
+                <i class="fa fa-exclamation"></i>
+            </div>
+            <header>Confirm</header>
+            <p>Are you sure want to permanently delete post?</p>
+
+            <div class="btns" >
+                <button onclick="deleteQuestion()">Yes,Delete</button>
+                <button onclick="closeModalDelete()">Cancer</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<!-- javscript-->
+<script>
+    let id = null;
+    // lấy phần Modal
+    var modal = document.getElementById('myModal');
+
+    // Lấy phần button mở Modal
+
+    // Lấy phần span đóng Modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // Khi button được click thi mở Modal
+
+    function Delete(){
+        modal.style.display = "block";
+    }
+    // Khi span được click thì đóng Modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+    // Khi click ngoài Modal thì đóng Modal
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+    const closeModalDelete = () => {
+        modal.style.display = "none";
+    }
+    const deleteQuestion = async () => {
+        const url = "/questions/" + id;
+        const _response = await fetch(url, {
+            method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
+            mode: 'cors', // no-cors, *cors, same-origin
+            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: 'same-origin', // include, *same-origin, omit
+            headers: {
+                'Content-Type': 'application/json'
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            redirect: 'follow', // manual, *follow, error
+            referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+        });
+        const response = await _response.json();
+        if(response.status){
+            location.reload();
+        }
+    }
+</script>
+
+<!-- javscript End-->
 </body>
 </html>
