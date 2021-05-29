@@ -212,7 +212,7 @@
         </div>
             <div class="btns">
                 <button onclick="updateRole()">OK</button>
-                <button onclick="closeModal()">Cancer</button>
+                <button onclick="closeModal()">Cancel</button>
             </div>
             <p id="alertRole" style="color: white;
     background: #ff4444;
