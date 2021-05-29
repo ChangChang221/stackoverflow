@@ -134,21 +134,23 @@
                     <div class="section-title padd-15">
                         <table class="table padd-15">
                             <tr>
-                                <th>ID</th>
+                                <th>STT</th>
                                 <th>Username</th>
-
                                 <th>Role</th>
                                 <th>Name</th>
-
                                 <th>Action</th>
                             </tr>
+
+                            <%! private int a;%>
+                            <% a=0; %>
+
                             <c:forEach var="user" items="${users}">
+
                                 <tr>
-                                    <td>ID</td>
+                                    <td style=" text-align: center;"><%= ++a%></td>
                                     <td>${user.username}</td>
                                     <td>${user.role}</td>
                                     <td>${user.name}</td>
-
                                     <td style=" text-align: center;">
                                         <a onclick="Delete(document.getElementById('myModal1'), `${user.id}`)"href="#">
                                             <img src="${pageContext.request.contextPath}/asset/edit.png" style="height: 18px; width: 18px"/>
@@ -157,7 +159,6 @@
                                             <img src="${pageContext.request.contextPath}/asset/clear.png" style="height: 15px; width: 15px"/>
                                         </a>
                                     </td>
-
                                 </tr>
                             </c:forEach>
                         </table>
