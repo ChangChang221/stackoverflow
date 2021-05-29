@@ -135,6 +135,7 @@ public class QuestionController {
             model.addAttribute("questions", questions);
         }
         // fix bug trong jsp
+        // chưa merger xong master
 
         int totalPagination = (total / 15) + 1;
         if(startPagination + 10 >= totalPagination){
