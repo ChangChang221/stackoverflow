@@ -93,11 +93,11 @@ public class QuestionService {
             GroupOperation groupOperation = group("_id").sum("answer").as("answer");
             Aggregation aggregation = null;
             if (tab.equals("newest")) {
-                aggregation = Aggregation.newAggregation(Aggregation.sort(Sort.Direction.ASC, "createdOn"), lookupOperationUser, lookupOperationAnswer);
+                aggregation = Aggregation.newAggregation(Aggregation.sort(Sort.Direction.ASC, "createdOn"), lookupOperationUser);
             } else if (tab.equals("active")) {
-                aggregation = Aggregation.newAggregation(Aggregation.sort(Sort.Direction.ASC, "createdOn"), lookupOperationUser, lookupOperationAnswer);
+                aggregation = Aggregation.newAggregation(Aggregation.sort(Sort.Direction.ASC, "createdOn"), lookupOperationUser);
             } else if (tab.equals("unanswers")) {
-                aggregation = Aggregation.newAggregation(Aggregation.match(Criteria.where("answers").is(0)), lookupOperationUser, lookupOperationAnswer);
+                aggregation = Aggregation.newAggregation(Aggregation.match(Criteria.where("answers").is(0)), lookupOperationUser);
             }
 
             List<QuestionResponse> results = mongoTemplate.aggregate(aggregation, "question", QuestionResponse.class).getMappedResults();
@@ -220,13 +220,14 @@ public class QuestionService {
                 if(isCount == true){
                     aggregation = Aggregation.newAggregation(
                             Aggregation.match(Criteria.where("title").regex(query)),
-                            lookupOperationUser,
-                            lookupOperationAnswer);
+                            lookupOperationUser
+//                            lookupOperationAnswer
+                    );
                 } else {
                     aggregation = Aggregation.newAggregation(
                             Aggregation.match(Criteria.where("title").regex(query)),
                             lookupOperationUser,
-                            lookupOperationAnswer,
+//                            lookupOperationAnswer,
                             Aggregation.skip((page - 1) * 15),
                             Aggregation.limit(15));
                 }
@@ -234,13 +235,14 @@ public class QuestionService {
                 if(isCount == true){
                     aggregation = Aggregation.newAggregation(
                             Aggregation.match(Criteria.where("tags").is(tag)),
-                            lookupOperationUser,
-                            lookupOperationAnswer);
+                            lookupOperationUser
+//                            lookupOperationAnswer
+                    );
                 } else {
                     aggregation = Aggregation.newAggregation(
                             Aggregation.match(Criteria.where("tags").is(tag)),
                             lookupOperationUser,
-                            lookupOperationAnswer,
+//                            lookupOperationAnswer,
                             Aggregation.skip((page - 1) * 15),
                             Aggregation.limit(15));
                 }
