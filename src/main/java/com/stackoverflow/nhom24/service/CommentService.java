@@ -6,6 +6,7 @@ import com.stackoverflow.nhom24.entity.User;
 import com.stackoverflow.nhom24.model.response.AnswerResponse;
 import com.stackoverflow.nhom24.model.response.CommentResponse;
 import com.stackoverflow.nhom24.model.response.QuestionDetailResponse;
+import com.stackoverflow.nhom24.repository.CommentRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -37,7 +38,7 @@ public class CommentService {
 //            System.out.println("result: " + result);
             return result;
         } catch (Exception e) {
-            System.out.println("Comment Service getCommentByAnswerId error: " + e.getMessage());
+            //System.out.println("Comment Service getCommentByAnswerId error: " + e.getMessage());
             return List.of();
         }
     }
@@ -51,12 +52,14 @@ public class CommentService {
         }
     }
 
-    public void deleteAllByQuestionId(ObjectId questionId){
+    public void deleteAllByAnswerId(ObjectId answerId){
         try {
-            Query query = new Query(Criteria.where("questionId").is(questionId));
+            Query query = new Query(Criteria.where("answerId").is(answerId));
             mongoTemplate.remove(query,  Answer.class, "comment");
         } catch (Exception e){
             System.out.print("error :" + e.getMessage() + "\n");
         }
     }
+
+
 }

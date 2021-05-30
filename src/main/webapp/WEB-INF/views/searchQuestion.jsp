@@ -18,25 +18,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/common.css" />
 </head>
 <body style="background-color: #fff">
-<header class="header-container">
-    <div class="container-header">
-        <div class="icon-container-header">
-            <img id="logo" src="${pageContext.request.contextPath}/asset/logo.png" />
-        </div>
-        <nav class="nav-menu">
-            <a>About</a>
-            <a>Products</a>
-        </nav>
-        <div class="search-container">
-            <img id="search-icon" src="${pageContext.request.contextPath}/asset/search-icon.png" />
-            <input placeholder="Search..." id="input-search" />
-        </div>
-        <div class="button-container">
-            <button id="log-in">Log in</button>
-            <button id="sign-up">Sign up</button>
-        </div>
-    </div>
-</header>
+<%@include file="layout/header.jsp"%>
 <main class="main-container">
     <%@include file="layout/sidebar.jsp"%>
     <div class="container content-container">
@@ -69,10 +51,12 @@
                 <span>${total} result </span>
                 <div>
                     <ul class="filter-questions-list">
-                        <li>
-                            <a style="color: #3c4146" href="${pageContext.request.contextPath}/questions?page=${page}&tab=newest">Relevance</a>
+                        <li class="tab">
+                            <a style="color: #3c4146"
+                               href="${pageContext.request.contextPath}/questions?page=${page}&tab=newest">Relevance</a>
                         </li>
-                        <li><a href="${pageContext.request.contextPath}/questions?page=${page}&tab=active">Newest</a></li>
+                        <li class="tab"><a href="${pageContext.request.contextPath}/questions?page=${page}&tab=active">Newest</a>
+                        </li>
                         <%--                        <li--%>
                         <%--                                style="--%>
                         <%--                    border-top-right-radius: 5px;--%>
@@ -126,7 +110,7 @@
                                 <span>asked 37 secs ago</span>
                                 <div>
                                     <img style="width: 32px; height: 32px"
-                                            src="${pageContext.request.contextPath}${question.user.photo}"
+                                            src="${question.user.photo}"
                                     />
                                     <div>
                                         <a href="#">${question.user.name}</a>

@@ -86,4 +86,21 @@ public class AnswerRestController extends BaseController {
         DataResponse response = answerBusiness.addComment(comment);
         return ResponseEntity.ok(response);
     }
+
+    @PutMapping("/answer/delete")
+    @CrossOrigin(origins = "*")
+    public ResponseEntity<DataResponse> deleteAnswer(@RequestBody Map<String, Object> data, HttpServletRequest req, HttpServletResponse res, Principal principal) {
+        try {
+            String answerId = (String) data.get("answerId");
+            System.out.println("answerId: " + answerId);
+            answerBusiness.deleteAnswer(answerId);
+            DataResponse response = new DataResponse();
+            response.setStatus(1);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            DataResponse response = new DataResponse();
+            response.setStatus(0);
+            return ResponseEntity.ok(response);
+        }
+    }
 }

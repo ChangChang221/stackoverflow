@@ -40,6 +40,11 @@ public class QuestionBusiness extends BaseBusiness {
         return response;
     }
 
+    public Question getQuestionById(String id){
+        Question response= questionRepository.findById(new ObjectId(id)).get();
+        return response;
+    }
+
     public List<QuestionResponse> getAll(Integer page, String tab) {
         List<QuestionResponse> response = questionService.findAllQuestionAndItem(page, tab);
         return response;
@@ -53,24 +58,28 @@ public class QuestionBusiness extends BaseBusiness {
         return questionService.findAllByCondition(page, query, tag, true).size();
     }
 
-    public List<LiveSearchQuestionResponse> getQuestions(String query){
+    public List<LiveSearchQuestionResponse> getQuestions(String query) {
         List<LiveSearchQuestionResponse> response = questionService.getQuestions(query);
         return response;
     }
 
-    public List<QuestionResponse> getByUserId(String userId){
+    public List<QuestionResponse> getByUserId(String userId) {
         return questionService.getByUserId(new ObjectId(userId));
     }
 
-    public void setRole(){
+    public List<QuestionResponse> getQuestionOfAnswerByUserId(String userId) {
+        return questionService.getQuestionOfAnswerByUserId(new ObjectId(userId));
+    }
+
+    public void setRole() {
         List<User> users = userRepository.findAll();
-        for (User el : users){
+        for (User el : users) {
             userRepository.save(el);
         }
 
     }
 
-    public void updatePhoto(){
+    public void updatePhoto() {
         List<String> photo = new ArrayList<>();
         photo.add("avatarBase.png");
         photo.add("avatar4.jpg");
@@ -92,32 +101,34 @@ public class QuestionBusiness extends BaseBusiness {
         return questionService.findCountOfQuestionAndItem(tab);
     }
 
-    public DataResponse postQuestion(Question question, List<Tag> tagsPost) {
+    public DataResponse postQuestion(Question question) {
         try {
-            List<Tag> tagsDto = tagRepository.findAll();
-            for (Tag tag : tagsDto) {
-                for (Tag tagPost : tagsPost) {
-                    if (tag.getName().equals(tagPost.getName())) {
-                        tagPost.setId(tag.getId());
-                    }
-                }
-                ;
-            }
-            ;
-            List<Tag> tags = tagsPost.stream().map(tag -> {
-                if (tag.getId() == null) {
-                    tag = tagRepository.save(tag);
-                }
-                return tag;
-            }).collect(Collectors.toList());
-            question.setTags(tags.stream().map(el -> el.getName()).collect(Collectors.toList()));
-            question.setId(new ObjectId());
+//            List<Tag> tagsDto = tagRepository.findAll();
+//            for (Tag tag : tagsDto) {
+//                for (Tag tagPost : tagsPost) {
+//                    if (tag.getName().equals(tagPost.getName())) {
+//                        tagPost.setId(tag.getId());
+//                    }
+//                }
+//                ;
+//            }
+//            ;
+//            List<Tag> tags = tagsPost.stream().map(tag -> {
+//                if (tag.getId() == null) {
+//                    tag = tagRepository.save(tag);
+//                }
+//                return tag;
+//            }).collect(Collectors.toList());
+//            question.setTags(tags.stream().map(el -> el.getName()).collect(Collectors.toList()));
+//            question.setId(new ObjectId());
             questionRepository.save(question);
             DataResponse data = new DataResponse();
+            Object result = question.getId().toString();
             data.setStatus(1);
+            data.setResult(result);
             return data;
         } catch (Exception e) {
-            System.out.println("QuestionBusiness postQuestion error: "+ e.getMessage());
+            //System.out.println("QuestionBusiness postQuestion error: "+ e.getMessage());
             DataResponse data = new DataResponse();
             data.setStatus(0);
             return data;
@@ -145,7 +156,7 @@ public class QuestionBusiness extends BaseBusiness {
             questionRepository.save(updateQuestion);
             return question;
         } catch (Exception e) {
-            System.out.println("QuestionDetailResponse: " + e.getMessage());
+            //System.out.println("QuestionDetailResponse: " + e.getMessage());
             return new QuestionDetailResponse();
         }
 
@@ -169,7 +180,7 @@ public class QuestionBusiness extends BaseBusiness {
         //get name tag
         List<String> nameTag = tagBusiness.getNameTag(page);
         int sizeNameTag = nameTag.size();
-//        System.out.println("sizenametag = " + sizeNameTag);
+//        //System.out.println("sizenametag = " + sizeNameTag);
 
 //        System.out.print("nameTag = " );
 //        System.out.println();
@@ -189,9 +200,9 @@ public class QuestionBusiness extends BaseBusiness {
 
         List<Question> response = questionRepository.findAll();
         int sizeResponse = response.size();
-//        System.out.println("sizeResponse = " + sizeResponse);
+//        //System.out.println("sizeResponse = " + sizeResponse);
 
-//        System.out.println();
+//        //System.out.println();
         for (int i = 0; i < sizeResponse; i++) {
 
             //get tag of a question
@@ -202,7 +213,7 @@ public class QuestionBusiness extends BaseBusiness {
             for (int k = 0; k < sizeTagList; k++) {
                 System.out.print(tagList.get(k) + ", ");
             }
-//            System.out.println();
+//            //System.out.println();
             for (int j = 0; j < sizeNameTag; j++) {
                 for (int k = 0; k < sizeTagList; k++) {
                     if (tagList.get(k).equals(nameTag.get(j))) {
@@ -217,7 +228,7 @@ public class QuestionBusiness extends BaseBusiness {
     }
 
     public void deleteQuestion(ObjectId id){
-        commentService.deleteAllByQuestionId(id);
+//        commentService.deleteAllByAnswerId(id);
         answerService.deleteAllByQuestionId(id);
         questionRepository.deleteById(id);
     }

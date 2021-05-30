@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="height: 100%">
 <head>
     <title>Title</title>
     <!-- Required meta tags -->
@@ -22,35 +22,11 @@
     <%--    <script type="text/javascript" src="${pageContext.request.contextPath}/js/navigate_form.js"></script>--%>
 
 </head>
-<body style="background-color: #eff0f1">
+<body style="background-color: #eff0f1;height: 100%">
 <%@include file="layout/header.jsp" %>
-<main class="main-container">
-    <aside id="sidebar">
-        <ul>
-            <li>Home</li>
-            <li>
-                PUBLIC
-                <ul style="padding-left: 0px">
-                    <li style="display: flex; align-items: center">
-                        <img
-                                src="${pageContext.request.contextPath}/asset/earth-icon.png"
-                                style="height: 15px; width: 15px; margin-right: 10px"
-                        />Questions
-                    </li>
-                    <li class="menu-item-sidebar">Tags</li>
-                    <li class="menu-item-sidebar">Users</li>
-                </ul>
-            </li>
-            <li>
-                FIND A JOB
-                <ul style="padding-left: 0px">
-                    <li class="menu-item-sidebar">Jobs</li>
-                    <li class="menu-item-sidebar">Company</li>
-                </ul>
-            </li>
-        </ul>
-    </aside>
-    <div class="intro content-container">
+<main class="main-container" style="background-color: #f5f5f5; height: 100%;padding-top: 50px">
+    <%@include file="layout/sidebar.jsp" %>
+    <div class="intro content-container" style="padding-top: 140px">
         <div>
             <h2>Join the Stack Overflow community</h2>
             <ul>

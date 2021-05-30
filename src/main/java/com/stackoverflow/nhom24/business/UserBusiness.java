@@ -104,9 +104,10 @@ public class UserBusiness extends BaseBusiness {
     public void deleteUser(String id){
         userRepository.deleteById(new ObjectId(id).get());
     }
-    public List<UserResponse> getListUser(Integer page) {
 
-        return userService.getAllUser(page);
+    public List<UserResponse> getListUser(Integer page, String tab) {
+
+        return userService.getAllUser(page, tab);
     }
 
     public int getTotal() {
@@ -160,7 +161,7 @@ public class UserBusiness extends BaseBusiness {
                         .forEachOrdered(x -> reverseSortedMap.put(x.getKey(), x.getValue()));
                 Set<String> getKeyHashMap = reverseSortedMap.keySet();
 
-//                System.out.println(hashMapTag);
+//                //System.out.println(hashMapTag);
                 int cnt = 0;
                 //lấy 3 tag có value lớn nhất
                 for(String s: getKeyHashMap) {
@@ -170,7 +171,7 @@ public class UserBusiness extends BaseBusiness {
                         cnt++;
                     }
                 }
-//                System.out.println(getTagUserList);
+//                //System.out.println(getTagUserList);
                 users.get(k).setTags(getTagUserList);
 
             }

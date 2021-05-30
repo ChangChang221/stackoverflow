@@ -22,8 +22,12 @@ public class HomeController {
 
     @GetMapping(value = "/")
     
-    public String home(final ModelMap model, Integer page, Integer startPagination) throws ExecutionException, InterruptedException {
+    public String home(final ModelMap model, Integer page,String tab, Integer startPagination) throws ExecutionException, InterruptedException {
         long start = System.currentTimeMillis();
+        if (tab == null) {
+            tab = "newest";
+        }
+
         if (page == null) {
             page = 1;
         }
@@ -33,16 +37,17 @@ public class HomeController {
         if(startPagination == null){
             startPagination = 0;
         }
-        if(page > startPagination + 10){
+        if (page > startPagination + 10) {
             startPagination = startPagination + 10;
-        } if(page < startPagination){
+        }
+        if (page < startPagination) {
             startPagination = startPagination - 10;
         }
-        int total = questionBusiness.getTotal("newest");
+        int total = questionBusiness.getTotal(tab);
         int totalPagination = (total / 15) + 1;
-        if(startPagination + 10 >= totalPagination){
+        if (startPagination + 10 >= totalPagination) {
             startPagination = totalPagination - 10;
-        } else if(startPagination <= 1){
+        } else if (startPagination <= 1) {
             startPagination = 0;
         }
         model.addAttribute("questions", questions.get());

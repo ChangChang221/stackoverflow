@@ -61,9 +61,6 @@
                     <div class="content-tag">
                         <div><a class="tag" href="/questions/search?tag=${tag.name}">${tag.name}</a></div>
                         <div class="tag-description">
-                            <p>${tag.name}</p>
-                        </div>
-                        <div>
                             <p>${tag.description}</p>
 
                         </div>
@@ -71,9 +68,9 @@
                             <div class="questions-about-tag-total">
                                 <p>${tag.numberQuestion} questions</p>
                             </div>
-                            <div class="question-about-tag">
-                                <p>561 asked today, 5323 this week</p>
-                            </div>
+<%--                            <div class="question-about-tag">--%>
+<%--                                <p>561 asked today, 5323 this week</p>--%>
+<%--                            </div>--%>
                         </div>
                     </div>
                 </div>
@@ -128,16 +125,13 @@
                     filterValue.innerHTML +=
                         `<div class="content-tag-container">
                     <div class="content-tag">
-                        <div><a class="tag" href="#">` + e.name + `</a></div>
+                        <div><a class="tag" href="/questions/search?tag=`+ e.name `">` + e.name + `</a></div>
                         <div class="tag-description">
-                            <p>` + e.name + `</p>
-                        </div>
-                        <div>
                             <p>` + e.description + `</p>
                         </div>
                         <div class="tag-detail">
                             <div class="questions-about-tag-total">
-                                <p>` + e.numberQuestion + `questions</p>
+                                <p>` + e.numberQuestion + ` questions</p>
                             </div>
                             <div class="question-about-tag">
                                 <p>561 asked today, 5323 this week</p>
@@ -155,6 +149,7 @@
     //     timer=setTimeout(filter(value), 10000);
     // }
 </script>
+<script src="${pageContext.request.contextPath}/js/active_tab.js"></script>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 </body>

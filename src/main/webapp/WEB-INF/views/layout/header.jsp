@@ -87,8 +87,10 @@
 <header class="header-container">
     <div></div>
     <div class="container-header">
-        <div class="icon-container-header" onclick="home()">
-            <img id="logo" src="${pageContext.request.contextPath}/asset/logo.png"/>
+        <div class="icon-container-header">
+            <a href="${pageContext.request.contextPath}/">
+                <img id="logo" src="${pageContext.request.contextPath}/asset/logo.png"/>
+            </a>
         </div>
         <nav class="nav-menu">
             <a>About</a>
@@ -108,7 +110,7 @@
                     <div>
                         <a href="/users/${userCurrent.id}">
                             <img
-                                    src="${pageContext.request.contextPath}/asset/${userCurrent.photo}"
+                                    src="${userCurrent.photo}"
                                     alt width="24" height="24" style="border-radius: 3px;vertical-align: middle;">
                         </a>
                     </div>
@@ -123,9 +125,8 @@
             </c:if>
             <c:if test="${ isUser == false && isAdmin == false }">
                 <button id="log-in" onclick="login()">Log in</button>
-                <%--                <button id="sign-up" onclick="signup()">Sign up</button>--%>
+                <button id="sign-up" onclick="signup()">Sign up</button>
             </c:if>
-
         </div>
     </div>
 </header>

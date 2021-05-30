@@ -39,6 +39,10 @@
             const img = document
                 .querySelector(".avatar > img")
                 .setAttribute("src", url);
+            const postImg = document.getElementById("avatar");
+            console.log("postImg", postImg)
+            postImg.value = url;
+            // document.getElementById("avatar")
             // document.querySelector(".avatar>img")[0].setAttribute("src", url);
         };
     </script>
@@ -47,41 +51,43 @@
 
 </head>
 <body>
-<%@include file="layout/header.jsp"%>
-<main>
-    <%@include file="layout/sidebar.jsp"%>
+<%@include file="layout/header.jsp" %>
+<main class="main-container">
+    <%@include file="layout/sidebar.jsp" %>
     <div class="content-container">
         <div class="user-heading-container">
             <div>
-                <a class="menu-user" href="${pageContext.request.contextPath}/users/${user.id}">Profiles</a>
+                <a class="menu-user" href="${pageContext.request.contextPath}/users/${user.id}">Profile</a>
                 <a class="menu-user" href="#">Activity</a>
-                <a class="menu-user-active" href="#">Developer Story</a>
+                <a class="menu-user-active" href="#">Edit profile</a>
             </div>
             <div>
             <span>
-              <img width="16px" height="16px" src="${pageContext.request.contextPath}/asset/tag.webp" />
+              <img width="16px" height="16px" src="${pageContext.request.contextPath}/asset/tag.webp"/>
               <a href="#">Meta User</a>
             </span>
                 <span>
-              <img width="16px" height="16px" src="${pageContext.request.contextPath}/asset/twitter.png" />
+              <img width="16px" height="16px" src="${pageContext.request.contextPath}/asset/twitter.png"/>
               <a href="#">Network profiles</a>
             </span>
             </div>
         </div>
         <div class="user-edit-profile-container">
             <div class="title">Edit your profile</div>
-            <form:form modelAttribute="user" action="/users/editProfile/${user.id}" enctype="multipart/form-data">
+            <form:form modelAttribute="user" action="/users/editProfile/${user.id}" enctype="multipart/form-data"
+                       method="post">
             <h3 style="color: #555555">Public information</h3>
             <div class="edit-container">
                 <div class="avatar">
                     <img
-<%--                            src="https://lh3.googleusercontent.com/-n6S3A4nd7yA/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucm5G1ok5cW5xGDjLDu41wqnhhlwTw/s96-c/photo.jpg?sz=328"--%>
-                            src="${pageContext.request.contextPath}/asset/${user.photo}"
+                        <%--                            src="https://lh3.googleusercontent.com/-n6S3A4nd7yA/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucm5G1ok5cW5xGDjLDu41wqnhhlwTw/s96-c/photo.jpg?sz=328"--%>
+                            src="${user.photo}"
                             width="125px"
                             height="125px"
                     />
                     <label class="custom-file-upload">
-                        <input type="file" name="postImg" onchange="change_avatar(this.files)" />
+                        <input type="file" onchange="change_avatar(this.files)"/>
+                        <input type="text" id="avatar" name="postImg" style="display: none"/>
                         Change Picture
                     </label>
                 </div>
@@ -177,7 +183,7 @@
         </form:form>
     </div>
 </main>
-<%@include file="layout/footer.jsp"%>
+<%@include file="layout/footer.jsp" %>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="${pageContext.request.contextPath}/js/quill.js" type="text/javascript"></script>

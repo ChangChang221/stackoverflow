@@ -27,8 +27,13 @@ public class QuestionController {
     private final AnswerBusiness answerBusiness;
 
     @GetMapping("/questions/askQuestion")
-    public String askQuestionForm(final ModelMap model){
-        model.addAttribute("question", new Question());
+    public String askQuestionForm(final ModelMap model, String id) {
+        if(id == null) {
+            model.addAttribute("question", new Question());
+        } else {
+            Question question = questionBusiness.getQuestionById(id);
+            model.addAttribute("question", question);
+        }
 //        model.addAttribute("tags", new ArrayList<String>());
         return "askQuestion";
     }
@@ -66,6 +71,7 @@ public class QuestionController {
 //        int total = questionBusiness.getCountByCondition(page, search, tag);
 
         int total = questionBusiness.getTotal(tab);
+        //System.out.println("totalPagination: " + total);
         int totalPagination = (total / 15) + 1;
         if(startPagination + 10 >= totalPagination){
             startPagination = totalPagination - 10;
