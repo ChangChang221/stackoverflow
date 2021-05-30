@@ -120,6 +120,7 @@
         </div>
     </div>
 </main>
+<%@include file="layout/footer.jsp"%>
 <script src="${pageContext.request.contextPath}/js/api.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/js/quill.js" type="text/javascript"></script>
 </body>

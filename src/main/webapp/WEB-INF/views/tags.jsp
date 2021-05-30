@@ -97,8 +97,8 @@
             </c:forEach>
         </div>
     </div>
-
 </main>
+<%@include file="layout/footer.jsp"%>
 <script type="text/javascript">
     const filterValue = document.getElementById("filter-value");
     const currentValue = document.getElementById("current-value");

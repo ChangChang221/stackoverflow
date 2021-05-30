@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.group;
 
+@Repository
 public class CommentService {
     @Autowired
     private MongoTemplate mongoTemplate;
@@ -45,6 +46,15 @@ public class CommentService {
         try {
             Query query = new Query(Criteria.where("userId").is(userId));
             mongoTemplate.remove(query,  Comment.class, "comment");
+        } catch (Exception e){
+            System.out.print("error :" + e.getMessage() + "\n");
+        }
+    }
+
+    public void deleteAllByQuestionId(ObjectId questionId){
+        try {
+            Query query = new Query(Criteria.where("questionId").is(questionId));
+            mongoTemplate.remove(query,  Answer.class, "comment");
         } catch (Exception e){
             System.out.print("error :" + e.getMessage() + "\n");
         }

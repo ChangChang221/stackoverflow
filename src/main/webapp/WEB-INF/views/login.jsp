@@ -150,8 +150,8 @@
           ></span
         >
     </div>
-
 </main>
+<%@include file="layout/footer.jsp"%>
 <script>
     const signup1 = document.getElementById("signup");
     const signin = document.getElementById("signin");

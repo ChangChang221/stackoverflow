@@ -9,6 +9,7 @@ import com.stackoverflow.nhom24.repository.QuestionRepository;
 import com.stackoverflow.nhom24.repository.TagRepository;
 import com.stackoverflow.nhom24.repository.UserRepository;
 import com.stackoverflow.nhom24.service.AnswerService;
+import com.stackoverflow.nhom24.service.CommentService;
 import com.stackoverflow.nhom24.service.QuestionService;
 import com.stackoverflow.nhom24.utils.EncrytedPasswordUtils;
 import lombok.AllArgsConstructor;
@@ -32,6 +33,7 @@ public class QuestionBusiness extends BaseBusiness {
     private final QuestionService questionService;
     private final TagBusiness tagBusiness;
     private final AnswerService answerService;
+    private final CommentService commentService;
 
     public List<Question> getAll(){
         List<Question> response= questionRepository.findAll();
@@ -126,8 +128,20 @@ public class QuestionBusiness extends BaseBusiness {
     public QuestionDetailResponse getById(String id) {
         try {
             QuestionDetailResponse question = questionService.findQuestionAndItemById(id);
-            Question updateQuestion = questionRepository.findById(new ObjectId(id)).get();
-            updateQuestion.setViews(updateQuestion.getViews() + 1);
+            Question updateQuestion = new Question();
+            if(question.getViews() != null){
+                updateQuestion.setViews(question.getViews() + 1);
+            } else {
+                updateQuestion.setViews(1);
+            }
+            updateQuestion.setId(new ObjectId(id));
+            updateQuestion.setBody(question.getBody());
+            updateQuestion.setTitle(question.getTitle());
+            updateQuestion.setCreatedOn(question.getCreatedOn());
+            updateQuestion.setTags(question.getTags());
+            updateQuestion.setAnswers(question.getAnswers());
+            updateQuestion.setUserId(new ObjectId(question.getUserId()));
+
             questionRepository.save(updateQuestion);
             return question;
         } catch (Exception e) {
@@ -203,6 +217,8 @@ public class QuestionBusiness extends BaseBusiness {
     }
 
     public void deleteQuestion(ObjectId id){
+        commentService.deleteAllByQuestionId(id);
+        answerService.deleteAllByQuestionId(id);
         questionRepository.deleteById(id);
     }
 

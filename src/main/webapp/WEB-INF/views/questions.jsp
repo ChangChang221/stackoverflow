@@ -96,7 +96,7 @@
                     </div>
                 </div>
                 <div class="content-question" style="margin-left: 10px; width: 100%;">
-                    <a href="#">${question.title}</a>
+                    <a href="${pageContext.request.contextPath}/questions/detail/${question.id}">${question.title}</a>
 <%--                    <p>--%>
 <%--                        I have two images when hovering the mouse over one of these--%>
 <%--                        images, a certain component is displayed if it says more in--%>
@@ -160,8 +160,12 @@
 
         </div>
     </div>
+
 </main>
+
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 </body>
+<%@include file="layout/footer.jsp"%>
+
 </html>

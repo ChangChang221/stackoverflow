@@ -28,7 +28,7 @@ public class UserBusiness extends BaseBusiness {
     private final UserRepository userRepository;
     private final UserService userService;
     private final QuestionService questionService;
-    private final CommentService commentService;
+//    private final CommentService commentService;
     private final AnswerService answerService;
 
     public List<User> getAll(){
@@ -187,7 +187,7 @@ public class UserBusiness extends BaseBusiness {
     }
 
     public void deleteUserById(ObjectId id){
-        commentService.deleteAllByUserId(id);
+//        commentService.deleteAllByUserId(id);
         answerService.deleteAllByUserId(id);
         questionService.deleteAllByUserId(id);
         userRepository.deleteById(id);

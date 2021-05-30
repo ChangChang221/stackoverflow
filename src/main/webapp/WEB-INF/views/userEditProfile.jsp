@@ -177,6 +177,7 @@
         </form:form>
     </div>
 </main>
+<%@include file="layout/footer.jsp"%>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="${pageContext.request.contextPath}/js/quill.js" type="text/javascript"></script>

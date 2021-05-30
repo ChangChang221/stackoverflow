@@ -322,7 +322,7 @@
         </div>
     </div>
 </main>
-
+<%@include file="layout/footer.jsp"%>
 <script type="text/javascript">
     const upVote = (answerId, status) => {
         if (!${isUser}) {
