@@ -54,10 +54,10 @@ public class AnswerRestController extends BaseController {
                                                    Principal principal) {
         ObjectId answerId = new ObjectId((String) data.get("answerId"));
         Boolean status = (Boolean) data.get("status");
-        System.out.println("answerId: " + answerId);
-        System.out.println("status: " + status);
+        //System.out.println("answerId: " + answerId);
+        //System.out.println("status: " + status);
         ObjectId userId = getUserId(principal, req);
-        System.out.println("userId: " + userId);
+        //System.out.println("userId: " + userId);
         Integer _status = answerBusiness.upVote(answerId, userId, status);
         DataResponse response = new DataResponse();
         response.setStatus(_status);
@@ -72,10 +72,10 @@ public class AnswerRestController extends BaseController {
         Date createdOn = new Date();
         ObjectId userId = getUserId(principal, req);
         User user = userBusiness.getById(userId.toString());
-        System.out.println("body: " + body);
-        System.out.println("answerId: " + answerId);
-        System.out.println("createdOn: " + createdOn);
-        System.out.println("userId: " + userId);
+        //System.out.println("body: " + body);
+        //System.out.println("answerId: " + answerId);
+        //System.out.println("createdOn: " + createdOn);
+        //System.out.println("userId: " + userId);
         Comment comment = new Comment();
         comment.setName(user.getName());
         comment.setBody(body);
@@ -85,5 +85,22 @@ public class AnswerRestController extends BaseController {
         comment.setCreatedOn(createdOn);
         DataResponse response = answerBusiness.addComment(comment);
         return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/answer/delete")
+    @CrossOrigin(origins = "*")
+    public ResponseEntity<DataResponse> deleteAnswer(@RequestBody Map<String, Object> data, HttpServletRequest req, HttpServletResponse res, Principal principal) {
+        try {
+            String answerId = (String) data.get("answerId");
+            System.out.println("answerId: " + answerId);
+            answerBusiness.deleteAnswer(answerId);
+            DataResponse response = new DataResponse();
+            response.setStatus(1);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            DataResponse response = new DataResponse();
+            response.setStatus(0);
+            return ResponseEntity.ok(response);
+        }
     }
 }

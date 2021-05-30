@@ -18,30 +18,35 @@ public class HomeController {
     private final QuestionBusiness questionBusiness;
 
     @GetMapping(value = "/")
-    
-    public String home(final ModelMap model, Integer page, Integer startPagination) {
+
+    public String home(final ModelMap model, Integer page, String tab, Integer startPagination) {
+
+        if (tab == null) {
+            tab = "newest";
+        }
 
         if (page == null) {
             page = 1;
         }
-        if(startPagination == null){
+        if (startPagination == null) {
             startPagination = 0;
         }
-        if(page > startPagination + 10){
+        if (page > startPagination + 10) {
             startPagination = startPagination + 10;
-        } if(page < startPagination){
+        }
+        if (page < startPagination) {
             startPagination = startPagination - 10;
         }
-        int total = questionBusiness.getTotal("newest");
+        int total = questionBusiness.getTotal(tab);
         int totalPagination = (total / 15) + 1;
         if(startPagination + 10 >= totalPagination){
             startPagination = totalPagination - 10;
         } else if(startPagination <= 1){
             startPagination = 0;
         }
-        List<QuestionResponse> questions = questionBusiness.getAll(page, "newest");
+        List<QuestionResponse> questions = questionBusiness.getAll(page, tab);
         model.addAttribute("pagination", totalPagination);
-        model.addAttribute("total", total);
+        model.addAttribute("total", questions.size());
         model.addAttribute("questions", questions);
         model.addAttribute("page", page);
         model.addAttribute("startPagination", startPagination);

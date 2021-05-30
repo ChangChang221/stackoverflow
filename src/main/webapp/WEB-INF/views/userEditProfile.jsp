@@ -48,7 +48,7 @@
 </head>
 <body>
 <%@include file="layout/header.jsp"%>
-<main>
+<main class="main-container">
     <%@include file="layout/sidebar.jsp"%>
     <div class="content-container">
         <div class="user-heading-container">

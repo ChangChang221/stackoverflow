@@ -36,6 +36,7 @@ public class QuestionRestController extends BaseController {
         String title = (String) data.get("title");
         String body = (String) data.get("body");
         List<String> tags = (List<String>) data.get("tags");
+        //System.out.println("tags: " + tags);
         Question question = new Question();
         question.setBody(body);
         question.setTitle(title);
@@ -43,20 +44,18 @@ public class QuestionRestController extends BaseController {
         question.setViews(0);
         question.setUserId(getUserId(principal, req));
         question.setAnswers(0);
-        DataResponse newQuestion = questionBusiness.postQuestion(question, tags.stream().map(post -> {
-            Tag tag = new Tag();
-            tag.setName(post);
-            return tag;
-        }).collect(Collectors.toList()));
-        DataResponse response = new DataResponse();
-        response.setStatus(1);
+        question.setTags(tags);
+        DataResponse response = questionBusiness.postQuestion(question);
+//        DataResponse response = new DataResponse();
+//        response.setStatus(1);
+//        response.setResult();
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/search")
     @CrossOrigin(origins = "*")
     public ResponseEntity<DataResponse> questionSearch(@RequestParam String query, HttpServletRequest req, HttpServletResponse res, Principal principal) {
-        System.out.println("query: " + query);
+        //System.out.println("query: " + query);
         List<LiveSearchQuestionResponse> results = questionBusiness.getQuestions(query);
         DataResponse response = new DataResponse();
         response.setResult(results);

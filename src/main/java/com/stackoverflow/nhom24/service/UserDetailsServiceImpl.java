@@ -25,11 +25,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         User appUser = userRepository.findByUsername(userName);
 
         if (appUser == null) {
-            System.out.println("User not found! " + userName);
+            //System.out.println("User not found! " + userName);
             throw new UsernameNotFoundException("User " + userName + " was not found in the database");
         }
 
-        System.out.println("Found User: " + appUser);
+        //System.out.println("Found User: " + appUser);
 
         // [ROLE_USER, ROLE_ADMIN,..]
         String roleNames = appUser.getRole();
@@ -39,7 +39,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             GrantedAuthority authority = new SimpleGrantedAuthority(roleNames);
             grantList.add(authority);
         }
-        System.out.println(EncrytedPasswordUtils.encrytedPassword("1"));
+        //System.out.println(EncrytedPasswordUtils.encrytedPassword("1"));
         UserDetails userDetails = new AccountSession(appUser.getId(), appUser.getUsername(), appUser.getPassword(), appUser.getName(), appUser.getPhoto(), grantList);
 
         return userDetails;

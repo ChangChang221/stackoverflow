@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -61,41 +62,75 @@ public class UserController extends BaseController {
     }
 
     @GetMapping("/users/{id}")
-    public String getUserById(final ModelMap model, @PathVariable String id) {
-        List<QuestionResponse> questions = questionBusiness.getByUserId(id);
-        User user = userBusiness.getById(id);
-        userBusiness.updateView(user);
-        model.addAttribute("user", user);
-        model.addAttribute("questions", questions);
+    public String getUserById(final ModelMap model, @PathVariable String id, String tab) {
+        if (tab == null) {
+            tab = "all";
+        }
+        List<QuestionResponse> questions = new ArrayList<>();
+        List<QuestionResponse> answers = new ArrayList<>();
+        Integer total = 0;
+        //System.out.println("tab: " + tab);
+        switch (tab) {
+            case "all": {
+                questions = questionBusiness.getByUserId(id);
+                answers = questionBusiness.getQuestionOfAnswerByUserId(id);
+                total = questions.size() + answers.size();
+                break;
+            }
+            case "questions": {
+                questions = questionBusiness.getByUserId(id);
+                total = questions.size();
+                break;
+            }
+            case "answers": {
+                answers = questionBusiness.getQuestionOfAnswerByUserId(id);
+                total = answers.size();
+                break;
+            }
+        }
+        User userDetail = userBusiness.getById(id);
+        userBusiness.updateView(userDetail);
+        model.addAttribute("userDetail", userDetail);
+        model.addAttribute("questions", (List<QuestionResponse>) questions);
+        model.addAttribute("answers", (List<QuestionResponse>) answers);
+        model.addAttribute("total", total);
         model.addAttribute("sidebar", 3);
         return "userDetail";
     }
 
     @GetMapping("/users")
-    public String getAllUser(final ModelMap modelMap, Integer page, Integer startPagination) {
+    public String getAllUser(final ModelMap modelMap, Integer page, String tab, Integer startPagination) {
         if (page == null) {
             page = 1;
         }
-        if(startPagination == null){
+
+        if (tab == null) {
+            tab = "reputationScore";
+        }
+
+        if (startPagination == null) {
             startPagination = 0;
         }
-        if(page > startPagination + 10){
+        if (page > startPagination + 10) {
             startPagination = startPagination + 10;
-        } else if(page < startPagination){
+        } else if (page < startPagination) {
             startPagination = startPagination - 10;
         }
 
         int total = userBusiness.getTotal();
         int totalPagination = (total / 40) + 1;
-        if(startPagination + 10 >= totalPagination){
+        if (startPagination + 10 >= totalPagination) {
             startPagination = totalPagination - 10;
-        } if(startPagination <= 1){
+        }
+        if (startPagination <= 1) {
             startPagination = 0;
         }
 //        List<Tag> listTag = tagBusiness.getAll(Integer.parseInt(page));
-        List<UserResponse> users = userBusiness.getListUser(page);
-        List<UserResponse> response = userBusiness.getTagOfUser(users);
-        modelMap.addAttribute("users", response);
+        List<UserResponse> users = userBusiness.getListUser(page, tab);
+//        List<UserResponse> response = userBusiness.getTagOfUser(users);
+//        //System.out.println("users: "+users.get(0).getTags().get(0));
+        //System.out.println("users: " + users.get(0).getName());
+        modelMap.addAttribute("users", users);
         modelMap.addAttribute("pagination", totalPagination);
         modelMap.addAttribute("total", total);
         modelMap.addAttribute("page", page);
@@ -135,7 +170,7 @@ public class UserController extends BaseController {
     }
     @RequestMapping(value = {"/deleteUser/{id}"}, method = RequestMethod.GET)
     public String deleteUser( @PathVariable("id") String id, ModelMap model) {
-        System.out.println("test");
+        //System.out.println("test");
         userBusiness.deleteUser(id);
         return "test/user";
     }

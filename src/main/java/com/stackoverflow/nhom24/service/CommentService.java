@@ -4,6 +4,7 @@ import com.stackoverflow.nhom24.entity.User;
 import com.stackoverflow.nhom24.model.response.AnswerResponse;
 import com.stackoverflow.nhom24.model.response.CommentResponse;
 import com.stackoverflow.nhom24.model.response.QuestionDetailResponse;
+import com.stackoverflow.nhom24.repository.CommentRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.group;
+@Repository
 
 public class CommentService {
     @Autowired
@@ -25,17 +27,18 @@ public class CommentService {
 
     public List<CommentResponse> getCommentByAnswerId(ObjectId id) {
         try {
-            System.out.println("id" + id);
+            //System.out.println("id" + id);
             Aggregation aggregation = Aggregation.newAggregation(
                     Aggregation.match(Criteria.where("answerId").is(id))
             );
-            System.out.println("id" + id);
+            //System.out.println("id" + id);
             List<CommentResponse> result = mongoTemplate.aggregate(aggregation, "comment", CommentResponse.class).getMappedResults();
-            System.out.println("result: " + result);
+            //System.out.println("result: " + result);
             return result;
         } catch (Exception e) {
-            System.out.println("Comment Service getCommentByAnswerId error: " + e.getMessage());
+            //System.out.println("Comment Service getCommentByAnswerId error: " + e.getMessage());
             return List.of();
         }
     }
+
 }

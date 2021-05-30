@@ -199,3 +199,39 @@ body *:after {
   background-color: transparent !important;
   height: 25px;
 }
+
+
+.tags-ask-question-container {
+  display: flex;
+  align-items: center;
+  border: 1px solid #bbc0c4
+}
+
+.tag-search {
+  margin-left: 15px;
+  display: flex;
+  align-items: center;
+  line-height: 1.0 !important;
+}
+
+.tags-question {
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.tags-ask-question-container input {
+  outline: none;
+  border: none
+}
+
+.tags-ask-question-container img {
+  cursor: pointer;
+  margin-left: 5px;
+  height:6px;
+  width:6px;
+}
+
+.tag{
+  cursor: pointer;
+}

@@ -32,14 +32,14 @@ public class AnswerService {
         try {
             Aggregation _aggregation = Aggregation.newAggregation(Aggregation.match(Criteria.where("_id").is(answer.getUserId())));
             User user = mongoTemplate.aggregate(_aggregation, "user", User.class).getUniqueMappedResult();
-            System.out.println("answerResponse.getId(): " + answer.getId());
+            //System.out.println("answerResponse.getId(): " + answer.getId());
             Aggregation __aggregation = Aggregation.newAggregation(
                     Aggregation.match(Criteria.where("answerId").is(answer.getId()))
             );
-            System.out.println("id" + answer.getId());
+            //System.out.println("id" + answer.getId());
             List<CommentResponse> comments = mongoTemplate.aggregate(__aggregation, "comment", CommentResponse.class).getMappedResults();
             List<VoteResponse> votes = getVotesByAnswerId(answer.getId());
-            System.out.println("comments: " + comments);
+            //System.out.println("comments: " + comments);
             AnswerResponse answerResponse = new AnswerResponse();
             answerResponse.setVotes(votes);
             answerResponse.setUser(user);
@@ -52,7 +52,7 @@ public class AnswerService {
             answerResponse.setUserId(answer.getUserId());
             return answerResponse;
         } catch (Exception e) {
-            System.out.println("AnswerService AnswerToAnswerResponse error: " + e.getMessage());
+            //System.out.println("AnswerService AnswerToAnswerResponse error: " + e.getMessage());
             return new AnswerResponse();
         }
     }
@@ -66,7 +66,7 @@ public class AnswerService {
                     }).collect(Collectors.toList());
             return results;
         } catch (Exception e) {
-            System.out.println("AnswerService getByQuestionId error: " + e.getMessage());
+            //System.out.println("AnswerService getByQuestionId error: " + e.getMessage());
             return List.of();
         }
     }
@@ -128,8 +128,8 @@ public class AnswerService {
                     score -= 1;
                 }
             }
-            score = score <= 0 ? 0 : score;
-            System.out.println("score: " + score);
+            score = score < 0 ? 0 : score;
+            //System.out.println("score: " + score);
             Aggregation _aggregation = Aggregation.newAggregation(Aggregation.match(Criteria.where("_id").is(answerId)));
             Answer answer = mongoTemplate.aggregate(_aggregation, "answer", Answer.class).getUniqueMappedResult();
             Answer _answer = new Answer();
@@ -139,11 +139,11 @@ public class AnswerService {
             _answer.setUserId(answer.getUserId());
             _answer.setQuestionId(answer.getQuestionId());
             _answer.setId(answer.getId());
-            System.out.println("updateAnswerScore: " + answer);
-            System.out.println("updateAnswerScore score: " + score);
+            //System.out.println("updateAnswerScore: " + answer);
+            //System.out.println("updateAnswerScore score: " + score);
             answerRepository.save(_answer);
         }catch (Exception e){
-            System.out.println("AnswerService updateAnswerScore: " + e);
+            //System.out.println("AnswerService updateAnswerScore: " + e);
         }
     }
 }

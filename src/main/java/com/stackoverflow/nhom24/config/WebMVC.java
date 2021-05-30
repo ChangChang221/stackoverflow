@@ -27,7 +27,7 @@ public class WebMVC implements WebMvcConfigurer {
      */
     @Bean
     public ViewResolver viewResolver() {
-        System.out.println("--------------MVC-----------");
+        //System.out.println("--------------MVC-----------");
 
         InternalResourceViewResolver bean = new InternalResourceViewResolver();
 

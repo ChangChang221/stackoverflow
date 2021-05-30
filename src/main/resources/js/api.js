@@ -36,6 +36,11 @@ function chipClickHandler(event) {
 }
 const postAskQuestion = () => {
     let title = document.getElementById("title").value;
+    const _tags = document.getElementsByClassName("tag-search");
+    let tags = []
+    for (let i = 0; i < _tags.length; i++) {
+        tags.push(_tags[i].textContent)
+    }
     // let body = document.getElementById("editor");
     let body = document.getElementsByClassName("ql-editor")[0];
     let question = {};

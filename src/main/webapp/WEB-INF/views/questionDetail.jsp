@@ -37,13 +37,37 @@
     />
     <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.888.0.min.js"></script>
-    <script src="${pageContext.request.contextPath}/js/time.js"></script>
     <!-- Bootstrap CSS -->
 </head>
 <body>
 <%@include file="layout/header.jsp" %>
 <main class="main-container">
     <%@include file="layout/sidebar.jsp" %>
+    <script type="text/javascript">
+        const EditQuestion = (questionId) => {
+            window.location.href = "/questions/askQuestion?id=" + questionId
+        }
+
+        const deleteAnswer = async (answerId) => {
+            const response = await fetch("/answer/delete", {
+                method: "PUT",
+                mode: 'cors', // no-cors, *cors, same-origin
+                cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                credentials: 'same-origin', // include, *same-origin, omit
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                redirect: 'follow', // manual, *follow, error
+                referrerPolicy: 'no-referrer',
+                body: JSON.stringify({answerId})
+            })
+            const _response = await response.json();
+            console.log("_response", _response)
+            if (_response.status == 1) {
+                location.reload();
+            }
+        }
+    </script>
     <div class="content-container">
         <div class="question-detail-heading">
             <div class="topic-question-detail-container">
@@ -120,13 +144,18 @@
                     </div>
                     <div class="answer-question-tags">
                         <c:forEach var="tag" items="${question.tags}">
-                            <a href="#" class="tag">${tag}</a>
+                            <a href="/questions/search?tag=${tag}" class="tag">${tag}</a>
                         </c:forEach>
                     </div>
                     <div class="answer-question-footer">
                         <div class="answer-question-footer-action">
                             <a href="#">Share</a>
                             <a href="#">Follow</a>
+                            <c:if test="${isUser}">
+                                <c:if test="${user.id == question.userId}">
+                                    <span onclick="EditQuestion(`${question.id}` )">Edit</span>
+                                </c:if>
+                            </c:if>
                         </div>
                         <div class="answer-question-author">
                             <p class="createdOn"><fmt:formatDate value="${question.createdOn}"
@@ -156,18 +185,6 @@
             </div>
             <div class="answer-info">
                 <h3>${answers.size()} Answers</h3>
-                <ul class="filter-questions-list" style="margin-right: 0px">
-                    <li><a>Active</a></li>
-                    <li><a>Older</a></li>
-                    <li
-                            style="
-                  border-top-right-radius: 5px;
-                  border-bottom-right-radius: 5px;
-                "
-                    >
-                        <a>Votes</a>
-                    </li>
-                </ul>
             </div>
             <c:forEach var="answer" items="${answers}">
                 <div class="content-question-detail" id="${answer.id}">
@@ -237,6 +254,19 @@
                             <div class="answer-question-footer-action">
                                 <a href="#">Share</a>
                                 <a href="#">Follow</a>
+                                    <%--                                <c:if test="${status != 2}">--%>
+                                    <%--                                        <span onclick="deleteAnswer(`${user.id}`, `${answer.id}`)">Delete</span>--%>
+                                    <%--                                </c:if>--%>
+                                <c:if test="${isUser}">
+                                    <c:if test="${user.id == question.userId}">
+                                        <span onclick="deleteAnswer(`${user.id}`,`${answer.id}` )">Delete</span>
+                                    </c:if>
+                                </c:if>
+                                    <%--                                <c:if test="${isUser}">--%>
+                                    <%--                                    <c:if test="${user.id == question.userId}">--%>
+                                    <%--                                        <span onclick="deleteAnswer(`${user.id}`,`${answer.id}` )">Edit</span>--%>
+                                    <%--                                    </c:if>--%>
+                                    <%--                                </c:if>--%>
                             </div>
                             <div class="answer-question-author">
                                 <p class="createdOn"><fmt:formatDate value="${answer.createdOn}"
@@ -251,12 +281,12 @@
                                     <div>
                                         <a href="${pageContext.request.contextPath}/users/${answer.user.id}">${answer.user.name}</a>
                                         <div>
-                                            <span>1</span>
+                                            <span style="font-weight: bold;  color: #ff8000">${answer.user.reputationScore}</span>
                                             <span
                                                     class="dot"
                                                     style="background-color: #6a737c"
                                             ></span>
-                                            <span>1</span>
+                                            <span style="font-weight: bold;  color: #6a737c">${answer.user.views}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -307,17 +337,27 @@
                     </button>
                 </c:otherwise>
             </c:choose>
+            <div id="alertSignin" style="display: none; margin-top: 5px">
+                <div style="
+                    background-color: #ea1f1f;
+                    color: #fffcfc;
+                    padding: 0px 10px;
+                    display: inline-block;
+                    border-radius: 5px;
+                    transition: all 2s linear
+                ">
+                    <p>To answer a question, you must either sign up for an account or post as a guest.</p>
+                </div>
+            </div>
             <div class="note-post-your-answers">
             <span>
-              By clicking “Post Your Answer”, you agree to our
+              By clicking "Post Your Answer", you agree to our
               <a href="#">terms of service</a>,
               <a href="#"> privacy policy</a> and
               <a>cookie policy</a>
             </span>
             </div>
-            <div id="alertSignin">
 
-            </div>
 
         </div>
     </div>
@@ -376,11 +416,6 @@
         };
         http.send(JSON.stringify(answer));
     };
-
-    const CreatedOns = document.getElementsByClassName("createdOn");
-    for (let i = 0; i < CreatedOns.length; i++) {
-        CreatedOns[i].innerHTML = convertCreatedOnToAgo(CreatedOns[i].textContent)
-    }
 
     const addCommentForm = (_id) => {
         if (!${isUser}) {
@@ -445,24 +480,22 @@
         btnaddcomment.style.display = "block";
         form.style.display = "none"
     }
+
+    const deleteQuestion = () => {
+
+    }
 </script>
 <script type="text/javascript">
     const clickPostAnswerNoLogin = () => {
         let alert = document.getElementById("alertSignin");
-        alert.innerHTML = `<div style="
-                background-color: #ea1f1f;
-                color: white;
-                padding: 10px;
-                width: 55%;
-           ">
-                    <p>To answer a question, you must either sign up for an account or post as a guest.</p>
-                </div>`
+        alert.style.display = "block"
     };
 </script>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <%--<script src="${pageContext.request.contextPath}/js/api.js" type="text/javascript"></script>--%>
 <script src="${pageContext.request.contextPath}/js/quill.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/js/time.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/highlight.min.js"></script>
 <!-- and it's easy to individually load additional languages -->

@@ -36,57 +36,63 @@
                 />
             </div>
             <ul class="filter-questions-list" style="margin-right: 0px">
-                <li>
-                    <a style="color: #3c4146">Popular</a>
+                <li class="tab">
+                    <a style="color: #3c4146" href="?tab=reputationScore">Master</a>
                 </li>
-                <li><a>Name</a></li>
-                <li><a>New</a></li>
+                <li class="tab"><a href="?tab=views">Popular</a></li>
+                <li class="tab"><a href="?tab=new">New</a></li>
             </ul>
         </div>
-        <div class="filter-by-time">
-            <a class="active-filter-by-time">week</a>
-            <a>month</a>
-            <a>quarter</a>
-            <a>year</a>
-            <a>all</a>
-        </div>
-
+        <%--        <div class="filter-by-time">--%>
+        <%--            <a class="active-filter-by-time">week</a>--%>
+        <%--            <a>month</a>--%>
+        <%--            <a>quarter</a>--%>
+        <%--            <a>year</a>--%>
+        <%--            <a>all</a>--%>
+        <%--        </div>--%>
         <div id="filter-value" class="content-users-container">
         </div>
         <div id="current-value" class="content-users-container">
-           <c:forEach var="user" items="${users}">
-               <div class="content-user-container">
-                   <img
+            <c:forEach var="user" items="${users}">
+                <div class="content-user-container">
+                    <img
                             src="${pageContext.request.contextPath}/asset/${user.photo}"
-                           height="48px"
-                           width="48px"
-                   />
-                   <div>
-                       <a href="users/${user.id}">${user.name}</a>
-                       <p>${user.location}</p>
-                       <p style="font-weight: bold">${user.views}</p>
-                       <div>
-<%--                           <c:forEach var="i"  items="${user.tags}">--%>
-<%--                               <a href="${tag}">${tag},</a>--%>
-<%--                           </c:forEach>--%>
-                       </div>
-                   </div>
-               </div>
-           </c:forEach>
+                            height="48px"
+                            width="48px"
+                    />
+                    <div>
+                        <a href="users/${user.id}">${user.name}</a>
+                        <p>${user.location}</p>
+                        <div style="display: flex;align-items: center">
+                            <span style="font-weight: bold;  color: #ff8000">${user.reputationScore}</span>
+                            <span
+                                    class="dot"
+                                    style="background-color: #ab825f;    margin: 0px 5px;"
+                            ></span>
+                            <span style="font-weight: bold;color: #6a737c">${user.views}</span>
+                        </div>
+                        <div>
+                             <c:forEach var="tag"  items="${user.tags}">
+                                    <a class="tag" href="/questions/search?tag=${tag}">${tag}</a>
+                             </c:forEach>
+                        </div>
+                    </div>
+                </div>
+            </c:forEach>
         </div>
         <div id="pagination" class="pagination">
             <c:forEach begin="${startPagination}" end="${endPagination}" var="i">
                 <c:if test="${page != 1 && i == startPagination}">
-                    <a href="${pageContext.request.contextPath}/users?page=${page - 1}">Prev</a>
+                    <a href="?page=${page - 1}">Prev</a>
                 </c:if>
                 <c:if test="${page == (i+1) && i != endPagination}">
-                    <a href="${pageContext.request.contextPath}/users?page=${i+1}" class="active">${i+1}</a>
+                    <a href="?page=${i+1}" class="active">${i+1}</a>
                 </c:if>
                 <c:if test="${page != (i+1) && i != endPagination}">
-                    <a href="${pageContext.request.contextPath}/users?page=${i+1}">${i+1}</a>
+                    <a href="?page=${i+1}">${i+1}</a>
                 </c:if>
                 <c:if test="${page != pagination && i == endPagination}">
-                    <a href="${pageContext.request.contextPath}/users?page=${page + 1}">Next</a>
+                    <a href="?page=${page + 1}">Next</a>
                 </c:if>
             </c:forEach>
         </div>
@@ -100,7 +106,7 @@
     const filter = async (value) => {
         controller.abort();
         controller = new AbortController();
-        if(value == null || value == ''){
+        if (value == null || value == '') {
             currentValue.style.display = 'block';
             pagination.style.display = 'inline-block';
             filterValue.innerHTML = "";
@@ -108,7 +114,7 @@
             return;
         } else {
             const signal = controller.signal;
-            const _response = await fetch("/user/search?" + new URLSearchParams({
+            const _response = await fetch("/users/search?" + new URLSearchParams({
                 query: value
             }), {signal});
             currentValue.style.display = 'none';
@@ -129,18 +135,19 @@
                            width="48px"
                    />
                    <div>
-                       <a href="users/` +  user.id + `">` + user.name + `</a>
+                       <a href="users/` + user.id + `">` + user.name + `</a>
                        <p>` + user.location + `</p>
                        <p style="font-weight: bold">` + user.views + `</p>
                        <div>
-                           `+ tags +`
+                           ` + tags + `
                        </div>
                    </div>
                </div>`;
                     filterValue.innerHTML += user;
                 });
             }
-        };
+        }
+        ;
     };
     // var timer;
     // function chk_me(value){
@@ -148,6 +155,7 @@
     //     timer=setTimeout(filter(value), 10000);
     // }
 </script>
+<script src="${pageContext.request.contextPath}/js/active_tab.js"></script>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 </body>

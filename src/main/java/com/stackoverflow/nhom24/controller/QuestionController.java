@@ -64,6 +64,7 @@ public class QuestionController {
 //        int total = questionBusiness.getCountByCondition(page, search, tag);
 
         int total = questionBusiness.getTotal(tab);
+        //System.out.println("totalPagination: " + total);
         int totalPagination = (total / 15) + 1;
         if(startPagination + 10 >= totalPagination){
             startPagination = totalPagination - 10;

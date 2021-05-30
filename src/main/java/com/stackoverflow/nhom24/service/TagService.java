@@ -17,7 +17,7 @@ public class TagService {
 
     public List<TagResponse> getByName(String query){
         try {
-            Aggregation aggregation = Aggregation.newAggregation(Aggregation.match(Criteria.where("name").regex(query)), Aggregation.limit(40));
+            Aggregation aggregation = Aggregation.newAggregation(Aggregation.match(Criteria.where("name").regex(".*" + query + ".*")), Aggregation.limit(40));
             List<TagResponse> results = mongoTemplate.aggregate(aggregation, "tag", TagResponse.class).getMappedResults();
             return results;
         } catch (Exception e) {

@@ -35,3 +35,9 @@ const convertCreatedOnToAgo = (str) => {
     }
     return Math.floor(seconds) + " seconds";
 }
+
+
+const CreatedOns = document.getElementsByClassName("createdOn");
+for (let i = 0; i < CreatedOns.length; i++) {
+    CreatedOns[i].innerHTML = convertCreatedOnToAgo(CreatedOns[i].textContent)
+}
