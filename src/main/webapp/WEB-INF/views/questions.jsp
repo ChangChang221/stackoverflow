@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/common.css" />
 </head>
 <body style="background-color: #fff">
+<<<<<<< HEAD
 <%--<header class="header-container">--%>
 <%--    <div class="container-header">--%>
 <%--        <div class="icon-container-header">--%>
@@ -44,6 +45,8 @@
 <%--        </div>--%>
 <%--    </div>--%>
 <%--</header>--%>
+=======
+>>>>>>> master
 <%@include file="layout/header.jsp"%>
 <main class="main-container">
     <%@include file="layout/sidebar.jsp"%>
