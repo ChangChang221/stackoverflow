@@ -18,30 +18,12 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/common.css" />
 </head>
 <body style="background-color: #fff">
-<header class="header-container">
-    <div class="container-header">
-        <div class="icon-container-header">
-            <img id="logo" src="${pageContext.request.contextPath}/asset/logo.png" />
-        </div>
-        <nav class="nav-menu">
-            <a>About</a>
-            <a>Products</a>
-        </nav>
-        <div class="search-container">
-            <img id="search-icon" src="${pageContext.request.contextPath}/asset/search-icon.png" />
-            <input placeholder="Search..." id="input-search" />
-        </div>
-        <div class="button-container">
-            <button id="log-in">Log in</button>
-            <button id="sign-up">Sign up</button>
-        </div>
-    </div>
-</header>
+<%@include file="layout/header.jsp"%>
 <main class="main-container">
     <%@include file="layout/sidebar.jsp"%>
     <div class="container content-container">
         <div id="questions-heading">
-            <span style="font-size: 24px">All Questions</span>
+            <span style="font-size: 24px">Search Results</span>
             <button
                     class="btn-primary"
                     style="font-weight: normal; font-size: 14px"
@@ -69,10 +51,37 @@
                 <span>${total} result </span>
                 <div>
                     <ul class="filter-questions-list">
-                        <li>
-                            <a style="color: #3c4146" href="${pageContext.request.contextPath}/questions?page=${page}&tab=newest">Relevance</a>
-                        </li>
-                        <li><a href="${pageContext.request.contextPath}/questions?page=${page}&tab=active">Newest</a></li>
+                        <c:choose>
+                            <c:when test="${statusTabRelevance}">
+                                <c:if test="${query != null}">
+                                    <li>
+                                        <a style="color: #3c4146" href="${pageContext.request.contextPath}/questions/search?page=${page}&search=${query}&tab=Relevance">Relevance</a>
+                                    </li>
+                                    <li><a href="${pageContext.request.contextPath}/questions/search?page=${page}&search=${query}&tab=Newest">Newest</a></li>
+                                </c:if>
+                                <c:if test="${tag != null}">
+                                    <li>
+                                        <a style="color: #3c4146" href="${pageContext.request.contextPath}/questions/search?page=${page}&tag=${tag}&tab=Relevance">Relevance</a>
+                                    </li>
+                                    <li><a href="${pageContext.request.contextPath}/questions/search?page=${page}&tag=${tag}&tab=Newest">Newest</a></li>
+                                </c:if>
+                            </c:when>
+                            <c:otherwise>
+                                <c:if test="${query != null}">
+                                    <li><a href="${pageContext.request.contextPath}/questions/search?page=${page}&search=${query}&tab=Relevance">Relevance</a></li>
+                                    <li>
+                                        <a style="color: #3c4146" href="${pageContext.request.contextPath}/questions/search?page=${page}&search=${query}&tab=Newest">Newest</a>
+                                    </li>
+                                </c:if>
+                                <c:if test="${tag != null}">
+                                    <li><a href="${pageContext.request.contextPath}/questions/search?page=${page}&tag=${tag}&tab=Relevance">Relevance</a></li>
+                                    <li>
+                                        <a style="color: #3c4146" href="${pageContext.request.contextPath}/questions/search?page=${page}&tag=${tag}&tab=Newest">Newest</a>
+                                    </li>
+                                </c:if>
+                            </c:otherwise>
+                        </c:choose>
+
                         <%--                        <li--%>
                         <%--                                style="--%>
                         <%--                    border-top-right-radius: 5px;--%>
@@ -161,10 +170,20 @@
                     <a href="${pageContext.request.contextPath}?page=${page - 1}">Prev</a>
                 </c:if>
                 <c:if test="${page == (i+1) && i != endPagination}">
-                    <a href="${pageContext.request.contextPath}?page=${i+1}" class="active">${i+1}</a>
+                    <c:if test="${query != null}">
+                        <a href="${pageContext.request.contextPath}?page=${i+1}&search=${query}" class="active">${i+1}</a>
+                    </c:if>
+                    <c:if test="${tag != null}">
+                        <a href="${pageContext.request.contextPath}?page=${i+1}&tag=${tag}" class="active">${i+1}</a>
+                    </c:if>
                 </c:if>
                 <c:if test="${page != (i+1) && i != endPagination}">
-                    <a href="${pageContext.request.contextPath}?page=${i+1}">${i+1}</a>
+                    <c:if test="${query != null}">
+                        <a href="${pageContext.request.contextPath}?page=${i+1}&search=${query}">${i+1}</a>
+                    </c:if>
+                    <c:if test="${tag != null}">
+                        <a href="${pageContext.request.contextPath}?page=${i+1}&tag=${tag}">${i+1}</a>
+                    </c:if>
                 </c:if>
                 <c:if test="${page != pagination && i == endPagination}">
                     <a href="${pageContext.request.contextPath}?page=${page + 1}">Next</a>

@@ -104,13 +104,15 @@ public class QuestionController {
     public String searchQuestion(final ModelMap model, String search, String tag, String tab, Integer page, Integer startPagination){
         boolean statusPage = true;
         boolean statustab = true;
+        boolean statusTabRelevance = true;
         if(page == null) {
             statusPage = false;
             page = 1;
         }
         if(tab == null) {
             statustab = false;
-            tab = "relevance";
+        } else if(tab.equals("Newest")){
+            statusTabRelevance = false;
         }
         if(startPagination == null){
             startPagination = 0;
@@ -137,7 +139,7 @@ public class QuestionController {
         // fix bug trong jsp
         // chưa merger xong master
 
-        int totalPagination = (total / 15) + 1;
+        int totalPagination = (total % 15 == 0) ? (total / 15) : (total / 15) + 1;
         if(startPagination + 10 >= totalPagination){
             startPagination = totalPagination - 10;
         } if(startPagination <= 1){
@@ -147,6 +149,7 @@ public class QuestionController {
         if(totalPagination < 10){
             endPagination = totalPagination;
         }
+        model.addAttribute("statusTabRelevance", statusTabRelevance);
         model.addAttribute("query", search);
         model.addAttribute("tag", tag);
         model.addAttribute("pagination", totalPagination);

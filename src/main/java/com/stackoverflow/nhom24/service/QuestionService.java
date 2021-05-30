@@ -234,13 +234,14 @@ public class QuestionService {
                 if(isCount == true){
                     aggregation = Aggregation.newAggregation(
                             Aggregation.match(Criteria.where("tags").is(tag)),
-                            lookupOperationUser,
-                            lookupOperationAnswer);
+                            lookupOperationUser
+//                            lookupOperationAnswer
+                    );
                 } else {
                     aggregation = Aggregation.newAggregation(
                             Aggregation.match(Criteria.where("tags").is(tag)),
                             lookupOperationUser,
-                            lookupOperationAnswer,
+//                            lookupOperationAnswer,
                             Aggregation.skip((page - 1) * 15),
                             Aggregation.limit(15));
                 }

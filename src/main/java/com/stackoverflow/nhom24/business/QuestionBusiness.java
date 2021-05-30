@@ -54,11 +54,11 @@ public class QuestionBusiness extends BaseBusiness {
     private final QuestionRepositoryES questionRepositoryES;
 
     public Page<QuestionES> getAllByElasticsearch(Integer page, String tab, String title) {
-        if(tab == "relevant"){
-            Page<QuestionES> result = questionRepositoryES.findByTitle(title, PageRequest.of((page-1)*15, 15));
+        if(tab == null || tab.equals("Relevance")){
+            Page<QuestionES> result = questionRepositoryES.findByTitle(title, PageRequest.of(page - 1, 15));
             return result;
         }
-        Page<QuestionES> result = questionRepositoryES.findByTitle(title, PageRequest.of((page-1)*15, 15, Sort.by("createdOn").descending()));
+        Page<QuestionES> result = questionRepositoryES.findByTitle(title, PageRequest.of(page - 1, 15, Sort.by("createdOn").descending()));
         return result;
     }
 
@@ -207,6 +207,9 @@ public class QuestionBusiness extends BaseBusiness {
 //        System.out.println("gettotal = " + tagBusiness.getTotal()/10 + 1);
         for (int i = 0; i < 15; i++) {
             tagsResponse.get(i).setNumberQuestion(0);
+            if(tagsResponse.get(i).getDescription().length() > 100){
+                tagsResponse.get(i).setDescription(tagsResponse.get(i).getDescription().substring(0, 100));
+            }
             /*TagResponse tagResponse = new TagResponse();
             tagResponse.setNumberQuestion(0);
             tagsResponse.add(tagResponse);*/

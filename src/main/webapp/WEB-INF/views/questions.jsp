@@ -18,25 +18,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/common.css" />
 </head>
 <body style="background-color: #fff">
-<header class="header-container">
-    <div class="container-header">
-        <div class="icon-container-header">
-            <img id="logo" src="${pageContext.request.contextPath}/asset/logo.png" />
-        </div>
-        <nav class="nav-menu">
-            <a>About</a>
-            <a>Products</a>
-        </nav>
-        <div class="search-container">
-            <img id="search-icon" src="${pageContext.request.contextPath}/asset/search-icon.png" />
-            <input placeholder="Search..." id="input-search" />
-        </div>
-        <div class="button-container">
-            <button id="log-in">Log in</button>
-            <button id="sign-up">Sign up</button>
-        </div>
-    </div>
-</header>
+<%@include file="layout/header.jsp"%>
 <main class="main-container">
     <%@include file="layout/sidebar.jsp"%>
     <div class="container content-container">

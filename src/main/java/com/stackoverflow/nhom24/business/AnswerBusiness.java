@@ -13,13 +13,10 @@ import com.stackoverflow.nhom24.repository.UserRepository;
 import com.stackoverflow.nhom24.repository.VoteRepository;
 import com.stackoverflow.nhom24.service.AnswerService;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 @AllArgsConstructor

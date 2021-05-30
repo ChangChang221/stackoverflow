@@ -45,7 +45,7 @@ public class UserRestController {
     @DeleteMapping("/users/{id}")
     @CrossOrigin(origins = "*")
     public ResponseEntity<DataResponse> deleteUser(@PathVariable String id){
-        userBusiness.deleteUserById(new ObjectId(id));
+//        userBusiness.deleteUserById(new ObjectId(id));
         DataResponse response = new DataResponse();
         response.setStatus(1);
         return ResponseEntity.ok(response);
