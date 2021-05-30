@@ -40,6 +40,11 @@ public class QuestionBusiness extends BaseBusiness {
         return response;
     }
 
+    public Question getQuestionById(String id){
+        Question response= questionRepository.findById(new ObjectId(id)).get();
+        return response;
+    }
+
     public List<QuestionResponse> getAll(Integer page, String tab) {
         List<QuestionResponse> response = questionService.findAllQuestionAndItem(page, tab);
         return response;
@@ -115,7 +120,7 @@ public class QuestionBusiness extends BaseBusiness {
 //                return tag;
 //            }).collect(Collectors.toList());
 //            question.setTags(tags.stream().map(el -> el.getName()).collect(Collectors.toList()));
-            question.setId(new ObjectId());
+//            question.setId(new ObjectId());
             questionRepository.save(question);
             DataResponse data = new DataResponse();
             Object result = question.getId().toString();
@@ -223,7 +228,7 @@ public class QuestionBusiness extends BaseBusiness {
     }
 
     public void deleteQuestion(ObjectId id){
-        commentService.deleteAllByQuestionId(id);
+//        commentService.deleteAllByAnswerId(id);
         answerService.deleteAllByQuestionId(id);
         questionRepository.deleteById(id);
     }

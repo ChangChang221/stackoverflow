@@ -31,99 +31,6 @@
 </head>
 <body style="background-color: #eff0f1">
 <%--<script src="${pageContext.request.contextPath}/js/api.js" type="text/javascript"></script>--%>
-<script type="text/javascript">
-
-    const postAskQuestion = () => {
-        let title = document.getElementById("title").value;
-        const _tags = document.getElementsByClassName("tag-search");
-        console.log("_tags", _tags)
-        let tags = []
-        for (let i = 0; i < _tags.length; i++) {
-            console.log("_tags", _tags[i].textContent)
-            tags.push(_tags[i].textContent)
-        }
-        let body = document.getElementsByClassName("ql-editor")[0];
-        // let body = document.getElementById("editor");
-        let question = {};
-        question["title"] = title;
-        question["body"] = body.outerHTML || new XMLSerializer().serializeToString(body);
-        question["tags"] = tags;
-        let http = new XMLHttpRequest();
-        console.log("question", question)
-        http.open("POST", "/question/postAskQuestion", true);
-        http.setRequestHeader('Content-type', 'application/json');
-        http.setRequestHeader("Access-Control-Allow-Origin", '*');
-        http.setRequestHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-        http.onload = function () {
-            window.location.href = "http://localhost:8000/questions/detail/" + JSON.parse(this.responseText)['result'];
-        };
-        http.send(JSON.stringify(question));
-    }
-
-    const remove_tag = (value) => {
-        console.log("remove_tag", value)
-        const tags_question = document.getElementById("tags-question");
-        for (let i = 0; i < tags_question.children.length; i++) {
-            if (tags_question.children[i].textContent === value) {
-                tags_question.removeChild(tags_question.children[i])
-            }
-        }
-    }
-
-    const add_tag = (value) => {
-        const tags_question = document.getElementById("tags-question");
-        if (tags_question.children.length < 5) {
-            const tag = document.createElement("span");
-            tag.setAttribute("class", "tag tag-search")
-            const text_node = document.createTextNode(value);
-            const close_node = document.createElement("img");
-            close_node.setAttribute("src", "${pageContext.request.contextPath}/asset/close.png")// Create a text node// Create a text node
-            close_node.addEventListener("click", () => {
-                remove_tag(value)
-            })
-            tag.appendChild(text_node);
-            tag.appendChild(close_node)
-            tags_question.appendChild(tag);
-        }
-    }
-    let controller = new AbortController();
-    const searchTag = async (value) => {
-        console.log(value);
-        controller.abort();
-        controller = new AbortController();
-        const signal = controller.signal;
-        const loader = document.getElementById("loader_2");
-        const results = document.getElementById("result-tags")
-        if (value === "") {
-            results.innerHTML = "";
-            results.appendChild(loader);
-            loader.style.display = "none"
-        } else {
-            results.innerHTML = "";
-            results.appendChild(loader);
-            loader.style.display = "block"
-            const _response = await fetch("/tags/search?" + new URLSearchParams({
-                query: value
-            }), {signal});
-            const response = await _response.json();
-            console.log("response", response)
-            if (response.status) {
-                loader.style.display = "none";
-                const _results = response.result;
-                _results.forEach((_result) => {
-                    console.log("_result.name", _result.name)
-                    const tag = document.createElement("span")
-                    tag.setAttribute("class", "tag");
-                    tag.innerHTML = _result.name
-                    tag.addEventListener("click", () => {
-                        add_tag(_result.name)
-                    })
-                    results.appendChild(tag)
-                })
-            }
-        }
-    }
-</script>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <%@include file="layout/header.jsp" %>
@@ -144,6 +51,7 @@
                     <div>
                         <input id="title"
                                placeholder="e.g. Is there an R function for finding the index of an element in a vector?"
+                               value="${question.title}"
                         />
                     </div>
                 </div>
@@ -165,6 +73,11 @@
                     <div>
                         <div class="tags-ask-question-container">
                             <div class="tags-question" id="tags-question">
+<%--                                <c:forEach var="tag" items="${question.tags}">--%>
+<%--                                    <span class="tag tag-search">${tag}<img--%>
+<%--                                            src="${pageContext.request.contextPath}/asset/close.png"--%>
+<%--                                            onclick="remove_tag(\"${tag}\"`)"/></span>--%>
+<%--                                </c:forEach>--%>
                                 <%--                                <span class="tag tag-search">java<img--%>
                                 <%--                                        src="${pageContext.request.contextPath}/asset/close.png"/></span>--%>
                                 <%--                                <span class="tag tag-search"> python<img--%>
@@ -231,8 +144,115 @@
     </div>
     </div>
 </main>
-<%@include file="layout/footer.jsp"%>
-<script src="${pageContext.request.contextPath}/js/api.js" type="text/javascript"></script>
+<%@include file="layout/footer.jsp" %>
+<%--<script src="${pageContext.request.contextPath}/js/api.js" type="text/javascript"></script>--%>
 <script src="${pageContext.request.contextPath}/js/quill.js" type="text/javascript"></script>
+<script type="text/javascript">
+    const postAskQuestion = () => {
+        let title = document.getElementById("title").value;
+        const _tags = document.getElementsByClassName("tag-search");
+        console.log("_tags", _tags)
+        let tags = []
+        for (let i = 0; i < _tags.length; i++) {
+            console.log("_tags", _tags[i].textContent)
+            tags.push(_tags[i].textContent)
+        }
+        let body = document.getElementsByClassName("ql-editor")[0];
+        // let body = document.getElementById("editor");
+        let question = {};
+        question["title"] = title;
+        question["body"] = body.outerHTML || new XMLSerializer().serializeToString(body);
+        question["tags"] = tags;
+        question["id"] = "${question.id}"
+        const http = new XMLHttpRequest();
+        console.log("question", question)
+        http.open("POST", "/question/postAskQuestion", true);
+        http.setRequestHeader('Content-type', 'application/json');
+        http.setRequestHeader("Access-Control-Allow-Origin", '*');
+        http.setRequestHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        http.onload = function () {
+            window.location.href = "http://localhost:8000/questions/detail/" + JSON.parse(this.responseText)['result'];
+        };
+        http.send(JSON.stringify(question));
+    }
+
+    const searchTag = async (value) => {
+        console.log(value);
+        controller.abort();
+        controller = new AbortController();
+        const signal = controller.signal;
+        const loader = document.getElementById("loader_2");
+        const results = document.getElementById("result-tags")
+        if (value === "") {
+            results.innerHTML = "";
+            results.appendChild(loader);
+            loader.style.display = "none"
+        } else {
+            results.innerHTML = "";
+            results.appendChild(loader);
+            loader.style.display = "block"
+            const _response = await fetch("/tags/search?" + new URLSearchParams({
+                query: value
+            }), {signal});
+            const response = await _response.json();
+            console.log("response", response)
+            if (response.status) {
+                loader.style.display = "none";
+                const _results = response.result;
+                _results.forEach((_result) => {
+                    console.log("_result.name", _result.name)
+                    const tag = document.createElement("span")
+                    tag.setAttribute("class", "tag");
+                    tag.innerHTML = _result.name
+                    tag.addEventListener("click", () => {
+                        add_tag(_result.name)
+                    })
+                    results.appendChild(tag)
+                })
+            }
+        }
+    }
+
+    const add_tag = (value) => {
+        const tags_question = document.getElementById("tags-question");
+        if (tags_question.children.length < 5) {
+            const tag = document.createElement("span");
+            tag.setAttribute("class", "tag tag-search")
+            const text_node = document.createTextNode(value);
+            const close_node = document.createElement("img");
+            close_node.setAttribute("src", "${pageContext.request.contextPath}/asset/close.png")// Create a text node// Create a text node
+            close_node.addEventListener("click", () => {
+                remove_tag(value)
+            })
+            tag.appendChild(text_node);
+            tag.appendChild(close_node)
+            tags_question.appendChild(tag);
+        }
+    }
+
+    const remove_tag = (value) => {
+        console.log("remove_tag", value)
+        const tags_question = document.getElementById("tags-question");
+        for (let i = 0; i < tags_question.children.length; i++) {
+            if (tags_question.children[i].textContent === value) {
+                tags_question.removeChild(tags_question.children[i])
+            }
+        }
+    }
+
+    const editor_2 = document.getElementById("editor");
+    console.log("editor_2", editor_2)
+    console.log(`${question.body}`)
+    editor_2.innerHTML = `${question.body}`
+    const results = document.getElementById("result-tags")
+    let _tags = "${question.tags}";
+    _tags = _tags.slice(1, _tags.length - 1);
+    _tags = _tags.split(",");
+    console.log(_tags)
+    _tags.forEach((tag) => {
+        console.log("_result", tag)
+        add_tag(tag)
+    })
+</script>
 </body>
 </html>

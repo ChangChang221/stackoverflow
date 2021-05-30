@@ -110,7 +110,7 @@
                                 <span>asked 37 secs ago</span>
                                 <div>
                                     <img style="width: 32px; height: 32px"
-                                            src="${pageContext.request.contextPath}/asset/${question.user.photo}"
+                                            src="${question.user.photo}"
                                     />
                                     <div>
                                         <a href="#">${question.user.name}</a>

@@ -52,12 +52,14 @@ public class CommentService {
         }
     }
 
-    public void deleteAllByQuestionId(ObjectId questionId){
+    public void deleteAllByAnswerId(ObjectId answerId){
         try {
-            Query query = new Query(Criteria.where("questionId").is(questionId));
+            Query query = new Query(Criteria.where("answerId").is(answerId));
             mongoTemplate.remove(query,  Answer.class, "comment");
         } catch (Exception e){
             System.out.print("error :" + e.getMessage() + "\n");
         }
     }
+
+
 }

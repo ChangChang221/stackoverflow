@@ -27,8 +27,13 @@ public class QuestionController {
     private final AnswerBusiness answerBusiness;
 
     @GetMapping("/questions/askQuestion")
-    public String askQuestionForm(final ModelMap model){
-        model.addAttribute("question", new Question());
+    public String askQuestionForm(final ModelMap model, String id) {
+        if(id == null) {
+            model.addAttribute("question", new Question());
+        } else {
+            Question question = questionBusiness.getQuestionById(id);
+            model.addAttribute("question", question);
+        }
 //        model.addAttribute("tags", new ArrayList<String>());
         return "askQuestion";
     }

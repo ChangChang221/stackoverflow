@@ -35,6 +35,8 @@ public class QuestionRestController extends BaseController {
     public ResponseEntity<DataResponse> postAskQuestion(@RequestBody Map<String, Object> data, HttpServletRequest req, HttpServletResponse res, Principal principal) {
         String title = (String) data.get("title");
         String body = (String) data.get("body");
+        String id = (String) data.get("id");
+
         List<String> tags = (List<String>) data.get("tags");
         //System.out.println("tags: " + tags);
         Question question = new Question();
@@ -45,6 +47,14 @@ public class QuestionRestController extends BaseController {
         question.setUserId(getUserId(principal, req));
         question.setAnswers(0);
         question.setTags(tags);
+        question.setId(new ObjectId());
+        if (id != null) {
+            Question _question = questionBusiness.getQuestionById(id);
+            question.setId(new ObjectId(id));
+            question.setViews(_question.getViews());
+            question.setAnswers(_question.getAnswers());
+            question.setCreatedOn(_question.getCreatedOn());
+        }
         DataResponse response = questionBusiness.postQuestion(question);
 //        DataResponse response = new DataResponse();
 //        response.setStatus(1);
@@ -65,11 +75,16 @@ public class QuestionRestController extends BaseController {
 
     @DeleteMapping("/questions/{id}")
     @CrossOrigin(origins = "*")
-    public ResponseEntity<DataResponse> deleteQuestion(@PathVariable String id){
-        questionBusiness.deleteQuestion(new ObjectId(id));
+    public ResponseEntity<DataResponse> deleteQuestion(@PathVariable String id, Principal principal, HttpServletRequest request) {
+        Question question = questionBusiness.getQuestionById(id);
         DataResponse response = new DataResponse();
+        if (!getUserId(principal, request).toString().equals(question.getUserId())) {
+            response.setStatus(0);
+        } else {
+            questionBusiness.deleteQuestion(new ObjectId(id));
 //        response.setResult(results);
-        response.setStatus(1);
+            response.setStatus(1);
+        }
         return ResponseEntity.ok(response);
     }
 }

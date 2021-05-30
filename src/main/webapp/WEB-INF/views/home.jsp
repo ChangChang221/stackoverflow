@@ -94,28 +94,25 @@
             </c:forEach>
         </div>
         <div class="pagination">
-  
-  <c:forEach begin="${startPagination}" end="${endPagination}" var="i">
-      <c:if test="${page != 1 && i == startPagination}">
-          <a href="${pageContext.request.contextPath}?page=${page - 1}">Prev</a>
-      </c:if>
-      <c:if test="${page == (i+1) && i != endPagination}">
-          <a href="${pageContext.request.contextPath}?page=${i+1}" class="active">${i+1}</a>
-      </c:if>
-      <c:if test="${page != (i+1) && i != endPagination}">
-          <a href="${pageContext.request.contextPath}?page=${i+1}">${i+1}</a>
-      </c:if>
-      <c:if test="${page != pagination && i == endPagination}">
-          <a href="${pageContext.request.contextPath}?page=${page + 1}">Next</a>
-      </c:if>
-  </c:forEach>
-
+            <c:forEach begin="${startPagination}" end="${endPagination}" var="i">
+                <c:if test="${page != 1 && i == startPagination}">
+                    <a href="${pageContext.request.contextPath}?page=${page - 1}">Prev</a>
+                </c:if>
+                <c:if test="${page == (i+1) && i != endPagination}">
+                    <a href="${pageContext.request.contextPath}?page=${i+1}" class="active">${i+1}</a>
+                </c:if>
+                <c:if test="${page != (i+1) && i != endPagination}">
+                    <a href="${pageContext.request.contextPath}?page=${i+1}">${i+1}</a>
+                </c:if>
+                <c:if test="${page != pagination && i == endPagination}">
+                    <a href="${pageContext.request.contextPath}?page=${page + 1}">Next</a>
+                </c:if>
+            </c:forEach>
         </div>
     </div>
 </main>
-c
-<script src="${pageContext.request.contextPath}/js/time.js"></script>
-<script src="${pageContext.request.contextPath}/js/active_tab.js"></script>
+<script src="${pageContext.request.contextPath}/js/time.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/js/active_tab.js" type="text/javascript"></script>
 
 <%@include file="layout/footer.jsp"%>
 <!-- Optional JavaScript -->

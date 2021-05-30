@@ -20,7 +20,6 @@ public class HomeController {
     @GetMapping(value = "/")
 
     public String home(final ModelMap model, Integer page, String tab, Integer startPagination) {
-
         if (tab == null) {
             tab = "newest";
         }
@@ -39,11 +38,14 @@ public class HomeController {
         }
         int total = questionBusiness.getTotal(tab);
         int totalPagination = (total / 15) + 1;
-        if(startPagination + 10 >= totalPagination){
+        if (startPagination + 10 >= totalPagination) {
             startPagination = totalPagination - 10;
-        } else if(startPagination <= 1){
+        } else if (startPagination <= 1) {
             startPagination = 0;
         }
+        System.out.println("startPagination: " + startPagination);
+        System.out.println("page: " + page);
+        System.out.println("total: " + total);
         List<QuestionResponse> questions = questionBusiness.getAll(page, tab);
         model.addAttribute("pagination", totalPagination);
         model.addAttribute("total", questions.size());

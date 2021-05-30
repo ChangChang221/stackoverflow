@@ -78,6 +78,7 @@
                     <button
                             class="btn-primary"
                             style="font-weight: normal; font-size: 14px; float: right"
+                            onclick="location.href='/questions/askQuestion';"
                     >
                         Ask Question
                     </button>
@@ -152,7 +153,7 @@
                             <a href="#">Share</a>
                             <a href="#">Follow</a>
                             <c:if test="${isUser}">
-                                <c:if test="${user.id == question.userId}">
+                                <c:if test="${userCurrent.id == question.userId}">
                                     <span onclick="EditQuestion(`${question.id}` )">Edit</span>
                                 </c:if>
                             </c:if>
@@ -162,7 +163,7 @@
                                                                  pattern="yyyy-MM-dd HH:mm:ss"/></p>
                             <div>
                                 <img
-                                        src="${pageContext.request.contextPath}/asset/${question.user.photo}"
+                                        src="${question.user.photo}"
                                         height="32px"
                                         width="32px"
                                         style="border-radius: 8px"
@@ -170,12 +171,12 @@
                                 <div>
                                     <a href="${pageContext.request.contextPath}/users/${question.user.id}">${question.user.name}</a>
                                     <div>
-                                        <span>1</span>
+                                        <span style="font-weight: bold;  color: #ff8000">${answer.user.reputationScore}</span>
                                         <span
                                                 class="dot"
                                                 style="background-color: #6a737c"
                                         ></span>
-                                        <span>1</span>
+                                        <span style="font-weight: bold;  color: #6a737c">${answer.user.views}</span>
                                     </div>
                                 </div>
                             </div>
@@ -258,8 +259,8 @@
                                     <%--                                        <span onclick="deleteAnswer(`${user.id}`, `${answer.id}`)">Delete</span>--%>
                                     <%--                                </c:if>--%>
                                 <c:if test="${isUser}">
-                                    <c:if test="${user.id == question.userId}">
-                                        <span onclick="deleteAnswer(`${user.id}`,`${answer.id}` )">Delete</span>
+                                    <c:if test="${userCurrent.id == answer.userId}">
+                                        <span onclick="deleteAnswer(`${answer.id}` )">Delete</span>
                                     </c:if>
                                 </c:if>
                                     <%--                                <c:if test="${isUser}">--%>
@@ -273,7 +274,7 @@
                                                                      pattern="yyyy-MM-dd HH:mm:ss"/></p>
                                 <div>
                                     <img
-                                            src="${pageContext.request.contextPath}/asset/${answer.user.photo}"
+                                            src="${answer.user.photo}"
                                             height="32px"
                                             width="32px"
                                             style="border-radius: 8px"

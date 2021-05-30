@@ -100,12 +100,9 @@ public class AnswerBusiness extends BaseBusiness {
     public void deleteAnswer(String answerId){
         try{
             answerRepository.deleteById(new ObjectId(answerId));
-            List<CommentResponse> comments = commentService.getCommentByAnswerId(new ObjectId(answerId));
-            for(int i = 0; i < comments.size(); i++){
-                commentRepository.deleteById(comments.get(i).getId());
-            }
+            commentService.deleteAllByAnswerId(new ObjectId(answerId));
         }catch (Exception e){
-            //System.out.println("AnswerBusiness deleteAnswer: " + e.getMessage());
+            System.out.println("AnswerBusiness deleteAnswer: " + e.getMessage());
             DataResponse response = new DataResponse();
             response.setStatus(0);
         }
