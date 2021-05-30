@@ -7,12 +7,7 @@ import com.stackoverflow.nhom24.elasticsearch.repository.QuestionRepositoryES;
 import com.stackoverflow.nhom24.entity.Question;
 import com.stackoverflow.nhom24.entity.Tag;
 import com.stackoverflow.nhom24.entity.User;
-import com.stackoverflow.nhom24.model.response.AnswerResponse;
-import com.stackoverflow.nhom24.model.response.LiveSearchQuestionResponse;
-import com.stackoverflow.nhom24.model.response.QuestionDetailResponse;
-import com.stackoverflow.nhom24.model.response.QuestionResponse;
-import com.stackoverflow.nhom24.model.response.QuestionsResponse;
-import com.stackoverflow.nhom24.model.response.TagResponse;
+import com.stackoverflow.nhom24.model.response.*;
 import com.stackoverflow.nhom24.repository.QuestionRepository;
 import com.stackoverflow.nhom24.repository.TagRepository;
 import com.stackoverflow.nhom24.repository.UserRepository;
@@ -95,44 +90,44 @@ public class QuestionBusiness extends BaseBusiness {
         return questionService.getQuestionOfAnswerByUserId(new ObjectId(userId));
     }
 
-    public void setRole() {
-        List<User> users = userRepository.findAll();
-        for (User el : users) {
-            userRepository.save(el);
-    public void setElasticsearch(){
-        List<QuestionResponse> questions = questionService.getAllQuestionAndItem();
-        List<QuestionES> questionESes = new ArrayList<>();
-        UserES userE = new UserES();
-        userE.setId(questions.get(0).getUser().getId().toString());
-        userE.setTags(questions.get(0).getUser().getTags());
-        userE.setViews(questions.get(0).getUser().getViews());
-//        userE.setCreatedOn(questions.get(0).getUser().getCreatedOn());
-        userE.setName(questions.get(0).getUser().getName());
-        userE.setPhoto(questions.get(0).getUser().getPhoto());
-        for (QuestionResponse el : questions){
-            QuestionES q = new QuestionES();
-            q.setId(el.getId().toString());
-            q.setCreatedOn(el.getCreatedOn().getTime());
-            if(el.getUser() != null){
-                UserES userES = new UserES();
-                userES.setId(el.getUser().getId().toString());
-                userES.setTags(el.getUser().getTags());
-                userES.setViews(el.getUser().getViews());
-//                userES.setCreatedOn(el.getUser().getCreatedOn());
-                userES.setName(el.getUser().getName());
-                userES.setPhoto(el.getUser().getPhoto());
-                q.setUser(userES);
-            } else {
-                q.setUser(userE);
-            }
-            q.setViews(el.getViews());
-            q.setTitle(el.getTitle());
-            q.setTags(el.getTags());
-            q.setAnswers(el.getAnswers());
-            questionESes.add(q);
-        }
-        questionRepositoryES.saveAll(questionESes);
-    }
+//    public void setRole() {
+//        List<User> users = userRepository.findAll();
+//        for (User el : users) {
+//            userRepository.save(el);
+//    public void setElasticsearch(){
+//        List<QuestionResponse> questions = questionService.getAllQuestionAndItem();
+//        List<QuestionES> questionESes = new ArrayList<>();
+//        UserES userE = new UserES();
+//        userE.setId(questions.get(0).getUser().getId().toString());
+//        userE.setTags(questions.get(0).getUser().getTags());
+//        userE.setViews(questions.get(0).getUser().getViews());
+////        userE.setCreatedOn(questions.get(0).getUser().getCreatedOn());
+//        userE.setName(questions.get(0).getUser().getName());
+//        userE.setPhoto(questions.get(0).getUser().getPhoto());
+//        for (QuestionResponse el : questions){
+//            QuestionES q = new QuestionES();
+//            q.setId(el.getId().toString());
+//            q.setCreatedOn(el.getCreatedOn().getTime());
+//            if(el.getUser() != null){
+//                UserES userES = new UserES();
+//                userES.setId(el.getUser().getId().toString());
+//                userES.setTags(el.getUser().getTags());
+//                userES.setViews(el.getUser().getViews());
+////                userES.setCreatedOn(el.getUser().getCreatedOn());
+//                userES.setName(el.getUser().getName());
+//                userES.setPhoto(el.getUser().getPhoto());
+//                q.setUser(userES);
+//            } else {
+//                q.setUser(userE);
+//            }
+//            q.setViews(el.getViews());
+//            q.setTitle(el.getTitle());
+//            q.setTags(el.getTags());
+//            q.setAnswers(el.getAnswers());
+//            questionESes.add(q);
+//        }
+//        questionRepositoryES.saveAll(questionESes);
+//    }
 
     public void updatePhoto(){
         List<String> photo = new ArrayList<>();
