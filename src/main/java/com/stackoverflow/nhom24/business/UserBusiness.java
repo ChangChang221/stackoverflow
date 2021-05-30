@@ -7,7 +7,10 @@ import com.stackoverflow.nhom24.model.response.QuestionDetailResponse;
 import com.stackoverflow.nhom24.model.response.QuestionResponse;
 import com.stackoverflow.nhom24.model.response.TagResponse;
 import com.stackoverflow.nhom24.model.response.UserResponse;
+import com.stackoverflow.nhom24.repository.QuestionRepository;
 import com.stackoverflow.nhom24.repository.UserRepository;
+import com.stackoverflow.nhom24.service.AnswerService;
+import com.stackoverflow.nhom24.service.CommentService;
 import com.stackoverflow.nhom24.service.QuestionService;
 import com.stackoverflow.nhom24.service.UserService;
 import javassist.NotFoundException;
@@ -25,6 +28,8 @@ public class UserBusiness extends BaseBusiness {
     private final UserRepository userRepository;
     private final UserService userService;
     private final QuestionService questionService;
+//    private final CommentService commentService;
+    private final AnswerService answerService;
 
     public List<User> getAll(){
 
@@ -99,9 +104,10 @@ public class UserBusiness extends BaseBusiness {
     public void deleteUser(String id){
         userRepository.deleteById(new ObjectId(id).get());
     }
-    public List<UserResponse> getListUser(Integer page) {
 
-        return userService.getAllUser(page);
+    public List<UserResponse> getListUser(Integer page, String tab) {
+
+        return userService.getAllUser(page, tab);
     }
 
     public int getTotal() {
@@ -155,7 +161,7 @@ public class UserBusiness extends BaseBusiness {
                         .forEachOrdered(x -> reverseSortedMap.put(x.getKey(), x.getValue()));
                 Set<String> getKeyHashMap = reverseSortedMap.keySet();
 
-//                System.out.println(hashMapTag);
+//                //System.out.println(hashMapTag);
                 int cnt = 0;
                 //lấy 3 tag có value lớn nhất
                 for(String s: getKeyHashMap) {
@@ -165,7 +171,7 @@ public class UserBusiness extends BaseBusiness {
                         cnt++;
                     }
                 }
-//                System.out.println(getTagUserList);
+//                //System.out.println(getTagUserList);
                 users.get(k).setTags(getTagUserList);
 
             }
@@ -182,6 +188,9 @@ public class UserBusiness extends BaseBusiness {
     }
 
     public void deleteUserById(ObjectId id){
+//        commentService.deleteAllByUserId(id);
+        answerService.deleteAllByUserId(id);
+        questionService.deleteAllByUserId(id);
         userRepository.deleteById(id);
     }
 

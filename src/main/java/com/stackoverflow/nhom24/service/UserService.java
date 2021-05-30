@@ -26,13 +26,37 @@ public class UserService {
         return results;
     }
 
-    public List<UserResponse> getAllUser(Integer page) {
+    public List<UserResponse> getAllUser(Integer page, String tab) {
         Aggregation aggregation = null;
-        aggregation = Aggregation.newAggregation(
-                Aggregation.sort(Sort.Direction.ASC, "createdOn"),
-                Aggregation.skip((page - 1) * 40L),
-                Aggregation.limit(40)
-        );
+        switch (tab) {
+            case "reputationScore": {
+                aggregation = Aggregation.newAggregation(
+                        Aggregation.sort(Sort.Direction.DESC, "reputationScore"),
+                        Aggregation.skip((page - 1) * 40L),
+                        Aggregation.limit(40)
+                );
+                break;
+            }
+            case "views": {
+                aggregation = Aggregation.newAggregation(
+                        Aggregation.sort(Sort.Direction.DESC, "views"),
+                        Aggregation.skip((page - 1) * 40L),
+                        Aggregation.limit(40)
+                );
+                break;
+            }
+            case "new": {
+                aggregation = Aggregation.newAggregation(
+                        Aggregation.sort(Sort.Direction.ASC, "createdOn"),
+                        Aggregation.skip((page - 1) * 40L),
+                        Aggregation.limit(40)
+                );
+                break;
+            }
+            default:
+                break;
+        }
+
 
         List<UserResponse> results = mongoTemplate
                 .aggregate(aggregation, "user", UserResponse.class)

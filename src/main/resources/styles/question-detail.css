@@ -64,10 +64,11 @@
   margin-top: 20px;
 }
 
-.answer-question-footer-action > a {
+.answer-question-footer-action > * {
   text-decoration: none;
   font-size: 13px;
   color: #848d95;
+  cursor: pointer;
 }
 
 .answer-question-footer {
@@ -188,7 +189,15 @@
 
 .ql-editor p {
   font-size: 15px;
-  color: #4f4f4f;
+}
+
+.ql-editor{
+  line-height: 1.9 !important;
+  color: #222222;
+}
+
+.ql-editor img{
+  max-width: 100%;
 }
 
 .form-comment-btn{

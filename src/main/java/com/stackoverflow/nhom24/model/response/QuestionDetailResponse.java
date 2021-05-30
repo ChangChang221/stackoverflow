@@ -6,6 +6,7 @@ import com.stackoverflow.nhom24.entity.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.bson.types.ObjectId;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Temporal;
@@ -24,6 +25,6 @@ public class QuestionDetailResponse {
     private Date createdOn;
     private List<String> tags;
     private Integer views;
-    private List<Answer> answers;
+    private int answers;
     private User user;
 }

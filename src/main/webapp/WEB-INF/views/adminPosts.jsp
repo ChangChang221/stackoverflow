@@ -166,7 +166,7 @@
 
             <div class="btns" >
                 <button onclick="deleteQuestion()">Yes,Delete</button>
-                <button onclick="closeModalDelete()">Cancer</button>
+                <button onclick="closeModalDelete()">Cancel</button>
             </div>
 
         </form>

@@ -22,7 +22,6 @@
   height: 100%;
   flex-direction: column;
   align-items: center;
-  padding-top: 75px;
 }
 
 
@@ -30,7 +29,7 @@
   flex: 1;
   display: flex;
   /* justify-content: center; */
-  padding-top: 150px !important;
+  padding-top: 75px !important;
   flex-direction: column;
   align-items: center;
 }

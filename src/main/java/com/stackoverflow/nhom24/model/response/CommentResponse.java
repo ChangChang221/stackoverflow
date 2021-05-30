@@ -16,6 +16,7 @@ import java.util.List;
 @Setter
 @Getter
 public class CommentResponse {
+    private ObjectId id;
     private ObjectId userId;
     private String name;
     private String body;

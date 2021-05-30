@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 
 @Controller
@@ -27,8 +29,13 @@ public class QuestionController {
     private final AnswerBusiness answerBusiness;
 
     @GetMapping("/questions/askQuestion")
-    public String askQuestionForm(final ModelMap model){
-        model.addAttribute("question", new Question());
+    public String askQuestionForm(final ModelMap model, String id) {
+        if(id == null) {
+            model.addAttribute("question", new Question());
+        } else {
+            Question question = questionBusiness.getQuestionById(id);
+            model.addAttribute("question", question);
+        }
 //        model.addAttribute("tags", new ArrayList<String>());
         return "askQuestion";
     }
@@ -66,6 +73,7 @@ public class QuestionController {
 //        int total = questionBusiness.getCountByCondition(page, search, tag);
 
         int total = questionBusiness.getTotal(tab);
+        //System.out.println("totalPagination: " + total);
         int totalPagination = (total / 15) + 1;
         if(startPagination + 10 >= totalPagination){
             startPagination = totalPagination - 10;
@@ -91,11 +99,16 @@ public class QuestionController {
     }
 
     @GetMapping("/questions/detail/{id}")
-    public String questionDetail(final ModelMap model, @PathVariable String id) {
-        QuestionDetailResponse response = questionBusiness.getById(id);
-        List<AnswerResponse> answers = answerBusiness.getByQuestionId(new ObjectId(id));
-        model.addAttribute("question", response);
-        model.addAttribute("answers", answers);
+    public String questionDetail(final ModelMap model, @PathVariable String id) throws ExecutionException, InterruptedException {
+        long start = System.currentTimeMillis();
+        CompletableFuture<List<AnswerResponse>> answersAsync = CompletableFuture.supplyAsync(() -> answerBusiness.getByQuestionId(new ObjectId(id)));
+//        List<AnswerResponse> answers = answerBusiness.getByQuestionId(new ObjectId(id));
+//        QuestionDetailResponse response = questionBusiness.getById(id);
+        CompletableFuture<QuestionDetailResponse> responseAsync = CompletableFuture.supplyAsync(() -> questionBusiness.getById(id));
+        model.addAttribute("question", responseAsync.get());
+        model.addAttribute("answers", answersAsync.get());
+        long end = System.currentTimeMillis();
+        System.out.println(end - start + "    time");
         model.addAttribute("sidebar", 1);
         return "questionDetail";
     }
