@@ -259,4 +259,13 @@ public class QuestionService {
 
     }
 
+    public void deleteAllByUserId(ObjectId userId){
+        try {
+            Query query = new Query(Criteria.where("userId").is(userId));
+            mongoTemplate.remove(query,  Question.class, "question");
+        } catch (Exception e){
+            System.out.print("error :" + e.getMessage() + "\n");
+        }
+    }
+
 }

@@ -7,7 +7,10 @@ import com.stackoverflow.nhom24.model.response.QuestionDetailResponse;
 import com.stackoverflow.nhom24.model.response.QuestionResponse;
 import com.stackoverflow.nhom24.model.response.TagResponse;
 import com.stackoverflow.nhom24.model.response.UserResponse;
+import com.stackoverflow.nhom24.repository.QuestionRepository;
 import com.stackoverflow.nhom24.repository.UserRepository;
+import com.stackoverflow.nhom24.service.AnswerService;
+import com.stackoverflow.nhom24.service.CommentService;
 import com.stackoverflow.nhom24.service.QuestionService;
 import com.stackoverflow.nhom24.service.UserService;
 import javassist.NotFoundException;
@@ -25,6 +28,8 @@ public class UserBusiness extends BaseBusiness {
     private final UserRepository userRepository;
     private final UserService userService;
     private final QuestionService questionService;
+    private final CommentService commentService;
+    private final AnswerService answerService;
 
     public List<User> getAll(){
 
@@ -182,6 +187,9 @@ public class UserBusiness extends BaseBusiness {
     }
 
     public void deleteUserById(ObjectId id){
+        commentService.deleteAllByUserId(id);
+        answerService.deleteAllByUserId(id);
+        questionService.deleteAllByUserId(id);
         userRepository.deleteById(id);
     }
 

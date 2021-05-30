@@ -1,6 +1,7 @@
 package com.stackoverflow.nhom24.service;
 
 import com.stackoverflow.nhom24.entity.Answer;
+import com.stackoverflow.nhom24.entity.Question;
 import com.stackoverflow.nhom24.entity.User;
 import com.stackoverflow.nhom24.entity.Vote;
 import com.stackoverflow.nhom24.model.response.AnswerResponse;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -144,6 +146,15 @@ public class AnswerService {
             answerRepository.save(_answer);
         }catch (Exception e){
             System.out.println("AnswerService updateAnswerScore: " + e);
+        }
+    }
+
+    public void deleteAllByUserId(ObjectId userId){
+        try {
+            Query query = new Query(Criteria.where("userId").is(userId));
+            mongoTemplate.remove(query,  Answer.class, "answer");
+        } catch (Exception e){
+            System.out.print("error :" + e.getMessage() + "\n");
         }
     }
 }

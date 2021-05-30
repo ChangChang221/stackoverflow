@@ -40,7 +40,7 @@ public class AnswerBusiness extends BaseBusiness {
 
     public List<AnswerResponse> getByQuestionId(ObjectId questionId) {
         List<AnswerResponse> responses = answerService.getAnswerResponsesByQuestionId(questionId);
-        System.out.println(responses);
+//        System.out.println(responses);
         return responses;
     }
 
