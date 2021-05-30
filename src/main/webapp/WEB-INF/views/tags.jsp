@@ -59,7 +59,7 @@
             <c:forEach var="tag" items="${tags}">
                 <div class="content-tag-container">
                     <div class="content-tag">
-                        <div><a class="tag" href="#">${tag.name}</a></div>
+                        <div><a class="tag" href="/questions/search?tag=${tag.name}">${tag.name}</a></div>
                         <div class="tag-description">
                             <p>${tag.name}</p>
                         </div>

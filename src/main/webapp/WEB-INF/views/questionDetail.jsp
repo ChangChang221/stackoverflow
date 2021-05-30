@@ -120,7 +120,7 @@
                     </div>
                     <div class="answer-question-tags">
                         <c:forEach var="tag" items="${question.tags}">
-                            <a href="#" class="tag">${tag}</a>
+                            <a href="/questions/search?tag=${tag}" class="tag">${tag}</a>
                         </c:forEach>
                     </div>
                     <div class="answer-question-footer">
