@@ -1,5 +1,7 @@
 package com.stackoverflow.nhom24.service;
 
+import com.stackoverflow.nhom24.entity.Answer;
+import com.stackoverflow.nhom24.entity.Comment;
 import com.stackoverflow.nhom24.entity.User;
 import com.stackoverflow.nhom24.model.response.AnswerResponse;
 import com.stackoverflow.nhom24.model.response.CommentResponse;
@@ -19,21 +21,21 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.group;
-@Repository
 
+@Repository
 public class CommentService {
     @Autowired
     private MongoTemplate mongoTemplate;
 
     public List<CommentResponse> getCommentByAnswerId(ObjectId id) {
         try {
-            //System.out.println("id" + id);
+//            System.out.println("id" + id);
             Aggregation aggregation = Aggregation.newAggregation(
                     Aggregation.match(Criteria.where("answerId").is(id))
             );
-            //System.out.println("id" + id);
+//            System.out.println("id" + id);
             List<CommentResponse> result = mongoTemplate.aggregate(aggregation, "comment", CommentResponse.class).getMappedResults();
-            //System.out.println("result: " + result);
+//            System.out.println("result: " + result);
             return result;
         } catch (Exception e) {
             //System.out.println("Comment Service getCommentByAnswerId error: " + e.getMessage());
@@ -41,4 +43,21 @@ public class CommentService {
         }
     }
 
+    public void deleteAllByUserId(ObjectId userId){
+        try {
+            Query query = new Query(Criteria.where("userId").is(userId));
+            mongoTemplate.remove(query,  Comment.class, "comment");
+        } catch (Exception e){
+            System.out.print("error :" + e.getMessage() + "\n");
+        }
+    }
+
+    public void deleteAllByQuestionId(ObjectId questionId){
+        try {
+            Query query = new Query(Criteria.where("questionId").is(questionId));
+            mongoTemplate.remove(query,  Answer.class, "comment");
+        } catch (Exception e){
+            System.out.print("error :" + e.getMessage() + "\n");
+        }
+    }
 }

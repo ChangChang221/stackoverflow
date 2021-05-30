@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <sec:authorize access="hasRole('ROLE_USER')" var="isUser"/>
 <sec:authorize access="hasRole('ROLE_ADMIN')" var="isAdmin"/>
-<sec:authentication property="principal" var="user"/>
+<sec:authentication property="principal" var="userCurrent"/>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -98,7 +98,7 @@
         </nav>
 
         <div class="search-container">
-            <img id="search-icon" src="/asset/search-icon.png" onclick="home()"/>
+            <img id="search-icon" src="/asset/search-icon.png" />
             <input placeholder="Search..." id="input-search" onkeyup="search(value)"/>
             <ul class="search-results" id="search-results">
                 <div class="lds-hourglass" id="loader" style="display: none"></div>
@@ -108,9 +108,9 @@
             <c:if test="${isUser == true || isAdmin == true}">
                 <div style="margin-right: 10px">
                     <div>
-                        <a>
+                        <a href="/users/${userCurrent.id}">
                             <img
-                                    src="${pageContext.request.contextPath}/asset/${user.photo}"
+                                    src="${userCurrent.photo}"
                                     alt width="24" height="24" style="border-radius: 3px;vertical-align: middle;">
                         </a>
                     </div>

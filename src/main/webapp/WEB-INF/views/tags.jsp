@@ -62,6 +62,7 @@
                         <div><a class="tag" href="/questions/search?tag=${tag.name}">${tag.name}</a></div>
                         <div class="tag-description">
                             <p>${tag.description}</p>
+
                         </div>
                         <div class="tag-detail">
                             <div class="questions-about-tag-total">
@@ -93,8 +94,8 @@
             </c:forEach>
         </div>
     </div>
-
 </main>
+<%@include file="layout/footer.jsp"%>
 <script type="text/javascript">
     const filterValue = document.getElementById("filter-value");
     const currentValue = document.getElementById("current-value");

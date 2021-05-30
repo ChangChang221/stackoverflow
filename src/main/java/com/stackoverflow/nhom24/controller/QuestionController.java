@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 
 @Controller
@@ -90,11 +92,16 @@ public class QuestionController {
     }
 
     @GetMapping("/questions/detail/{id}")
-    public String questionDetail(final ModelMap model, @PathVariable String id) {
-        QuestionDetailResponse response = questionBusiness.getById(id);
-        List<AnswerResponse> answers = answerBusiness.getByQuestionId(new ObjectId(id));
-        model.addAttribute("question", response);
-        model.addAttribute("answers", answers);
+    public String questionDetail(final ModelMap model, @PathVariable String id) throws ExecutionException, InterruptedException {
+        long start = System.currentTimeMillis();
+        CompletableFuture<List<AnswerResponse>> answersAsync = CompletableFuture.supplyAsync(() -> answerBusiness.getByQuestionId(new ObjectId(id)));
+//        List<AnswerResponse> answers = answerBusiness.getByQuestionId(new ObjectId(id));
+//        QuestionDetailResponse response = questionBusiness.getById(id);
+        CompletableFuture<QuestionDetailResponse> responseAsync = CompletableFuture.supplyAsync(() -> questionBusiness.getById(id));
+        model.addAttribute("question", responseAsync.get());
+        model.addAttribute("answers", answersAsync.get());
+        long end = System.currentTimeMillis();
+        System.out.println(end - start + "    time");
         model.addAttribute("sidebar", 1);
         return "questionDetail";
     }

@@ -23,7 +23,7 @@
     <%@include file="layout/sidebar.jsp"%>
     <div class="container content-container">
         <div id="questions-heading">
-            <span style="font-size: 24px">All Questions</span>
+            <span style="font-size: 24px">Search Results</span>
             <button
                     class="btn-primary"
                     style="font-weight: normal; font-size: 14px"
@@ -158,6 +158,7 @@
         </div>
     </div>
 </main>
+<%@include file="layout/footer.jsp"%>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 </body>

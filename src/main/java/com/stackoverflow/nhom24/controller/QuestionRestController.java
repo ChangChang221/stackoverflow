@@ -63,5 +63,13 @@ public class QuestionRestController extends BaseController {
         return ResponseEntity.ok(response);
     }
 
-
+    @DeleteMapping("/questions/{id}")
+    @CrossOrigin(origins = "*")
+    public ResponseEntity<DataResponse> deleteQuestion(@PathVariable String id){
+        questionBusiness.deleteQuestion(new ObjectId(id));
+        DataResponse response = new DataResponse();
+//        response.setResult(results);
+        response.setStatus(1);
+        return ResponseEntity.ok(response);
+    }
 }

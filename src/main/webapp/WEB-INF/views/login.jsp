@@ -50,7 +50,7 @@
             <label>Email</label>
             <form:input path="username" class="input-type"/>
             <label>Password</label>
-            <form:input path="password" class="input-type"/>
+            <form:input path="password" type="password" class="input-type"/>
             <a
                     style="
               text-decoration: none;
@@ -126,8 +126,8 @@
           ></span
         >
     </div>
-
 </main>
+<%@include file="layout/footer.jsp"%>
 <script>
     const signup1 = document.getElementById("signup");
     const signin = document.getElementById("signin");

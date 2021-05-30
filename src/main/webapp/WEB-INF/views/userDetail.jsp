@@ -22,9 +22,11 @@
     <div class="content-container">
         <div class="user-heading-container">
             <div>
-                <a class="menu-user-active" href="#">Profiles</a>
+                <a class="menu-user-active" href="#">Profile</a>
                 <a class="menu-user" href="#">Activity</a>
-                <a class="menu-user" href="#">Developer Story</a>
+                <c:if test="${statusEdit}">
+                    <a class="menu-user" href="/users/edit/${userDetail.id}">Edit profile</a>
+                </c:if>
             </div>
             <div>
             <span>
@@ -44,7 +46,7 @@
                         <img
                                 width="164px"
                                 height="164px"
-                                src="${pageContext.request.contextPath}/asset/${userDetail.photo}"
+                                src="${userDetail.photo}"
                         />
                         <div
                                 style="
@@ -340,7 +342,11 @@
         </div>
     </div>
 </main>
+<<<<<<< HEAD
 <script src="${pageContext.request.contextPath}/js/active_tab.js"></script>
+=======
+<%@include file="layout/footer.jsp"%>
+>>>>>>> master
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 </body>

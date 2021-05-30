@@ -297,13 +297,14 @@ public class QuestionService {
                 if(isCount == true){
                     aggregation = Aggregation.newAggregation(
                             Aggregation.match(Criteria.where("title").regex(query)),
-                            lookupOperationUser,
-                            lookupOperationAnswer);
+                            lookupOperationUser
+//                            lookupOperationAnswer
+                    );
                 } else {
                     aggregation = Aggregation.newAggregation(
                             Aggregation.match(Criteria.where("title").regex(query)),
                             lookupOperationUser,
-                            lookupOperationAnswer,
+//                            lookupOperationAnswer,
                             Aggregation.skip((page - 1) * 15),
                             Aggregation.limit(15));
                 }
@@ -311,13 +312,14 @@ public class QuestionService {
                 if(isCount == true){
                     aggregation = Aggregation.newAggregation(
                             Aggregation.match(Criteria.where("tags").is(tag)),
-                            lookupOperationUser,
-                            lookupOperationAnswer);
+                            lookupOperationUser
+//                            lookupOperationAnswer
+                    );
                 } else {
                     aggregation = Aggregation.newAggregation(
                             Aggregation.match(Criteria.where("tags").is(tag)),
                             lookupOperationUser,
-                            lookupOperationAnswer,
+//                            lookupOperationAnswer,
                             Aggregation.skip((page - 1) * 15),
                             Aggregation.limit(15));
                 }
@@ -332,6 +334,15 @@ public class QuestionService {
             return List.of();
         }
 
+    }
+
+    public void deleteAllByUserId(ObjectId userId){
+        try {
+            Query query = new Query(Criteria.where("userId").is(userId));
+            mongoTemplate.remove(query,  Question.class, "question");
+        } catch (Exception e){
+            System.out.print("error :" + e.getMessage() + "\n");
+        }
     }
 
 }

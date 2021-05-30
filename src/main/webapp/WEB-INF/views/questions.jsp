@@ -110,7 +110,10 @@
                                                        pattern="yyyy-MM-dd HH:mm:ss"/></span>
                                 <div>
                                     <img
-                                            src="https://www.gravatar.com/avatar/9d380711c6cdebb4864551fdb7d566ad?s=32&d=identicon&r=PG&f=1"
+<%--                                            src="https://www.gravatar.com/avatar/9d380711c6cdebb4864551fdb7d566ad?s=32&d=identicon&r=PG&f=1"--%>
+                                            height="32px"
+                                            width="32px"
+                                            src="${question.user.photo}"
                                     />
                                     <div>
                                         <a href="#">${question.user.name}</a>
@@ -157,10 +160,17 @@
 
         </div>
     </div>
+
 </main>
+<<<<<<< HEAD
 <script src="${pageContext.request.contextPath}/js/active_tab.js"></script>
 <script src="${pageContext.request.contextPath}/js/time.js"></script>
+=======
+
+>>>>>>> master
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 </body>
+<%@include file="layout/footer.jsp"%>
+
 </html>

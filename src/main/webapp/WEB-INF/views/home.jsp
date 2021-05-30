@@ -117,6 +117,7 @@ c
 <script src="${pageContext.request.contextPath}/js/time.js"></script>
 <script src="${pageContext.request.contextPath}/js/active_tab.js"></script>
 
+<%@include file="layout/footer.jsp"%>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 </body>

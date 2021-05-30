@@ -62,7 +62,7 @@ public class UserController extends BaseController {
     }
 
     @GetMapping("/users/{id}")
-    public String getUserById(final ModelMap model, @PathVariable String id, String tab) {
+    public String getUserById(final ModelMap model, @PathVariable String id, String tab,Principal principal, HttpServletRequest request) {
         if (tab == null) {
             tab = "all";
         }
@@ -70,6 +70,13 @@ public class UserController extends BaseController {
         List<QuestionResponse> answers = new ArrayList<>();
         Integer total = 0;
         //System.out.println("tab: " + tab);
+        boolean statusEdit = false;
+        if(principal == null || !getUserId(principal, request).toString().equals(id)){
+            statusEdit = false;
+        } else {
+            statusEdit = true;
+        }
+
         switch (tab) {
             case "all": {
                 questions = questionBusiness.getByUserId(id);
@@ -95,6 +102,7 @@ public class UserController extends BaseController {
         model.addAttribute("answers", (List<QuestionResponse>) answers);
         model.addAttribute("total", total);
         model.addAttribute("sidebar", 3);
+        model.addAttribute("statusEdit", statusEdit);
         return "userDetail";
     }
 
@@ -143,6 +151,9 @@ public class UserController extends BaseController {
     @GetMapping("/users/edit/{id}")
     public String getProfile(final ModelMap model, Principal principal, HttpServletRequest request, @PathVariable String id) {
    //    String userId = getUserId(principal, request);
+        if(!getUserId(principal, request).toString().equals(id)){
+            return "redirect:/users/" + id;
+        }
         User users = userBusiness.getById(id);
         model.addAttribute("user", users);
         model.addAttribute("sidebar", 3);
@@ -151,22 +162,21 @@ public class UserController extends BaseController {
 
     @PostMapping("/users/editProfile/{id}")
     public String editUser(final ModelMap model, Principal principal, HttpServletRequest request ,
-                           @ModelAttribute("user") User user, @RequestParam("postImg") MultipartFile postImg, @PathVariable String id) throws IOException {
+                           @ModelAttribute("user") User user, @RequestParam("postImg") String postImg, @PathVariable String id) throws IOException {
         try {
-            if( postImg != null && postImg.getSize() > 0 ) {
-                Date dateNow = new Date();
-                Random rd = new Random();
-                String name =  id + dateNow.getTime() + rd.nextInt() + postImg.getOriginalFilename().replace(' ', '1');
-                postImg.transferTo(new File( imagePath + "/" + name));
-                user.setPhoto(name);
-            }
+//            if( postImg != null && postImg.getSize() > 0 ) {
+//                Date dateNow = new Date();
+//                Random rd = new Random();
+//                String name =  dateNow.getTime() + postImg.getOriginalFilename();
+//                postImg.transferTo(new File( imagePath + "/" + name.replace('-', '1')));
+                user.setPhoto(postImg);
+//            }
             userBusiness.updateUser(id, user);
             return "redirect:/users/" + id;
         } catch (Exception e){
             model.addAttribute("status", false);
             return "redirect:/users/edit/" + id;
         }
-
     }
     @RequestMapping(value = {"/deleteUser/{id}"}, method = RequestMethod.GET)
     public String deleteUser( @PathVariable("id") String id, ModelMap model) {
