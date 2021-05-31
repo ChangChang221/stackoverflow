@@ -97,7 +97,7 @@
                                             src="${question.user.photo}"
                                     />
                                     <div>
-                                        <a href="#">${question.user.name}</a>
+                                        <a href="/users/${question.user.id}">${question.user.name}</a>
                                     </div>
                                 </div>
                             </div>
