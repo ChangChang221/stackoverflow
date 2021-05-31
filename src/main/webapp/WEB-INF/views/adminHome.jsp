@@ -52,7 +52,7 @@
         <section class="home section active" id="home">
             <div class="container">
                 <div class =intro>
-                    <img src="${pageContext.request.contextPath}/asset/${user.photo}"  alt="profile" class="shadow-dark"/>
+                    <img src="${pageContext.request.contextPath}${user.photo}"  alt="profile" class="shadow-dark"/>
                     <h1>${user.name}</h1>
                     <p>I'm a web Developer</p>
                     <div class="social-link">

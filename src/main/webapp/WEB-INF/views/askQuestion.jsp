@@ -75,7 +75,7 @@
                             <div class="tags-question" id="tags-question">
                             </div>
                             <input
-                                    placeholder="e.g. (spring vba python)" onkeyup="searchTag(value)"
+                                   id="inputTag" placeholder="e.g. (spring vba python)" onkeyup="searchTag(value)"
                             />
                         </div>
                         <div style="background-color: #fafafa; padding: 18px 10px" id="result-tags">
@@ -196,7 +196,8 @@
                     tag.setAttribute("class", "tag");
                     tag.innerHTML = _result.name
                     tag.addEventListener("click", () => {
-                        add_tag(_result.name)
+                        add_tag(_result.name);
+                        document.getElementById("inputTag").value = "";
                     })
                     results.appendChild(tag)
                 })

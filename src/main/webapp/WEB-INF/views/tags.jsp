@@ -100,6 +100,7 @@
     const filterValue = document.getElementById("filter-value");
     const currentValue = document.getElementById("current-value");
     const pagination = document.getElementById("pagination");
+    const footer = document.getElementById("footer");
     const filter = async (value) => {
         controller.abort();
         controller = new AbortController();
@@ -108,12 +109,14 @@
             pagination.style.display = 'inline-block';
             filterValue.innerHTML = "";
             filterValue.style.display = 'none';
+            footer.style.display = "block";
             return;
         } else {
             const signal = controller.signal;
             const _response = await fetch("/tags/search?" + new URLSearchParams({
                 query: value
             }), {signal});
+            footer.style.display = "none";
             currentValue.style.display = 'none';
             pagination.style.display = 'none';
             filterValue.style.display = 'block';
@@ -122,10 +125,11 @@
             console.log(data)
             if (data.status) {
                 data.result.forEach((e) => {
+                    console.log(e);
                     filterValue.innerHTML +=
                         `<div class="content-tag-container">
                     <div class="content-tag">
-                        <div><a class="tag" href="/questions/search?tag=`+ e.name `">` + e.name + `</a></div>
+                        <div><a class="tag" href="/questions/search?tag=`+ e.name + `">` + e.name + `</a></div>
                         <div class="tag-description">
                             <p>` + e.description + `</p>
                         </div>

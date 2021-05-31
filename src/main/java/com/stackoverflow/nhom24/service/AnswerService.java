@@ -89,7 +89,7 @@ public class AnswerService {
                     .from("comment")
                     .localField("_id")
                     .foreignField("answerId")
-                    .as("answers");
+                    .as("comments");
             Aggregation aggregation = Aggregation.newAggregation(Aggregation.match(Criteria.where("questionId").is(questionId)), lookupOperationUser, lookupOperationAnswer);
             List<AnswerResponse> results = mongoTemplate.aggregate(aggregation, "answer", AnswerResponse.class).getMappedResults();
 //                    .stream().map(answer -> {

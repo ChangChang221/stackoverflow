@@ -47,7 +47,7 @@ public class QuestionRestController extends BaseController {
         question.setAnswers(0);
         question.setTags(tags);
         question.setId(new ObjectId());
-        if (id != null) {
+        if (id != null && !id.equals("")) {
             Question _question = questionBusiness.getQuestionById(id);
             question.setId(new ObjectId(id));
             question.setViews(_question.getViews());

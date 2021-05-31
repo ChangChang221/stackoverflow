@@ -104,10 +104,12 @@
     const filterValue = document.getElementById("filter-value");
     const currentValue = document.getElementById("current-value");
     const pagination = document.getElementById("pagination");
+    const footer = document.getElementById("footer");
     const filter = async (value) => {
         controller.abort();
         controller = new AbortController();
         if (value == null || value == '') {
+            footer.style.display = "block";
             currentValue.style.display = 'block';
             pagination.style.display = 'inline-block';
             filterValue.innerHTML = "";
@@ -118,6 +120,7 @@
             const _response = await fetch("/users/search?" + new URLSearchParams({
                 query: value
             }), {signal});
+            footer.style.display = "none";
             currentValue.style.display = 'none';
             pagination.style.display = 'none';
             filterValue.style.display = 'block';
@@ -128,7 +131,7 @@
                 let user = "";
                 data.result.forEach((e) => {
                     let tags = "";
-                    let photo =  "/asset/" + e.photo;
+                    let photo =  e.photo;
                     // e.tags && e.tags.forEach((tag) => tags += `<a href="` + tag + `">` + tag+ `,</a>`);
                     filterValue.innerHTML +=
                         `<div class="content-user-container">
