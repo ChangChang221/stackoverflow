@@ -1,6 +1,9 @@
 package com.stackoverflow.nhom24.business;
 
 import com.stackoverflow.nhom24.business.base.BaseBusiness;
+import com.stackoverflow.nhom24.elasticsearch.entity.QuestionES;
+import com.stackoverflow.nhom24.elasticsearch.entity.UserES;
+import com.stackoverflow.nhom24.elasticsearch.repository.QuestionRepositoryES;
 import com.stackoverflow.nhom24.entity.Question;
 import com.stackoverflow.nhom24.entity.Tag;
 import com.stackoverflow.nhom24.entity.User;
@@ -14,18 +17,23 @@ import com.stackoverflow.nhom24.service.QuestionService;
 import com.stackoverflow.nhom24.utils.EncrytedPasswordUtils;
 import lombok.AllArgsConstructor;
 import org.bson.types.ObjectId;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @Component
 @AllArgsConstructor
 public class QuestionBusiness extends BaseBusiness {
-    
+
     private final QuestionRepository questionRepository;
     private final TagRepository tagRepository;
     private final UserRepository userRepository;
@@ -43,6 +51,17 @@ public class QuestionBusiness extends BaseBusiness {
     public Question getQuestionById(String id){
         Question response= questionRepository.findById(new ObjectId(id)).get();
         return response;
+    }
+
+    private final QuestionRepositoryES questionRepositoryES;
+
+    public Page<QuestionES> getAllByElasticsearch(Integer page, String tab, String title) {
+        if(tab == null || tab.equals("Relevance")){
+            Page<QuestionES> result = questionRepositoryES.findByTitle(title, PageRequest.of(page - 1, 15));
+            return result;
+        }
+        Page<QuestionES> result = questionRepositoryES.findByTitle(title, PageRequest.of(page - 1, 15, Sort.by("createdOn").descending()));
+        return result;
     }
 
     public List<QuestionResponse> getAll(Integer page, String tab) {
@@ -71,15 +90,46 @@ public class QuestionBusiness extends BaseBusiness {
         return questionService.getQuestionOfAnswerByUserId(new ObjectId(userId));
     }
 
-    public void setRole() {
-        List<User> users = userRepository.findAll();
-        for (User el : users) {
-            userRepository.save(el);
-        }
+//    public void setRole() {
+//        List<User> users = userRepository.findAll();
+//        for (User el : users) {
+//            userRepository.save(el);
+//    public void setElasticsearch(){
+//        List<QuestionResponse> questions = questionService.getAllQuestionAndItem();
+//        List<QuestionES> questionESes = new ArrayList<>();
+//        UserES userE = new UserES();
+//        userE.setId(questions.get(0).getUser().getId().toString());
+//        userE.setTags(questions.get(0).getUser().getTags());
+//        userE.setViews(questions.get(0).getUser().getViews());
+////        userE.setCreatedOn(questions.get(0).getUser().getCreatedOn());
+//        userE.setName(questions.get(0).getUser().getName());
+//        userE.setPhoto(questions.get(0).getUser().getPhoto());
+//        for (QuestionResponse el : questions){
+//            QuestionES q = new QuestionES();
+//            q.setId(el.getId().toString());
+//            q.setCreatedOn(el.getCreatedOn().getTime());
+//            if(el.getUser() != null){
+//                UserES userES = new UserES();
+//                userES.setId(el.getUser().getId().toString());
+//                userES.setTags(el.getUser().getTags());
+//                userES.setViews(el.getUser().getViews());
+////                userES.setCreatedOn(el.getUser().getCreatedOn());
+//                userES.setName(el.getUser().getName());
+//                userES.setPhoto(el.getUser().getPhoto());
+//                q.setUser(userES);
+//            } else {
+//                q.setUser(userE);
+//            }
+//            q.setViews(el.getViews());
+//            q.setTitle(el.getTitle());
+//            q.setTags(el.getTags());
+//            q.setAnswers(el.getAnswers());
+//            questionESes.add(q);
+//        }
+//        questionRepositoryES.saveAll(questionESes);
+//    }
 
-    }
-
-    public void updatePhoto() {
+    public void updatePhoto(){
         List<String> photo = new ArrayList<>();
         photo.add("avatarBase.png");
         photo.add("avatar4.jpg");
@@ -200,9 +250,9 @@ public class QuestionBusiness extends BaseBusiness {
 
         List<Question> response = questionRepository.findAll();
         int sizeResponse = response.size();
-//        //System.out.println("sizeResponse = " + sizeResponse);
+//        System.out.println("sizeResponse = " + sizeResponse);
 
-//        //System.out.println();
+//        System.out.println();
         for (int i = 0; i < sizeResponse; i++) {
 
             //get tag of a question
@@ -213,7 +263,7 @@ public class QuestionBusiness extends BaseBusiness {
             for (int k = 0; k < sizeTagList; k++) {
                 System.out.print(tagList.get(k) + ", ");
             }
-//            //System.out.println();
+//            System.out.println();
             for (int j = 0; j < sizeNameTag; j++) {
                 for (int k = 0; k < sizeTagList; k++) {
                     if (tagList.get(k).equals(nameTag.get(j))) {
@@ -228,7 +278,7 @@ public class QuestionBusiness extends BaseBusiness {
     }
 
     public void deleteQuestion(ObjectId id){
-//        commentService.deleteAllByAnswerId(id);
+        commentService.deleteAllByAnswerId(id);
         answerService.deleteAllByQuestionId(id);
         questionRepository.deleteById(id);
     }

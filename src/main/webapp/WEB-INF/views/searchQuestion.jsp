@@ -58,12 +58,48 @@
                 <span>${total} result </span>
                 <div>
                     <ul class="filter-questions-list">
-                        <li class="tab">
-                            <a style="color: #3c4146"
-                               href="${pageContext.request.contextPath}/questions?page=${page}&tab=newest">Relevance</a>
-                        </li>
-                        <li class="tab"><a href="${pageContext.request.contextPath}/questions?page=${page}&tab=active">Newest</a>
-                        </li>
+                        <c:choose>
+                            <c:when test="${statusTabRelevance}">
+                                <c:if test="${query != null}">
+                                    <li>
+                                        <a style="color: #3c4146" href="${pageContext.request.contextPath}/questions/search?page=${page}&search=${query}&tab=Relevance">Relevance</a>
+                                    </li>
+                                    <li><a href="${pageContext.request.contextPath}/questions/search?page=${page}&search=${query}&tab=Newest">Newest</a></li>
+                                </c:if>
+                                <c:if test="${tag != null}">
+                                    <li>
+                                        <a style="color: #3c4146" href="${pageContext.request.contextPath}/questions/search?page=${page}&tag=${tag}&tab=Relevance">Relevance</a>
+                                    </li>
+                                    <li><a href="${pageContext.request.contextPath}/questions/search?page=${page}&tag=${tag}&tab=Newest">Newest</a></li>
+                                </c:if>
+                            </c:when>
+                            <c:otherwise>
+                                <c:if test="${query != null}">
+                                    <li><a href="${pageContext.request.contextPath}/questions/search?page=${page}&search=${query}&tab=Relevance">Relevance</a></li>
+                                    <li>
+                                        <a style="color: #3c4146" href="${pageContext.request.contextPath}/questions/search?page=${page}&search=${query}&tab=Newest">Newest</a>
+                                    </li>
+                                </c:if>
+                                <c:if test="${tag != null}">
+                                    <li><a href="${pageContext.request.contextPath}/questions/search?page=${page}&tag=${tag}&tab=Relevance">Relevance</a></li>
+                                    <li>
+                                        <a style="color: #3c4146" href="${pageContext.request.contextPath}/questions/search?page=${page}&tag=${tag}&tab=Newest">Newest</a>
+                                    </li>
+                                </c:if>
+                            </c:otherwise>
+                        </c:choose>
+
+                        <%--                        <li--%>
+                        <%--                                style="--%>
+                        <%--                    border-top-right-radius: 5px;--%>
+                        <%--                    border-bottom-right-radius: 5px;--%>
+                        <%--                  "--%>
+                        <%--                        >--%>
+                        <%--                            More<img--%>
+                        <%--                                src="https://cdn1.iconfinder.com/data/icons/ios-11-ui-elements-vol-1/29/25_dropdown_menu_down_arrow-512.png"--%>
+                        <%--                                style="height: 10px; width: 10px"--%>
+                        <%--                        />--%>
+                        <%--                        </li>--%>
                     </ul>
                 </div>
             </div>
@@ -118,10 +154,20 @@
                     <a href="${pageContext.request.contextPath}?page=${page - 1}">Prev</a>
                 </c:if>
                 <c:if test="${page == (i+1) && i != endPagination}">
-                    <a href="${pageContext.request.contextPath}?page=${i+1}" class="active">${i+1}</a>
+                    <c:if test="${query != null}">
+                        <a href="${pageContext.request.contextPath}?page=${i+1}&search=${query}" class="active">${i+1}</a>
+                    </c:if>
+                    <c:if test="${tag != null}">
+                        <a href="${pageContext.request.contextPath}?page=${i+1}&tag=${tag}" class="active">${i+1}</a>
+                    </c:if>
                 </c:if>
                 <c:if test="${page != (i+1) && i != endPagination}">
-                    <a href="${pageContext.request.contextPath}?page=${i+1}">${i+1}</a>
+                    <c:if test="${query != null}">
+                        <a href="${pageContext.request.contextPath}?page=${i+1}&search=${query}">${i+1}</a>
+                    </c:if>
+                    <c:if test="${tag != null}">
+                        <a href="${pageContext.request.contextPath}?page=${i+1}&tag=${tag}">${i+1}</a>
+                    </c:if>
                 </c:if>
                 <c:if test="${page != pagination && i == endPagination}">
                     <a href="${pageContext.request.contextPath}?page=${page + 1}">Next</a>

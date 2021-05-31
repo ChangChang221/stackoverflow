@@ -38,7 +38,6 @@ public class QuestionRestController extends BaseController {
         String id = (String) data.get("id");
 
         List<String> tags = (List<String>) data.get("tags");
-        //System.out.println("tags: " + tags);
         Question question = new Question();
         question.setBody(body);
         question.setTitle(title);

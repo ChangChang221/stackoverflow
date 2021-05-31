@@ -2,6 +2,7 @@ package com.stackoverflow.nhom24.controller;
 
 import com.stackoverflow.nhom24.business.AnswerBusiness;
 import com.stackoverflow.nhom24.business.QuestionBusiness;
+import com.stackoverflow.nhom24.elasticsearch.entity.QuestionES;
 import com.stackoverflow.nhom24.entity.Answer;
 import com.stackoverflow.nhom24.entity.Question;
 import com.stackoverflow.nhom24.model.response.AnswerResponse;
@@ -9,6 +10,7 @@ import com.stackoverflow.nhom24.model.response.QuestionDetailResponse;
 import com.stackoverflow.nhom24.model.response.QuestionResponse;
 import lombok.AllArgsConstructor;
 import org.bson.types.ObjectId;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -115,13 +117,15 @@ public class QuestionController {
     public String searchQuestion(final ModelMap model, String search, String tag, String tab, Integer page, Integer startPagination){
         boolean statusPage = true;
         boolean statustab = true;
+        boolean statusTabRelevance = true;
         if(page == null) {
             statusPage = false;
             page = 1;
         }
         if(tab == null) {
             statustab = false;
-            tab = "relevance";
+        } else if(tab.equals("Newest")){
+            statusTabRelevance = false;
         }
         if(startPagination == null){
             startPagination = 0;
@@ -131,13 +135,24 @@ public class QuestionController {
         } if(page < startPagination){
             startPagination = startPagination - 10;
         }
+        int total = 0;
+        // elasticsearch
         if(search == null && tag == null){
             search = "";
         }
-        List<QuestionResponse> questions = questionBusiness.getALlByCondition(page, search, tag);
-        int total = questionBusiness.getCountByCondition(page, search, tag);
+        if(search != null){
+            Page<QuestionES> result = questionBusiness.getAllByElasticsearch(page, tab, search);
+            total = (int) result.getTotalElements();
+            model.addAttribute("questions", result.getContent());
+        } else {
+            List<QuestionResponse> questions = questionBusiness.getALlByCondition(page, search, tag);
+            total = questionBusiness.getCountByCondition(page, search, tag);
+            model.addAttribute("questions", questions);
+        }
+        // fix bug trong jsp
+        // chưa merger xong master
 
-        int totalPagination = (total / 15) + 1;
+        int totalPagination = (total % 15 == 0) ? (total / 15) : (total / 15) + 1;
         if(startPagination + 10 >= totalPagination){
             startPagination = totalPagination - 10;
         } if(startPagination <= 1){
@@ -147,11 +162,12 @@ public class QuestionController {
         if(totalPagination < 10){
             endPagination = totalPagination;
         }
+        model.addAttribute("statusTabRelevance", statusTabRelevance);
         model.addAttribute("query", search);
         model.addAttribute("tag", tag);
         model.addAttribute("pagination", totalPagination);
         model.addAttribute("total", total);
-        model.addAttribute("questions", questions);
+
         model.addAttribute("page", page);
         model.addAttribute("statusPage", statusPage);
         model.addAttribute("statustab", statustab);
