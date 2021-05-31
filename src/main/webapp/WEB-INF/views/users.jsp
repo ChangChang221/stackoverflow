@@ -56,7 +56,7 @@
             <c:forEach var="user" items="${users}">
                 <div class="content-user-container">
                     <img
-                            src="${pageContext.request.contextPath}/asset/${user.photo}"
+                            src="${user.photo}"
                             height="48px"
                             width="48px"
                     />

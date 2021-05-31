@@ -2,12 +2,14 @@ package com.stackoverflow.nhom24.controller;
 
 import com.stackoverflow.nhom24.business.AnswerBusiness;
 import com.stackoverflow.nhom24.business.QuestionBusiness;
+import com.stackoverflow.nhom24.controller.base.BaseController;
 import com.stackoverflow.nhom24.elasticsearch.entity.QuestionES;
 import com.stackoverflow.nhom24.entity.Answer;
 import com.stackoverflow.nhom24.entity.Question;
 import com.stackoverflow.nhom24.model.response.AnswerResponse;
 import com.stackoverflow.nhom24.model.response.QuestionDetailResponse;
 import com.stackoverflow.nhom24.model.response.QuestionResponse;
+import com.stackoverflow.nhom24.model.response.QuestionResponseES;
 import lombok.AllArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
@@ -16,14 +18,16 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 
 @Controller
 @AllArgsConstructor
-public class QuestionController {
+public class QuestionController extends BaseController {
 
     private final QuestionBusiness questionBusiness;
     private final AnswerBusiness answerBusiness;
@@ -143,7 +147,18 @@ public class QuestionController {
         if(search != null){
             Page<QuestionES> result = questionBusiness.getAllByElasticsearch(page, tab, search);
             total = (int) result.getTotalElements();
-            model.addAttribute("questions", result.getContent());
+            model.addAttribute("questions", result.getContent().stream().map(el -> {
+                QuestionResponseES response = new QuestionResponseES();
+                response.setId(el.getId());
+                response.setUser(el.getUser());
+                response.setAnswers(el.getAnswers());
+                response.setCreatedOn(new Date(el.getCreatedOn()));
+                response.setTags(el.getTags());
+                response.setTitle(el.getTitle());
+                response.setViews(el.getViews());
+                return response;
+            }).collect(Collectors.toList()));
+
         } else {
             List<QuestionResponse> questions = questionBusiness.getALlByCondition(page, search, tag);
             total = questionBusiness.getCountByCondition(page, search, tag);
