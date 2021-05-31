@@ -73,15 +73,6 @@
                     <div>
                         <div class="tags-ask-question-container">
                             <div class="tags-question" id="tags-question">
-<%--                                <c:forEach var="tag" items="${question.tags}">--%>
-<%--                                    <span class="tag tag-search">${tag}<img--%>
-<%--                                            src="${pageContext.request.contextPath}/asset/close.png"--%>
-<%--                                            onclick="remove_tag(\"${tag}\"`)"/></span>--%>
-<%--                                </c:forEach>--%>
-                                <%--                                <span class="tag tag-search">java<img--%>
-                                <%--                                        src="${pageContext.request.contextPath}/asset/close.png"/></span>--%>
-                                <%--                                <span class="tag tag-search"> python<img--%>
-                                <%--                                        src="${pageContext.request.contextPath}/asset/close.png"/></span>--%>
                             </div>
                             <input
                                     placeholder="e.g. (spring vba python)" onkeyup="searchTag(value)"
@@ -240,19 +231,20 @@
         }
     }
 
-    const editor_2 = document.getElementById("editor");
-    console.log("editor_2", editor_2)
     console.log(`${question.body}`)
-    editor_2.innerHTML = `${question.body}`
-    const results = document.getElementById("result-tags")
-    let _tags = "${question.tags}";
-    _tags = _tags.slice(1, _tags.length - 1);
-    _tags = _tags.split(",");
-    console.log(_tags)
-    _tags.forEach((tag) => {
-        console.log("_result", tag)
-        add_tag(tag)
-    })
+    if(`${question.body}` != ``){
+        const editor_2 = document.getElementById("editor");
+        editor_2.innerHTML = `${question.body}`
+        const results = document.getElementById("result-tags")
+        let _tags = "${question.tags}";
+        _tags = _tags.slice(1, _tags.length - 1);
+        _tags = _tags.split(",");
+        console.log(_tags)
+        _tags.forEach((tag) => {
+            console.log("_result", tag)
+            add_tag(tag)
+        })
+    }
 </script>
 </body>
 </html>
