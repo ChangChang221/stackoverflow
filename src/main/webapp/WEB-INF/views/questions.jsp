@@ -113,28 +113,12 @@
                                                        pattern="yyyy-MM-dd HH:mm:ss"/></span>
                                 <div>
                                     <img
-<%--                                            src="https://www.gravatar.com/avatar/9d380711c6cdebb4864551fdb7d566ad?s=32&d=identicon&r=PG&f=1"--%>
                                             height="32px"
                                             width="32px"
                                             src="${question.user.photo}"
                                     />
                                     <div>
                                         <a href="#">${question.user.name}</a>
-                                            <%--                                    <div>--%>
-                                            <%--                                        <span style="font-weight: bold">441</span>--%>
-                                            <%--                                        <span--%>
-                                            <%--                                                class="dot"--%>
-                                            <%--                                                style="background-color: #ffb000; margin-left: 5px"--%>
-                                            <%--                                        >--%>
-                                            <%--                        </span>--%>
-                                            <%--                                        <span>3</span>--%>
-                                            <%--                                        <span class="dot" style="background-color: #b3b3b3">--%>
-                                            <%--                        </span>--%>
-                                            <%--                                        <span>9</span>--%>
-                                            <%--                                        <span class="dot" style="background-color: #c3a382">--%>
-                                            <%--                        </span>--%>
-                                            <%--                                        <span>12</span>--%>
-                                            <%--                                    </div>--%>
                                     </div>
                                 </div>
                             </div>
@@ -165,12 +149,8 @@
     </div>
 
 </main>
-<<<<<<< HEAD
 <script src="${pageContext.request.contextPath}/js/active_tab.js"></script>
 <script src="${pageContext.request.contextPath}/js/time.js"></script>
-=======
-
->>>>>>> master
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 </body>
