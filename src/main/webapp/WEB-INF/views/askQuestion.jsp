@@ -162,7 +162,9 @@
         http.setRequestHeader("Access-Control-Allow-Origin", '*');
         http.setRequestHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         http.onload = function () {
-            window.location.href = "http://localhost:8000/questions/detail/" + JSON.parse(this.responseText)['result'];
+            if(JSON.parse(this.responseText)['status'] == 1){
+                window.location.href = "http://localhost:8000/questions/detail/" + JSON.parse(this.responseText)['result'];
+            }
         };
         http.send(JSON.stringify(question));
     }
