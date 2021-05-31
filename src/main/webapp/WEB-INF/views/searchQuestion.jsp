@@ -61,28 +61,28 @@
                         <c:choose>
                             <c:when test="${statusTabRelevance}">
                                 <c:if test="${query != null}">
-                                    <li>
+                                    <li class="tab">
                                         <a style="color: #3c4146" href="${pageContext.request.contextPath}/questions/search?page=${page}&search=${query}&tab=Relevance">Relevance</a>
                                     </li>
-                                    <li><a href="${pageContext.request.contextPath}/questions/search?page=${page}&search=${query}&tab=Newest">Newest</a></li>
+                                    <li class="tab"><a href="${pageContext.request.contextPath}/questions/search?page=${page}&search=${query}&tab=Newest">Newest</a></li>
                                 </c:if>
                                 <c:if test="${tag != null}">
-                                    <li>
+                                    <li class="tab">
                                         <a style="color: #3c4146" href="${pageContext.request.contextPath}/questions/search?page=${page}&tag=${tag}&tab=Relevance">Relevance</a>
                                     </li>
-                                    <li><a href="${pageContext.request.contextPath}/questions/search?page=${page}&tag=${tag}&tab=Newest">Newest</a></li>
+                                    <li class="tab"><a href="${pageContext.request.contextPath}/questions/search?page=${page}&tag=${tag}&tab=Newest">Newest</a></li>
                                 </c:if>
                             </c:when>
                             <c:otherwise>
                                 <c:if test="${query != null}">
-                                    <li><a href="${pageContext.request.contextPath}/questions/search?page=${page}&search=${query}&tab=Relevance">Relevance</a></li>
-                                    <li>
+                                    <li class="tab"><a href="${pageContext.request.contextPath}/questions/search?page=${page}&search=${query}&tab=Relevance">Relevance</a></li>
+                                    <li class="tab">
                                         <a style="color: #3c4146" href="${pageContext.request.contextPath}/questions/search?page=${page}&search=${query}&tab=Newest">Newest</a>
                                     </li>
                                 </c:if>
                                 <c:if test="${tag != null}">
-                                    <li><a href="${pageContext.request.contextPath}/questions/search?page=${page}&tag=${tag}&tab=Relevance">Relevance</a></li>
-                                    <li>
+                                    <li class="tab"><a href="${pageContext.request.contextPath}/questions/search?page=${page}&tag=${tag}&tab=Relevance">Relevance</a></li>
+                                    <li class="tab">
                                         <a style="color: #3c4146" href="${pageContext.request.contextPath}/questions/search?page=${page}&tag=${tag}&tab=Newest">Newest</a>
                                     </li>
                                 </c:if>
@@ -137,7 +137,7 @@
                                             src="${question.user.photo}"
                                     />
                                     <div>
-                                        <a href="#">${question.user.name}</a>
+                                        <a href="/users/${question.user.id}">${question.user.name}</a>
                                     </div>
                                 </div>
                             </div>
