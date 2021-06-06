@@ -67,8 +67,8 @@
               <a href="#">Meta User</a>
             </span>
                 <span>
-              <img width="16px" height="16px" src="${pageContext.request.contextPath}/asset/twitter.png"/>
-              <a href="#">Network profiles</a>
+              <img width="16px" height="16px" src="${pageContext.request.contextPath}/asset/stackexchange.png"/>
+              <a href="https://stackexchange.com/">Network profiles</a>
             </span>
             </div>
         </div>
