@@ -88,6 +88,7 @@ public class QuestionService {
                     aggregation = Aggregation.newAggregation(
                             Aggregation.sort(Sort.Direction.DESC, "views"),
                             Aggregation.match(Criteria.where("createdOn").gt(_calendar.getTime())),
+                            lookupOperationUser,
                             Aggregation.skip((page - 1) * 15),
                             Aggregation.limit(15)
                     );
@@ -101,6 +102,7 @@ public class QuestionService {
                     aggregation = Aggregation.newAggregation(
                             Aggregation.sort(Sort.Direction.DESC, "views"),
                             Aggregation.match(Criteria.where("createdOn").gt(_calendar.getTime())),
+                            lookupOperationUser,
                             Aggregation.skip((page - 1) * 15),
                             Aggregation.limit(15)
                     );

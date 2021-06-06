@@ -111,16 +111,16 @@
 
             <c:forEach begin="${startPagination}" end="${endPagination}" var="i">
                 <c:if test="${page != 1 && i == startPagination}">
-                    <a href="${pageContext.request.contextPath}?page=${page - 1}">Prev</a>
+                    <a href="${pageContext.request.contextPath}?page=${page - 1}&tab=${tab}">Prev</a>
                 </c:if>
                 <c:if test="${page == (i+1) && i != endPagination}">
-                    <a href="${pageContext.request.contextPath}?page=${i+1}" class="active">${i+1}</a>
+                    <a href="${pageContext.request.contextPath}?page=${i+1}&tab=${tab}" class="active">${i+1}</a>
                 </c:if>
                 <c:if test="${page != (i+1) && i != endPagination}">
-                    <a href="${pageContext.request.contextPath}?page=${i+1}">${i+1}</a>
+                    <a href="${pageContext.request.contextPath}?page=${i+1}&tab=${tab}">${i+1}</a>
                 </c:if>
                 <c:if test="${page != pagination && i == endPagination}">
-                    <a href="${pageContext.request.contextPath}?page=${page + 1}">Next</a>
+                    <a href="${pageContext.request.contextPath}?page=${page + 1}&tab=${tab}">Next</a>
                 </c:if>
             </c:forEach>
 

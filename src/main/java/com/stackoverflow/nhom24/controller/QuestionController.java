@@ -89,7 +89,7 @@ public class QuestionController extends BaseController {
             endPagination = totalPagination;
         }
         List<QuestionResponse> questions = questionBusiness.getAll(page, tab);
-//        model.addAttribute("tag", tag);
+        model.addAttribute("tab", tab);
         model.addAttribute("pagination", totalPagination);
         model.addAttribute("total", total);
         model.addAttribute("questions", questions);
