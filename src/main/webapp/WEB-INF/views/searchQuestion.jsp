@@ -61,13 +61,13 @@
                         <c:choose>
                             <c:when test="${statusTabRelevance}">
                                 <c:if test="${query != null}">
-                                    <li class="tab">
+                                    <li class="tab active_tab">
                                         <a style="color: #3c4146" href="${pageContext.request.contextPath}/questions/search?page=${page}&search=${query}&tab=Relevance">Relevance</a>
                                     </li>
                                     <li class="tab"><a href="${pageContext.request.contextPath}/questions/search?page=${page}&search=${query}&tab=Newest">Newest</a></li>
                                 </c:if>
                                 <c:if test="${tag != null}">
-                                    <li class="tab">
+                                    <li class="tab active_tab">
                                         <a style="color: #3c4146" href="${pageContext.request.contextPath}/questions/search?page=${page}&tag=${tag}&tab=Relevance">Relevance</a>
                                     </li>
                                     <li class="tab"><a href="${pageContext.request.contextPath}/questions/search?page=${page}&tag=${tag}&tab=Newest">Newest</a></li>
@@ -76,13 +76,13 @@
                             <c:otherwise>
                                 <c:if test="${query != null}">
                                     <li class="tab"><a href="${pageContext.request.contextPath}/questions/search?page=${page}&search=${query}&tab=Relevance">Relevance</a></li>
-                                    <li class="tab">
+                                    <li class="tab active_tab">
                                         <a style="color: #3c4146" href="${pageContext.request.contextPath}/questions/search?page=${page}&search=${query}&tab=Newest">Newest</a>
                                     </li>
                                 </c:if>
                                 <c:if test="${tag != null}">
                                     <li class="tab"><a href="${pageContext.request.contextPath}/questions/search?page=${page}&tag=${tag}&tab=Relevance">Relevance</a></li>
-                                    <li class="tab">
+                                    <li class="tab active_tab">
                                         <a style="color: #3c4146" href="${pageContext.request.contextPath}/questions/search?page=${page}&tag=${tag}&tab=Newest">Newest</a>
                                     </li>
                                 </c:if>

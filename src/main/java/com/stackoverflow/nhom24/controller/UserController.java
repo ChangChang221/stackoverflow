@@ -164,13 +164,13 @@ public class UserController extends BaseController {
     public String editUser(final ModelMap model, Principal principal, HttpServletRequest request ,
                            @ModelAttribute("user") User user, @RequestParam("postImg") String postImg, @PathVariable String id) throws IOException {
         try {
-//            if( postImg != null && postImg.getSize() > 0 ) {
+            if( postImg != null && !postImg.equals("")) {
 //                Date dateNow = new Date();
 //                Random rd = new Random();
 //                String name =  dateNow.getTime() + postImg.getOriginalFilename();
 //                postImg.transferTo(new File( imagePath + "/" + name.replace('-', '1')));
                 user.setPhoto(postImg);
-//            }
+            }
             userBusiness.updateUser(id, user);
             return "redirect:/users/" + id;
         } catch (Exception e){

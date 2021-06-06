@@ -100,7 +100,7 @@
 
 
                     <form action="" class="search-box padd-15">
-                        <input type="text" name="" value="" placeholder="Search...">
+                        <input id="myInput" onkeyup="myFunction()" type="text" name="" value="" placeholder="Search...">
 
                         <button class="search-button" type="button" name="Tìm Kiếm">
                             <i class="fa fa-search" aria-hidden="true"></i>
@@ -115,7 +115,7 @@
 
                 <div class="row">
                     <div class="section-title padd-15">
-                        <table class="table padd-15">
+                        <table id="myTable" class="table padd-15">
                             <tr>
 
                                 <th>ID</th>
@@ -219,6 +219,28 @@
         const response = await _response.json();
         if(response.status){
             location.reload();
+        }
+    }
+
+    function myFunction() {
+        // Declare variables
+        let input, filter, table, tr, tdName, i, txtValueName;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+            tdName = tr[i].getElementsByTagName("td")[3];
+            if (tdName) {
+                txtValueName = tdName.textContent || tdName.innerText;
+                if (txtValueName.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
         }
     }
 </script>
