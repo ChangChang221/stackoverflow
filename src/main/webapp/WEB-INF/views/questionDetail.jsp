@@ -193,6 +193,8 @@
                         <c:set var="votes" value="${answer.votes}"/>
                         <c:set var="status" value="2"/>
                         <c:forEach var="vote" items="${votes}">
+                            <div>${vote.userId}</div>
+                            <div>${userCurrent.id}</div>
                             <c:if test="${vote.userId eq userCurrent.id}">
                                 <c:set var="status" value="${vote.status ? 1 : 0}"/>
                             </c:if>
